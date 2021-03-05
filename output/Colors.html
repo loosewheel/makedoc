@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Colors">Index</a></p>
+<h1 id="Colors">Colors</h1>
+<h2 id="ColorString"><code>ColorString</code></h2>
+<p>
+<code>#RGB</code> defines a color in hexadecimal format.
+</p>
+<p>
+<code>#RGBA</code> defines a color in hexadecimal format and alpha channel.
+</p>
+<p>
+<code>#RRGGBB</code> defines a color in hexadecimal format.
+</p>
+<p>
+<code>#RRGGBBAA</code> defines a color in hexadecimal format and alpha channel.
+</p>
+<p>
+Named colors are also supported and are equivalent to <a href="http://dev.w3.org/csswg/css-color/#named-colors">CSS Color Module Level 4</a>. To specify the value of the alpha channel, append <code>#AA</code> to the end of the color name (e.g. <code>colorname#08</code>). For named colors the hexadecimal string representing the alpha value must (always) be two hexadecimal digits.
+</p>
+<h2 id="ColorSpec"><code>ColorSpec</code></h2>
+<p>
+A ColorSpec specifies a 32-bit color. It can be written in any of the following forms:
+</p>
+<ul>
+<li>
+table form: Each element ranging from 0..255 (a, if absent, defaults to 255):
+<ul>
+<li>
+<code>colorspec = {a=255, r=0, g=255, b=0}</code>
+</li>
+</ul>
+</li>
+<li>
+numerical form: The raw integer value of an ARGB8 quad:
+<ul>
+<li>
+<code>colorspec = 0xFF00FF00</code>
+</li>
+</ul>
+</li>
+<li>
+string form: A ColorString (defined above):
+<ul>
+<li>
+<code>colorspec = "green"</code>
+</li>
+</ul>
+</li>
+</ul>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Colors">Index</a></p>
+<br>
+</body>
+</html>

@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html">Index</a></p>
+<h2>Index</h2>
+<ul>
+<li>
+<a href="Games.html" id="Games">Games</a>
+</li>
+<ul>
+<li>
+<a href="Games.html#Menu images">Menu images</a>
+</li>
+</ul>
+<li>
+<a href="Mods.html" id="Mods">Mods</a>
+</li>
+<ul>
+<li>
+<a href="Mods.html#Mod load path">Mod load path</a>
+</li>
+<li>
+<a href="Mods.html#World-specific games">World-specific games</a>
+</li>
+<li>
+<a href="Mods.html#Modpacks">Modpacks</a>
+</li>
+<li>
+<a href="Mods.html#Mod directory structure">Mod directory structure</a>
+</li>
+<ul>
+<li>
+<a href="Mods.html#modname">modname</a>
+</li>
+<li>
+<a href="Mods.html#mod.conf">mod.conf</a>
+</li>
+<li>
+<a href="Mods.html#screenshot.png"><code>screenshot.png</code></a>
+</li>
+<li>
+<a href="Mods.html#depends.txt"><code>depends.txt</code></a>
+</li>
+<li>
+<a href="Mods.html#description.txt"><code>description.txt</code></a>
+</li>
+<li>
+<a href="Mods.html#settingtypes.txt"><code>settingtypes.txt</code></a>
+</li>
+<li>
+<a href="Mods.html#init.lua"><code>init.lua</code></a>
+</li>
+<li>
+<a href="Mods.html#textures, sounds, media, models, locale"><code>textures</code>, <code>sounds</code>, <code>media</code>, <code>models</code>, <code>locale</code></a>
+</li>
+</ul>
+<li>
+<a href="Mods.html#Naming conventions">Naming conventions</a>
+</li>
+<ul>
+<li>
+<a href="Mods.html#Example">Example</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Aliases.html" id="Aliases">Aliases</a>
+</li>
+<ul>
+<li>
+<a href="Aliases.html#Mapgen aliases">Mapgen aliases</a>
+</li>
+<ul>
+<li>
+<a href="Aliases.html#Aliases for non-V6 mapgens">Aliases for non-V6 mapgens</a>
+</li>
+<ul>
+<li>
+<a href="Aliases.html#Essential aliases">Essential aliases</a>
+</li>
+<li>
+<a href="Aliases.html#Optional aliases">Optional aliases</a>
+</li>
+</ul>
+<li>
+<a href="Aliases.html#Aliases needed for Mapgen V6">Aliases needed for Mapgen V6</a>
+</li>
+<li>
+<a href="Aliases.html#Setting the node used in Mapgen Singlenode">Setting the node used in Mapgen Singlenode</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Textures.html" id="Textures">Textures</a>
+</li>
+<ul>
+<li>
+<a href="Textures.html#Texture modifiers">Texture modifiers</a>
+</li>
+<ul>
+<li>
+<a href="Textures.html#Texture overlaying">Texture overlaying</a>
+</li>
+<li>
+<a href="Textures.html#Texture grouping">Texture grouping</a>
+</li>
+<li>
+<a href="Textures.html#Escaping">Escaping</a>
+</li>
+<li>
+<a href="Textures.html#Advanced texture modifiers">Advanced texture modifiers</a>
+</li>
+<ul>
+<li>
+<a href="Textures.html#Crack">Crack</a>
+</li>
+<li>
+<a href="Textures.html#[combine:<w>x<h>:<x1>,<y1>=<file1>:<x2>,<y2>=<file2>:..."><code>[combine:&lt;w&gt;x&lt;h&gt;:&lt;x1&gt;,&lt;y1&gt;=&lt;file1&gt;:&lt;x2&gt;,&lt;y2&gt;=&lt;file2&gt;:...</code></a>
+</li>
+<li>
+<a href="Textures.html#[resize:<w>x<h>"><code>[resize:&lt;w&gt;x&lt;h&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[opacity:<r>"><code>[opacity:&lt;r&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[invert:<mode>"><code>[invert:&lt;mode&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[brighten"><code>[brighten</code></a>
+</li>
+<li>
+<a href="Textures.html#[noalpha"><code>[noalpha</code></a>
+</li>
+<li>
+<a href="Textures.html#[makealpha:<r>,<g>,<b>"><code>[makealpha:&lt;r&gt;,&lt;g&gt;,&lt;b&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[transform<t>"><code>[transform&lt;t&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[inventorycube{<top>{<left>{<right>"><code>[inventorycube{&lt;top&gt;{&lt;left&gt;{&lt;right&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[lowpart:<percent>:<file>"><code>[lowpart:&lt;percent&gt;:&lt;file&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[verticalframe:<t>:<n>"><code>[verticalframe:&lt;t&gt;:&lt;n&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[mask:<file>"><code>[mask:&lt;file&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[sheet:<w>x<h>:<x>,<y>"><code>[sheet:&lt;w&gt;x&lt;h&gt;:&lt;x&gt;,&lt;y&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[colorize:<color>:<ratio>"><code>[colorize:&lt;color&gt;:&lt;ratio&gt;</code></a>
+</li>
+<li>
+<a href="Textures.html#[multiply:<color>"><code>[multiply:&lt;color&gt;</code></a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Textures.html#Hardware coloring">Hardware coloring</a>
+</li>
+<ul>
+<li>
+<a href="Textures.html#Static coloring">Static coloring</a>
+</li>
+<ul>
+<li>
+<a href="Textures.html#Global color">Global color</a>
+</li>
+<li>
+<a href="Textures.html#Tile color">Tile color</a>
+</li>
+</ul>
+<li>
+<a href="Textures.html#Palettes">Palettes</a>
+</li>
+<ul>
+<li>
+<a href="Textures.html#Palette indexing">Palette indexing</a>
+</li>
+<li>
+<a href="Textures.html#Using palettes with items">Using palettes with items</a>
+</li>
+<li>
+<a href="Textures.html#Linking palettes with nodes">Linking palettes with nodes</a>
+</li>
+</ul>
+<li>
+<a href="Textures.html#Conversion between nodes in the inventory and on the map">Conversion between nodes in the inventory and on the map</a>
+</li>
+<li>
+<a href="Textures.html#Colored items in craft recipes">Colored items in craft recipes</a>
+</li>
+</ul>
+<li>
+<a href="Textures.html#Soft texture overlay">Soft texture overlay</a>
+</li>
+</ul>
+<li>
+<a href="Sounds.html" id="Sounds">Sounds</a>
+</li>
+<ul>
+<li>
+<a href="Sounds.html#SimpleSoundSpec"><code>SimpleSoundSpec</code></a>
+</li>
+<li>
+<a href="Sounds.html#Special sound files">Special sound files</a>
+</li>
+</ul>
+<li>
+<a href="Registered_definitions.html" id="Registered_definitions">Registered definitions</a>
+</li>
+<li>
+<a href="Nodes.html" id="Nodes">Nodes</a>
+</li>
+<ul>
+<li>
+<a href="Nodes.html#Node paramtypes">Node paramtypes</a>
+</li>
+<li>
+<a href="Nodes.html#Node drawtypes">Node drawtypes</a>
+</li>
+<li>
+<a href="Nodes.html#Node boxes">Node boxes</a>
+</li>
+</ul>
+<li>
+<a href="Map_terminology_and_coordinates.html" id="Map_terminology_and_coordinates">Map terminology and coordinates</a>
+</li>
+<ul>
+<li>
+<a href="Map_terminology_and_coordinates.html#Nodes, mapblocks, mapchunks">Nodes, mapblocks, mapchunks</a>
+</li>
+<li>
+<a href="Map_terminology_and_coordinates.html#Coordinates">Coordinates</a>
+</li>
+<ul>
+<li>
+<a href="Map_terminology_and_coordinates.html#Orientation of axes">Orientation of axes</a>
+</li>
+<li>
+<a href="Map_terminology_and_coordinates.html#Node coordinates">Node coordinates</a>
+</li>
+<li>
+<a href="Map_terminology_and_coordinates.html#Mapblock coordinates">Mapblock coordinates</a>
+</li>
+<ul>
+<li>
+<a href="Map_terminology_and_coordinates.html#Converting node position to the containing blockpos">Converting node position to the containing blockpos</a>
+</li>
+<li>
+<a href="Map_terminology_and_coordinates.html#Converting blockpos to min/max node positions">Converting blockpos to min/max node positions</a>
+</li>
+</ul>
+</ul>
+</ul>
+<li>
+<a href="HUD.html" id="HUD">HUD</a>
+</li>
+<ul>
+<li>
+<a href="HUD.html#HUD element types">HUD element types</a>
+</li>
+<ul>
+<li>
+<a href="HUD.html#image"><code>image</code></a>
+</li>
+<li>
+<a href="HUD.html#text"><code>text</code></a>
+</li>
+<li>
+<a href="HUD.html#statbar"><code>statbar</code></a>
+</li>
+<li>
+<a href="HUD.html#inventory"><code>inventory</code></a>
+</li>
+<li>
+<a href="HUD.html#waypoint"><code>waypoint</code></a>
+</li>
+<li>
+<a href="HUD.html#image_waypoint"><code>image_waypoint</code></a>
+</li>
+<li>
+<a href="HUD.html#compass"><code>compass</code></a>
+</li>
+<li>
+<a href="HUD.html#minimap"><code>minimap</code></a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Representations_of_simple_things.html" id="Representations_of_simple_things">Representations of simple things</a>
+</li>
+<ul>
+<li>
+<a href="Representations_of_simple_things.html#Position/vector">Position/vector</a>
+</li>
+<li>
+<a href="Representations_of_simple_things.html#pointed_thing"><code>pointed_thing</code></a>
+</li>
+</ul>
+<li>
+<a href="Flag_Specifier_Format.html" id="Flag_Specifier_Format">Flag Specifier Format</a>
+</li>
+<li>
+<a href="Items.html" id="Items">Items</a>
+</li>
+<ul>
+<li>
+<a href="Items.html#Item types">Item types</a>
+</li>
+<li>
+<a href="Items.html#Amount and wear">Amount and wear</a>
+</li>
+<li>
+<a href="Items.html#Item formats">Item formats</a>
+</li>
+<ul>
+<li>
+<a href="Items.html#Serialized">Serialized</a>
+</li>
+<li>
+<a href="Items.html#Table format">Table format</a>
+</li>
+<li>
+<a href="Items.html#ItemStack"><code>ItemStack</code></a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Groups.html" id="Groups">Groups</a>
+</li>
+<ul>
+<li>
+<a href="Groups.html#Usage">Usage</a>
+</li>
+<li>
+<a href="Groups.html#Groups of items">Groups of items</a>
+</li>
+<li>
+<a href="Groups.html#Groups of nodes">Groups of nodes</a>
+</li>
+<li>
+<a href="Groups.html#Groups of entities">Groups of entities</a>
+</li>
+<li>
+<a href="Groups.html#Groups of tools">Groups of tools</a>
+</li>
+<li>
+<a href="Groups.html#Groups in crafting recipes">Groups in crafting recipes</a>
+</li>
+<li>
+<a href="Groups.html#Special groups">Special groups</a>
+</li>
+<ul>
+<li>
+<a href="Groups.html#Node, item and tool groups">Node, item and tool groups</a>
+</li>
+<li>
+<a href="Groups.html#Node-only groups">Node-only groups</a>
+</li>
+<li>
+<a href="Groups.html#Tool-only groups">Tool-only groups</a>
+</li>
+<li>
+<a href="Groups.html#ObjectRef groups"><code>ObjectRef</code> groups</a>
+</li>
+</ul>
+<li>
+<a href="Groups.html#Known damage and digging time defining groups">Known damage and digging time defining groups</a>
+</li>
+<li>
+<a href="Groups.html#Examples of custom groups">Examples of custom groups</a>
+</li>
+<li>
+<a href="Groups.html#Digging time calculation specifics">Digging time calculation specifics</a>
+</li>
+</ul>
+<li>
+<a href="Tools.html" id="Tools">Tools</a>
+</li>
+<ul>
+<li>
+<a href="Tools.html#Tools definition">Tools definition</a>
+</li>
+<ul>
+<li>
+<a href="Tools.html#Full punch interval">Full punch interval</a>
+</li>
+<li>
+<a href="Tools.html#Maximum drop level">Maximum drop level</a>
+</li>
+<li>
+<a href="Tools.html#Uses">Uses</a>
+</li>
+<li>
+<a href="Tools.html#Maximum level">Maximum level</a>
+</li>
+<li>
+<a href="Tools.html#Digging times">Digging times</a>
+</li>
+<li>
+<a href="Tools.html#Damage groups">Damage groups</a>
+</li>
+</ul>
+<li>
+<a href="Tools.html#Example definition of the capabilities of a tool">Example definition of the capabilities of a tool</a>
+</li>
+</ul>
+<li>
+<a href="Entity_damage_mechanism.html" id="Entity_damage_mechanism">Entity damage mechanism</a>
+</li>
+<li>
+<a href="Metadata.html" id="Metadata">Metadata</a>
+</li>
+<ul>
+<li>
+<a href="Metadata.html#Node Metadata">Node Metadata</a>
+</li>
+<li>
+<a href="Metadata.html#Item Metadata">Item Metadata</a>
+</li>
+</ul>
+<li>
+<a href="Formspec.html" id="Formspec">Formspec</a>
+</li>
+<ul>
+<li>
+<a href="Formspec.html#Examples">Examples</a>
+</li>
+<ul>
+<li>
+<a href="Formspec.html#Chest">Chest</a>
+</li>
+<li>
+<a href="Formspec.html#Furnace">Furnace</a>
+</li>
+<li>
+<a href="Formspec.html#Minecraft-like player inventory">Minecraft-like player inventory</a>
+</li>
+</ul>
+<li>
+<a href="Formspec.html#Elements">Elements</a>
+</li>
+<ul>
+<li>
+<a href="Formspec.html#formspec_version[<version>]"><code>formspec_version[&lt;version&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#size[<W>,<H>,<fixed_size>]"><code>size[&lt;W&gt;,&lt;H&gt;,&lt;fixed_size&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#position[<X>,<Y>]"><code>position[&lt;X&gt;,&lt;Y&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#anchor[<X>,<Y>]"><code>anchor[&lt;X&gt;,&lt;Y&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#no_prepend[]"><code>no_prepend[]</code></a>
+</li>
+<li>
+<a href="Formspec.html#real_coordinates[<bool>]"><code>real_coordinates[&lt;bool&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#container[<X>,<Y>]"><code>container[&lt;X&gt;,&lt;Y&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#container_end[]"><code>container_end[]</code></a>
+</li>
+<li>
+<a href="Formspec.html#scroll_container[<X>,<Y>;<W>,<H>;<scrollbar name>;<orientation>;<scroll factor>]"><code>scroll_container[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;scrollbar name&gt;;&lt;orientation&gt;;&lt;scroll factor&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#scroll_container_end[]"><code>scroll_container_end[]</code></a>
+</li>
+<li>
+<a href="Formspec.html#list[<inventory location>;<list name>;<X>,<Y>;<W>,<H>;]"><code>list[&lt;inventory location&gt;;&lt;list name&gt;;&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#list[<inventory location>;<list name>;<X>,<Y>;<W>,<H>;<starting item index>]"><code>list[&lt;inventory location&gt;;&lt;list name&gt;;&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;starting item index&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#listring[<inventory location>;<list name>]"><code>listring[&lt;inventory location&gt;;&lt;list name&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#listring[]"><code>listring[]</code></a>
+</li>
+<li>
+<a href="Formspec.html#listcolors[<slot_bg_normal>;<slot_bg_hover>]"><code>listcolors[&lt;slot_bg_normal&gt;;&lt;slot_bg_hover&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#listcolors[<slot_bg_normal>;<slot_bg_hover>;<slot_border>]"><code>listcolors[&lt;slot_bg_normal&gt;;&lt;slot_bg_hover&gt;;&lt;slot_border&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#listcolors[<slot_bg_normal>;<slot_bg_hover>;<slot_border>;<tooltip_bgcolor>;<tooltip_fontcolor>]"><code>listcolors[&lt;slot_bg_normal&gt;;&lt;slot_bg_hover&gt;;&lt;slot_border&gt;;&lt;tooltip_bgcolor&gt;;&lt;tooltip_fontcolor&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#tooltip[<gui_element_name>;<tooltip_text>;<bgcolor>;<fontcolor>]"><code>tooltip[&lt;gui_element_name&gt;;&lt;tooltip_text&gt;;&lt;bgcolor&gt;;&lt;fontcolor&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#tooltip[<X>,<Y>;<W>,<H>;<tooltip_text>;<bgcolor>;<fontcolor>]"><code>tooltip[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;tooltip_text&gt;;&lt;bgcolor&gt;;&lt;fontcolor&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#image[<X>,<Y>;<W>,<H>;<texture name>]"><code>image[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#animated_image[<X>,<Y>;<W>,<H>;<name>;<texture name>;<frame count>;<frame duration>;<frame start>]"><code>animated_image[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;texture name&gt;;&lt;frame count&gt;;&lt;frame duration&gt;;&lt;frame start&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#model[<X>,<Y>;<W>,<H>;<name>;<mesh>;<textures>;<rotation X,Y>;<continuous>;<mouse control>;<frame loop range>]"><code>model[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;mesh&gt;;&lt;textures&gt;;&lt;rotation X,Y&gt;;&lt;continuous&gt;;&lt;mouse control&gt;;&lt;frame loop range&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#item_image[<X>,<Y>;<W>,<H>;<item name>]"><code>item_image[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;item name&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#bgcolor[<bgcolor>;<fullscreen>;<fbgcolor>]"><code>bgcolor[&lt;bgcolor&gt;;&lt;fullscreen&gt;;&lt;fbgcolor&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#background[<X>,<Y>;<W>,<H>;<texture name>]"><code>background[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#background[<X>,<Y>;<W>,<H>;<texture name>;<auto_clip>]"><code>background[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;auto_clip&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#background9[<X>,<Y>;<W>,<H>;<texture name>;<auto_clip>;<middle>]"><code>background9[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;auto_clip&gt;;&lt;middle&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#pwdfield[<X>,<Y>;<W>,<H>;<name>;<label>]"><code>pwdfield[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#field[<X>,<Y>;<W>,<H>;<name>;<label>;<default>]"><code>field[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;;&lt;default&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#field[<name>;<label>;<default>]"><code>field[&lt;name&gt;;&lt;label&gt;;&lt;default&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#field_close_on_enter[<name>;<close_on_enter>]"><code>field_close_on_enter[&lt;name&gt;;&lt;close_on_enter&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#textarea[<X>,<Y>;<W>,<H>;<name>;<label>;<default>]"><code>textarea[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;;&lt;default&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#label[<X>,<Y>;<label>]"><code>label[&lt;X&gt;,&lt;Y&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#hypertext[<X>,<Y>;<W>,<H>;<name>;<text>]"><code>hypertext[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;text&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#vertlabel[<X>,<Y>;<label>]"><code>vertlabel[&lt;X&gt;,&lt;Y&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#button[<X>,<Y>;<W>,<H>;<name>;<label>]"><code>button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#image_button[<X>,<Y>;<W>,<H>;<texture name>;<name>;<label>]"><code>image_button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;name&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#image_button[<X>,<Y>;<W>,<H>;<texture name>;<name>;<label>;<noclip>;<drawborder>;<pressed texture name>]"><code>image_button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;name&gt;;&lt;label&gt;;&lt;noclip&gt;;&lt;drawborder&gt;;&lt;pressed texture name&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#item_image_button[<X>,<Y>;<W>,<H>;<item name>;<name>;<label>]"><code>item_image_button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;item name&gt;;&lt;name&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#button_exit[<X>,<Y>;<W>,<H>;<name>;<label>]"><code>button_exit[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#image_button_exit[<X>,<Y>;<W>,<H>;<texture name>;<name>;<label>]"><code>image_button_exit[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;name&gt;;&lt;label&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#textlist[<X>,<Y>;<W>,<H>;<name>;<listelem 1>,<listelem 2>,...,<listelem n>]"><code>textlist[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;listelem 1&gt;,&lt;listelem 2&gt;,...,&lt;listelem n&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#textlist[<X>,<Y>;<W>,<H>;<name>;<listelem 1>,<listelem 2>,...,<listelem n>;<selected idx>;<transparent>]"><code>textlist[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;listelem 1&gt;,&lt;listelem 2&gt;,...,&lt;listelem n&gt;;&lt;selected idx&gt;;&lt;transparent&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#tabheader[<X>,<Y>;<name>;<caption 1>,<caption 2>,...,<caption n>;<current_tab>;<transparent>;<draw_border>]"><code>tabheader[&lt;X&gt;,&lt;Y&gt;;&lt;name&gt;;&lt;caption 1&gt;,&lt;caption 2&gt;,...,&lt;caption n&gt;;&lt;current_tab&gt;;&lt;transparent&gt;;&lt;draw_border&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#tabheader[<X>,<Y>;<H>;<name>;<caption 1>,<caption 2>,...,<caption n>;<current_tab>;<transparent>;<draw_border>]"><code>tabheader[&lt;X&gt;,&lt;Y&gt;;&lt;H&gt;;&lt;name&gt;;&lt;caption 1&gt;,&lt;caption 2&gt;,...,&lt;caption n&gt;;&lt;current_tab&gt;;&lt;transparent&gt;;&lt;draw_border&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#tabheader[<X>,<Y>;<W>,<H>;<name>;<caption 1>,<caption 2>,...,<caption n>;<current_tab>;<transparent>;<draw_border>]"><code>tabheader[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;caption 1&gt;,&lt;caption 2&gt;,...,&lt;caption n&gt;;&lt;current_tab&gt;;&lt;transparent&gt;;&lt;draw_border&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#box[<X>,<Y>;<W>,<H>;<color>]"><code>box[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;color&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#dropdown[<X>,<Y>;<W>;<name>;<item 1>,<item 2>, ...,<item n>;<selected idx>;<index event>]"><code>dropdown[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;;&lt;name&gt;;&lt;item 1&gt;,&lt;item 2&gt;, ...,&lt;item n&gt;;&lt;selected idx&gt;;&lt;index event&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#dropdown[<X>,<Y>;<W>,<H>;<name>;<item 1>,<item 2>, ...,<item n>;<selected idx>;<index event>]"><code>dropdown[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;item 1&gt;,&lt;item 2&gt;, ...,&lt;item n&gt;;&lt;selected idx&gt;;&lt;index event&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#checkbox[<X>,<Y>;<name>;<label>;<selected>]"><code>checkbox[&lt;X&gt;,&lt;Y&gt;;&lt;name&gt;;&lt;label&gt;;&lt;selected&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#scrollbar[<X>,<Y>;<W>,<H>;<orientation>;<name>;<value>]"><code>scrollbar[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;orientation&gt;;&lt;name&gt;;&lt;value&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#scrollbaroptions[opt1;opt2;...]"><code>scrollbaroptions[opt1;opt2;...]</code></a>
+</li>
+<li>
+<a href="Formspec.html#table[<X>,<Y>;<W>,<H>;<name>;<cell 1>,<cell 2>,...,<cell n>;<selected idx>]"><code>table[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;cell 1&gt;,&lt;cell 2&gt;,...,&lt;cell n&gt;;&lt;selected idx&gt;]</code></a>
+</li>
+<li>
+<a href="Formspec.html#tableoptions[<opt 1>;<opt 2>;...]"><code>tableoptions[&lt;opt 1&gt;;&lt;opt 2&gt;;...]</code></a>
+</li>
+<li>
+<a href="Formspec.html#tablecolumns[<type 1>,<opt 1a>,<opt 1b>,...;<type 2>,<opt 2a>,<opt 2b>;...]"><code>tablecolumns[&lt;type 1&gt;,&lt;opt 1a&gt;,&lt;opt 1b&gt;,...;&lt;type 2&gt;,&lt;opt 2a&gt;,&lt;opt 2b&gt;;...]</code></a>
+</li>
+<li>
+<a href="Formspec.html#style[<selector 1>,<selector 2>;<prop1>;<prop2>;...]"><code>style[&lt;selector 1&gt;,&lt;selector 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]</code></a>
+</li>
+<li>
+<a href="Formspec.html#style_type[<selector 1>,<selector 2>;<prop1>;<prop2>;...]"><code>style_type[&lt;selector 1&gt;,&lt;selector 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]</code></a>
+</li>
+<li>
+<a href="Formspec.html#set_focus[<name>;<force>]"><code>set_focus[&lt;name&gt;;&lt;force&gt;]</code></a>
+</li>
+</ul>
+<li>
+<a href="Formspec.html#Migrating to Real Coordinates">Migrating to Real Coordinates</a>
+</li>
+<li>
+<a href="Formspec.html#Styling Formspecs">Styling Formspecs</a>
+</li>
+<ul>
+<li>
+<a href="Formspec.html#Supported Element Types">Supported Element Types</a>
+</li>
+<li>
+<a href="Formspec.html#Valid Properties">Valid Properties</a>
+</li>
+<li>
+<a href="Formspec.html#Valid States">Valid States</a>
+</li>
+</ul>
+<li>
+<a href="Formspec.html#Markup Language">Markup Language</a>
+</li>
+</ul>
+<li>
+<a href="Inventory.html" id="Inventory">Inventory</a>
+</li>
+<ul>
+<li>
+<a href="Inventory.html#Inventory locations">Inventory locations</a>
+</li>
+<li>
+<a href="Inventory.html#Player Inventory lists">Player Inventory lists</a>
+</li>
+</ul>
+<li>
+<a href="Colors.html" id="Colors">Colors</a>
+</li>
+<ul>
+<li>
+<a href="Colors.html#ColorString"><code>ColorString</code></a>
+</li>
+<li>
+<a href="Colors.html#ColorSpec"><code>ColorSpec</code></a>
+</li>
+</ul>
+<li>
+<a href="Escape_sequences.html" id="Escape_sequences">Escape sequences</a>
+</li>
+<li>
+<a href="Spatial_Vectors.html" id="Spatial_Vectors">Spatial Vectors</a>
+</li>
+<li>
+<a href="Helper_functions.html" id="Helper_functions">Helper functions</a>
+</li>
+<li>
+<a href="Translations.html" id="Translations">Translations</a>
+</li>
+<ul>
+<li>
+<a href="Translations.html#Translating a string">Translating a string</a>
+</li>
+<li>
+<a href="Translations.html#Operations on translated strings">Operations on translated strings</a>
+</li>
+<li>
+<a href="Translations.html#Translation file format">Translation file format</a>
+</li>
+<li>
+<a href="Translations.html#Escapes">Escapes</a>
+</li>
+<li>
+<a href="Translations.html#Server side translations">Server side translations</a>
+</li>
+</ul>
+<li>
+<a href="Perlin_noise.html" id="Perlin_noise">Perlin noise</a>
+</li>
+<ul>
+<li>
+<a href="Perlin_noise.html#Structure of perlin noise">Structure of perlin noise</a>
+</li>
+<li>
+<a href="Perlin_noise.html#Noise Parameters">Noise Parameters</a>
+</li>
+<ul>
+<li>
+<a href="Perlin_noise.html#offset"><code>offset</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#scale"><code>scale</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#spread"><code>spread</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#seed"><code>seed</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#octaves"><code>octaves</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#persistence"><code>persistence</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#lacunarity"><code>lacunarity</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#flags"><code>flags</code></a>
+</li>
+<ul>
+<li>
+<a href="Perlin_noise.html#defaults"><code>defaults</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#eased"><code>eased</code></a>
+</li>
+<li>
+<a href="Perlin_noise.html#absvalue"><code>absvalue</code></a>
+</li>
+</ul>
+<li>
+<a href="Perlin_noise.html#Format example">Format example</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Ores.html" id="Ores">Ores</a>
+</li>
+<ul>
+<li>
+<a href="Ores.html#Ore types">Ore types</a>
+</li>
+<ul>
+<li>
+<a href="Ores.html#scatter"><code>scatter</code></a>
+</li>
+<li>
+<a href="Ores.html#sheet"><code>sheet</code></a>
+</li>
+<li>
+<a href="Ores.html#puff"><code>puff</code></a>
+</li>
+<li>
+<a href="Ores.html#blob"><code>blob</code></a>
+</li>
+<li>
+<a href="Ores.html#vein"><code>vein</code></a>
+</li>
+<li>
+<a href="Ores.html#stratum"><code>stratum</code></a>
+</li>
+</ul>
+<li>
+<a href="Ores.html#Ore attributes">Ore attributes</a>
+</li>
+<ul>
+<li>
+<a href="Ores.html#puff_cliffs"><code>puff_cliffs</code></a>
+</li>
+<li>
+<a href="Ores.html#puff_additive_composition"><code>puff_additive_composition</code></a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Decoration_types.html" id="Decoration_types">Decoration types</a>
+</li>
+<ul>
+<li>
+<a href="Decoration_types.html#simple"><code>simple</code></a>
+</li>
+<li>
+<a href="Decoration_types.html#schematic"><code>schematic</code></a>
+</li>
+</ul>
+<li>
+<a href="Schematics.html" id="Schematics">Schematics</a>
+</li>
+<ul>
+<li>
+<a href="Schematics.html#Schematic specifier">Schematic specifier</a>
+</li>
+<li>
+<a href="Schematics.html#Schematic attributes">Schematic attributes</a>
+</li>
+</ul>
+<li>
+<a href="Lua_Voxel_Manipulator.html" id="Lua_Voxel_Manipulator">Lua Voxel Manipulator</a>
+</li>
+<ul>
+<li>
+<a href="Lua_Voxel_Manipulator.html#About VoxelManip">About VoxelManip</a>
+</li>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Using VoxelManip">Using VoxelManip</a>
+</li>
+<ul>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Flat array format">Flat array format</a>
+</li>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Content IDs">Content IDs</a>
+</li>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Mapgen VoxelManip objects">Mapgen VoxelManip objects</a>
+</li>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Other API functions operating on a VoxelManip">Other API functions operating on a VoxelManip</a>
+</li>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Notes">Notes</a>
+</li>
+</ul>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Methods">Methods</a>
+</li>
+<li>
+<a href="Lua_Voxel_Manipulator.html#VoxelArea"><code>VoxelArea</code></a>
+</li>
+<ul>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Methods">Methods</a>
+</li>
+<li>
+<a href="Lua_Voxel_Manipulator.html#Y stride and z stride of a flat array">Y stride and z stride of a flat array</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Mapgen_objects.html" id="Mapgen_objects">Mapgen objects</a>
+</li>
+<ul>
+<ul>
+<li>
+<a href="Mapgen_objects.html#voxelmanip"><code>voxelmanip</code></a>
+</li>
+<li>
+<a href="Mapgen_objects.html#heightmap"><code>heightmap</code></a>
+</li>
+<li>
+<a href="Mapgen_objects.html#biomemap"><code>biomemap</code></a>
+</li>
+<li>
+<a href="Mapgen_objects.html#heatmap"><code>heatmap</code></a>
+</li>
+<li>
+<a href="Mapgen_objects.html#humiditymap"><code>humiditymap</code></a>
+</li>
+<li>
+<a href="Mapgen_objects.html#gennotify"><code>gennotify</code></a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Registered_entities.html" id="Registered_entities">Registered entities</a>
+</li>
+<li>
+<a href="L-system_trees.html" id="L-system_trees">L-system trees</a>
+</li>
+<ul>
+<li>
+<a href="L-system_trees.html#Tree definition">Tree definition</a>
+</li>
+<li>
+<a href="L-system_trees.html#Key for special L-System symbols used in axioms">Key for special L-System symbols used in axioms</a>
+</li>
+<li>
+<a href="L-system_trees.html#Example">Example</a>
+</li>
+</ul>
+<li>
+<a href="minetest_namespace_reference.html" id="minetest_namespace_reference">'minetest' namespace reference</a>
+</li>
+<ul>
+<li>
+<a href="minetest_namespace_reference.html#Utilities">Utilities</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Logging">Logging</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Registration functions">Registration functions</a>
+</li>
+<ul>
+<li>
+<a href="minetest_namespace_reference.html#Environment">Environment</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Gameplay">Gameplay</a>
+</li>
+</ul>
+<li>
+<a href="minetest_namespace_reference.html#Global callback registration functions">Global callback registration functions</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Setting-related">Setting-related</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Authentication">Authentication</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Chat">Chat</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Environment access">Environment access</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Mod channels">Mod channels</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Inventory">Inventory</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Formspec">Formspec</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Item handling">Item handling</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Rollback">Rollback</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Defaults for the on_place and on_drop item definition functions">Defaults for the <code>on_place</code> and <code>on_drop</code> item definition functions</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Defaults for the on_punch and on_dig node definition callbacks">Defaults for the <code>on_punch</code> and <code>on_dig</code> node definition callbacks</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Sounds">Sounds</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Timing">Timing</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Server">Server</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Bans">Bans</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Particles">Particles</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Schematics">Schematics</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#HTTP Requests">HTTP Requests</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Storage API">Storage API</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Misc.">Misc.</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Global objects">Global objects</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Global tables">Global tables</a>
+</li>
+<ul>
+<li>
+<a href="minetest_namespace_reference.html#Registered definition tables">Registered definition tables</a>
+</li>
+<li>
+<a href="minetest_namespace_reference.html#Registered callback tables">Registered callback tables</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Class_reference.html" id="Class_reference">Class reference</a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#AreaStore"><code>AreaStore</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#InvRef"><code>InvRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+<li>
+<a href="Class_reference.html#Callbacks">Callbacks</a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Before">Before</a>
+</li>
+<li>
+<a href="Class_reference.html#After">After</a>
+</li>
+<li>
+<a href="Class_reference.html#Swapping">Swapping</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Class_reference.html#ItemStack"><code>ItemStack</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#ItemStackMetaRef"><code>ItemStackMetaRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#MetaDataRef"><code>MetaDataRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#ModChannel"><code>ModChannel</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#NodeMetaRef"><code>NodeMetaRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#NodeTimerRef"><code>NodeTimerRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#ObjectRef"><code>ObjectRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Advice on handling ObjectRefs">Advice on handling <code>ObjectRefs</code></a>
+</li>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Lua entity only (no-op for other objects)">Lua entity only (no-op for other objects)</a>
+</li>
+<li>
+<a href="Class_reference.html#Player only (no-op for other objects)">Player only (no-op for other objects)</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Class_reference.html#PcgRandom"><code>PcgRandom</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#PerlinNoise"><code>PerlinNoise</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#PerlinNoiseMap"><code>PerlinNoiseMap</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#PlayerMetaRef"><code>PlayerMetaRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#PseudoRandom"><code>PseudoRandom</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#Raycast"><code>Raycast</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#SecureRandom"><code>SecureRandom</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#Settings"><code>Settings</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+<li>
+<a href="Class_reference.html#Format">Format</a>
+</li>
+</ul>
+<li>
+<a href="Class_reference.html#StorageRef"><code>StorageRef</code></a>
+</li>
+<ul>
+<li>
+<a href="Class_reference.html#Methods">Methods</a>
+</li>
+</ul>
+</ul>
+<li>
+<a href="Definition_tables.html" id="Definition_tables">Definition tables</a>
+</li>
+<ul>
+<li>
+<a href="Definition_tables.html#Object properties">Object properties</a>
+</li>
+<li>
+<a href="Definition_tables.html#Entity definition">Entity definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#ABM (ActiveBlockModifier) definition">ABM (ActiveBlockModifier) definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#LBM (LoadingBlockModifier) definition">LBM (LoadingBlockModifier) definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Tile definition">Tile definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Tile animation definition">Tile animation definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Item definition">Item definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Node definition">Node definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Crafting recipes">Crafting recipes</a>
+</li>
+<ul>
+<li>
+<a href="Definition_tables.html#Shaped">Shaped</a>
+</li>
+<li>
+<a href="Definition_tables.html#Shapeless">Shapeless</a>
+</li>
+<li>
+<a href="Definition_tables.html#Tool repair">Tool repair</a>
+</li>
+<li>
+<a href="Definition_tables.html#Cooking">Cooking</a>
+</li>
+<li>
+<a href="Definition_tables.html#Furnace fuel">Furnace fuel</a>
+</li>
+</ul>
+<li>
+<a href="Definition_tables.html#Ore definition">Ore definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Biome definition">Biome definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Decoration definition">Decoration definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Chat command definition">Chat command definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Privilege definition">Privilege definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Detached inventory callbacks">Detached inventory callbacks</a>
+</li>
+<li>
+<a href="Definition_tables.html#HUD Definition">HUD Definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Particle definition">Particle definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#ParticleSpawner definition"><code>ParticleSpawner</code> definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#HTTPRequest definition"><code>HTTPRequest</code> definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#HTTPRequestResult definition"><code>HTTPRequestResult</code> definition</a>
+</li>
+<li>
+<a href="Definition_tables.html#Authentication handler definition">Authentication handler definition</a>
+</li>
+</ul>
+</ul>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html">Index</a></p>
+</body>
+</html>

@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec">Index</a></p>
+<h1 id="Formspec">Formspec</h1>
+<p>
+Formspec defines a menu. This supports inventories and some of the typical widgets like buttons, checkboxes, text input fields, etc. It is a string, with a somewhat strange format.
+</p>
+<p>
+A formspec is made out of formspec elements, which includes widgets like buttons but also can be used to set stuff like background color.
+</p>
+<p>
+Many formspec elements have a <code>name</code>, which is a unique identifier which is used when the server receives user input. You must not use the name "quit" for formspec elements.
+</p>
+<p>
+Spaces and newlines can be inserted between the blocks, as is used in the examples.
+</p>
+<p>
+Position and size units are inventory slots unless the new coordinate system is enabled. <code>X</code> and <code>Y</code> position the formspec element relative to the top left of the menu or container. <code>W</code> and <code>H</code> are its width and height values.
+</p>
+<p>
+If the new system is enabled, all elements have unified coordinates for all elements with no padding or spacing in between. This is highly recommended for new forms. See <code>real_coordinates[&lt;bool&gt;]</code> and <code>Migrating to Real Coordinates</code>.
+</p>
+<p>
+Inventories with a <code>player:&lt;name&gt;</code> inventory location are only sent to the player named <code>&lt;name&gt;</code>.
+</p>
+<p>
+When displaying text which can contain formspec code, e.g. text set by a player, use <code>minetest.formspec_escape</code>. For coloured text you can use <code>minetest.colorize</code>.
+</p>
+<p>
+Since formspec version 3, elements drawn in the order they are defined. All background elements are drawn before all other elements.
+</p>
+<p>
+<em>WARNING</em>: do _not_ use a element name starting with <code>key_</code>; those names are reserved to pass key press events to formspec!
+</p>
+<p>
+<em>WARNING</em>: Minetest allows you to add elements to every single formspec instance using <code>player:set_formspec_prepend()</code>, which may be the reason backgrounds are appearing when you don't expect them to, or why things are styled differently to normal. See [<code>no_prepend[]</code>] and <a href="Formspec.html#Styling Formspecs">Styling Formspecs</a>.
+</p>
+<h2 id="Examples">Examples</h2>
+<h3 id="Chest">Chest</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;size[8,9]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;main;0,0;8,4;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;main;0,5;8,4;]
+<h3 id="Furnace">Furnace</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;size[8,9]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;fuel;2,3;1,1;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;src;2,1;1,1;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;dst;5,1;2,2;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;main;0,5;8,4;]
+<h3 id="Minecraft-like player inventory">Minecraft-like player inventory</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;size[8,7.5]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;image[1,0.6;1,2;player.png]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;main;0,3.5;8,4;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;craft;3,0;3,3;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;craftpreview;7,1;1,1;]
+<h2 id="Elements">Elements</h2>
+<h3 id="formspec_version[<version>]"><code>formspec_version[&lt;version&gt;]</code></h3>
+<ul>
+<li>
+Set the formspec version to a certain number. If not specified,   version 1 is assumed.
+</li>
+<li>
+Must be specified before <code>size</code> element.
+</li>
+<li>
+Clients older than this version can neither show newer elements nor display   elements with new arguments correctly.
+</li>
+<li>
+Available since feature <code>formspec_version_element</code>.
+</li>
+</ul>
+<h3 id="size[<W>,<H>,<fixed_size>]"><code>size[&lt;W&gt;,&lt;H&gt;,&lt;fixed_size&gt;]</code></h3>
+<ul>
+<li>
+Define the size of the menu in inventory slots
+</li>
+<li>
+<code>fixed_size</code>: <code>true</code>/<code>false</code> (optional)
+</li>
+<li>
+deprecated: <code>invsize[&lt;W&gt;,&lt;H&gt;;]</code>
+</li>
+</ul>
+<h3 id="position[<X>,<Y>]"><code>position[&lt;X&gt;,&lt;Y&gt;]</code></h3>
+<ul>
+<li>
+Must be used after <code>size</code> element.
+</li>
+<li>
+Defines the position on the game window of the formspec's <code>anchor</code> point.
+</li>
+<li>
+For X and Y, 0.0 and 1.0 represent opposite edges of the game window,   for example:
+<ul>
+<li>
+[0.0, 0.0] sets the position to the top left corner of the game window.
+</li>
+<li>
+[1.0, 1.0] sets the position to the bottom right of the game window.
+</li>
+</ul>
+</li>
+<li>
+Defaults to the center of the game window [0.5, 0.5].
+</li>
+</ul>
+<h3 id="anchor[<X>,<Y>]"><code>anchor[&lt;X&gt;,&lt;Y&gt;]</code></h3>
+<ul>
+<li>
+Must be used after both <code>size</code> and <code>position</code> (if present) elements.
+</li>
+<li>
+Defines the location of the anchor point within the formspec.
+</li>
+<li>
+For X and Y, 0.0 and 1.0 represent opposite edges of the formspec,   for example:
+<ul>
+<li>
+[0.0, 1.0] sets the anchor to the bottom left corner of the formspec.
+</li>
+<li>
+[1.0, 0.0] sets the anchor to the top right of the formspec.
+</li>
+</ul>
+</li>
+<li>
+Defaults to the center of the formspec [0.5, 0.5].
+</li>
+<li>
+<code>position</code> and <code>anchor</code> elements need suitable values to avoid a formspec   extending off the game window due to particular game window sizes.
+</li>
+</ul>
+<h3 id="no_prepend[]"><code>no_prepend[]</code></h3>
+<ul>
+<li>
+Must be used after the <code>size</code>, <code>position</code>, and <code>anchor</code> elements (if present).
+</li>
+<li>
+Disables player:set_formspec_prepend() from applying to this formspec.
+</li>
+</ul>
+<h3 id="real_coordinates[<bool>]"><code>real_coordinates[&lt;bool&gt;]</code></h3>
+<ul>
+<li>
+INFORMATION: Enable it automatically using <code>formspec_version</code> version 2 or newer.
+</li>
+<li>
+When set to true, all following formspec elements will use the new coordinate system.
+</li>
+<li>
+If used immediately after <code>size</code>, <code>position</code>, <code>anchor</code>, and <code>no_prepend</code> elements   (if present), the form size will use the new coordinate system.
+</li>
+<li>
+<em>Note</em>: Formspec prepends are not affected by the coordinates in the main form.   They must enable it explicitly.
+</li>
+<li>
+For information on converting forms to the new coordinate system, see <code>Migrating   to Real Coordinates</code>.
+</li>
+</ul>
+<h3 id="container[<X>,<Y>]"><code>container[&lt;X&gt;,&lt;Y&gt;]</code></h3>
+<ul>
+<li>
+Start of a container block, moves all physical elements in the container by   (X, Y).
+</li>
+<li>
+Must have matching <code>container_end</code>
+</li>
+<li>
+Containers can be nested, in which case the offsets are added   (child containers are relative to parent containers)
+</li>
+</ul>
+<h3 id="container_end[]"><code>container_end[]</code></h3>
+<ul>
+<li>
+End of a container, following elements are no longer relative to this   container.
+</li>
+</ul>
+<h3 id="scroll_container[<X>,<Y>;<W>,<H>;<scrollbar name>;<orientation>;<scroll factor>]"><code>scroll_container[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;scrollbar name&gt;;&lt;orientation&gt;;&lt;scroll factor&gt;]</code></h3>
+<ul>
+<li>
+Start of a scroll_container block. All contained elements will ...
+</li>
+<li>
+take the scroll_container coordinate as position origin,
+</li>
+<li>
+be additionally moved by the current value of the scrollbar with the name     <code>scrollbar name</code> times <code>scroll factor</code> along the orientation <code>orientation</code> and
+</li>
+<li>
+be clipped to the rectangle defined by <code>X</code>, <code>Y</code>, <code>W</code> and <code>H</code>.
+</li>
+<li>
+<code>orientation</code>: possible values are <code>vertical</code> and <code>horizontal</code>.
+</li>
+<li>
+<code>scroll factor</code>: optional, defaults to <code>0.1</code>.
+</li>
+<li>
+Nesting is possible.
+</li>
+<li>
+Some elements might work a little different if they are in a scroll_container.
+</li>
+<li>
+Note: If you want the scroll_container to actually work, you also need to add a   scrollbar element with the specified name. Furthermore, it is highly recommended   to use a scrollbaroptions element on this scrollbar.
+</li>
+</ul>
+<h3 id="scroll_container_end[]"><code>scroll_container_end[]</code></h3>
+<ul>
+<li>
+End of a scroll_container, following elements are no longer bound to this   container.
+</li>
+</ul>
+<h3 id="list[<inventory location>;<list name>;<X>,<Y>;<W>,<H>;]"><code>list[&lt;inventory location&gt;;&lt;list name&gt;;&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;]</code></h3>
+<ul>
+<li>
+Show an inventory list if it has been sent to the client. Nothing will   be shown if the inventory list is of size 0.
+</li>
+<li>
+<em>Note</em>: With the new coordinate system, the spacing between inventory   slots is one-fourth the size of an inventory slot.
+</li>
+</ul>
+<h3 id="list[<inventory location>;<list name>;<X>,<Y>;<W>,<H>;<starting item index>]"><code>list[&lt;inventory location&gt;;&lt;list name&gt;;&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;starting item index&gt;]</code></h3>
+<ul>
+<li>
+Show an inventory list if it has been sent to the client. Nothing will   be shown if the inventory list is of size 0.
+</li>
+<li>
+<em>Note</em>: With the new coordinate system, the spacing between inventory   slots is one-fourth the size of an inventory slot.
+</li>
+</ul>
+<h3 id="listring[<inventory location>;<list name>]"><code>listring[&lt;inventory location&gt;;&lt;list name&gt;]</code></h3>
+<ul>
+<li>
+Allows to create a ring of inventory lists
+</li>
+<li>
+Shift-clicking on items in one element of the ring   will send them to the next inventory list inside the ring
+</li>
+<li>
+The first occurrence of an element inside the ring will   determine the inventory where items will be sent to
+</li>
+</ul>
+<h3 id="listring[]"><code>listring[]</code></h3>
+<ul>
+<li>
+Shorthand for doing <code>listring[&lt;inventory location&gt;;&lt;list name&gt;]</code>   for the last two inventory lists added by list[...]
+</li>
+</ul>
+<h3 id="listcolors[<slot_bg_normal>;<slot_bg_hover>]"><code>listcolors[&lt;slot_bg_normal&gt;;&lt;slot_bg_hover&gt;]</code></h3>
+<ul>
+<li>
+Sets background color of slots as <code>ColorString</code>
+</li>
+<li>
+Sets background color of slots on mouse hovering
+</li>
+</ul>
+<h3 id="listcolors[<slot_bg_normal>;<slot_bg_hover>;<slot_border>]"><code>listcolors[&lt;slot_bg_normal&gt;;&lt;slot_bg_hover&gt;;&lt;slot_border&gt;]</code></h3>
+<ul>
+<li>
+Sets background color of slots as <code>ColorString</code>
+</li>
+<li>
+Sets background color of slots on mouse hovering
+</li>
+<li>
+Sets color of slots border
+</li>
+</ul>
+<h3 id="listcolors[<slot_bg_normal>;<slot_bg_hover>;<slot_border>;<tooltip_bgcolor>;<tooltip_fontcolor>]"><code>listcolors[&lt;slot_bg_normal&gt;;&lt;slot_bg_hover&gt;;&lt;slot_border&gt;;&lt;tooltip_bgcolor&gt;;&lt;tooltip_fontcolor&gt;]</code></h3>
+<ul>
+<li>
+Sets background color of slots as <code>ColorString</code>
+</li>
+<li>
+Sets background color of slots on mouse hovering
+</li>
+<li>
+Sets color of slots border
+</li>
+<li>
+Sets default background color of tooltips
+</li>
+<li>
+Sets default font color of tooltips
+</li>
+</ul>
+<h3 id="tooltip[<gui_element_name>;<tooltip_text>;<bgcolor>;<fontcolor>]"><code>tooltip[&lt;gui_element_name&gt;;&lt;tooltip_text&gt;;&lt;bgcolor&gt;;&lt;fontcolor&gt;]</code></h3>
+<ul>
+<li>
+Adds tooltip for an element
+</li>
+<li>
+<code>bgcolor</code> tooltip background color as <code>ColorString</code> (optional)
+</li>
+<li>
+<code>fontcolor</code> tooltip font color as <code>ColorString</code> (optional)
+</li>
+</ul>
+<h3 id="tooltip[<X>,<Y>;<W>,<H>;<tooltip_text>;<bgcolor>;<fontcolor>]"><code>tooltip[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;tooltip_text&gt;;&lt;bgcolor&gt;;&lt;fontcolor&gt;]</code></h3>
+<ul>
+<li>
+Adds tooltip for an area. Other tooltips will take priority when present.
+</li>
+<li>
+<code>bgcolor</code> tooltip background color as <code>ColorString</code> (optional)
+</li>
+<li>
+<code>fontcolor</code> tooltip font color as <code>ColorString</code> (optional)
+</li>
+</ul>
+<h3 id="image[<X>,<Y>;<W>,<H>;<texture name>]"><code>image[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;]</code></h3>
+<ul>
+<li>
+Show an image
+</li>
+</ul>
+<h3 id="animated_image[<X>,<Y>;<W>,<H>;<name>;<texture name>;<frame count>;<frame duration>;<frame start>]"><code>animated_image[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;texture name&gt;;&lt;frame count&gt;;&lt;frame duration&gt;;&lt;frame start&gt;]</code></h3>
+<ul>
+<li>
+Show an animated image. The image is drawn like a "vertical_frames" tile     animation (See <a href="Definition_tables.html#Tile animation definition">Tile animation definition</a>), but uses a frame count/duration     for simplicity
+</li>
+<li>
+<code>name</code>: Element name to send when an event occurs. The event value is the index of the current frame.
+</li>
+<li>
+<code>texture name</code>: The image to use.
+</li>
+<li>
+<code>frame count</code>: The number of frames animating the image.
+</li>
+<li>
+<code>frame duration</code>: Milliseconds between each frame. <code>0</code> means the frames don't advance.
+</li>
+<li>
+<code>frame start</code> (Optional): The index of the frame to start on. Default <code>1</code>.
+</li>
+</ul>
+<h3 id="model[<X>,<Y>;<W>,<H>;<name>;<mesh>;<textures>;<rotation X,Y>;<continuous>;<mouse control>;<frame loop range>]"><code>model[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;mesh&gt;;&lt;textures&gt;;&lt;rotation X,Y&gt;;&lt;continuous&gt;;&lt;mouse control&gt;;&lt;frame loop range&gt;]</code></h3>
+<ul>
+<li>
+Show a mesh model.
+</li>
+<li>
+<code>name</code>: Element name that can be used for styling
+</li>
+<li>
+<code>mesh</code>: The mesh model to use.
+</li>
+<li>
+<code>textures</code>: The mesh textures to use according to the mesh materials.    Texture names must be separated by commas.
+</li>
+<li>
+<code>rotation {X,Y}</code> (Optional): Initial rotation of the camera.   The axes are euler angles in degrees.
+</li>
+<li>
+<code>continuous</code> (Optional): Whether the rotation is continuous. Default <code>false</code>.
+</li>
+<li>
+<code>mouse control</code> (Optional): Whether the model can be controlled with the mouse. Default <code>true</code>.
+</li>
+<li>
+<code>frame loop range</code> (Optional): Range of the animation frames.
+<ul>
+<li>
+Defaults to the full range of all available frames.
+</li>
+<li>
+Syntax: <code>&lt;begin&gt;,&lt;end&gt;</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="item_image[<X>,<Y>;<W>,<H>;<item name>]"><code>item_image[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;item name&gt;]</code></h3>
+<ul>
+<li>
+Show an inventory image of registered item/node
+</li>
+</ul>
+<h3 id="bgcolor[<bgcolor>;<fullscreen>;<fbgcolor>]"><code>bgcolor[&lt;bgcolor&gt;;&lt;fullscreen&gt;;&lt;fbgcolor&gt;]</code></h3>
+<ul>
+<li>
+Sets background color of formspec.
+</li>
+<li>
+<code>bgcolor</code> and <code>fbgcolor</code> (optional) are <code>ColorString</code>s, they define the color   of the non-fullscreen and the fullscreen background.
+</li>
+<li>
+<code>fullscreen</code> (optional) can be one of the following:
+</li>
+<li>
+<code>false</code>: Only the non-fullscreen background color is drawn. (default)
+</li>
+<li>
+<code>true</code>: Only the fullscreen background color is drawn.
+</li>
+<li>
+<code>both</code>: The non-fullscreen and the fullscreen background color are drawn.
+</li>
+<li>
+<code>neither</code>: No background color is drawn.
+</li>
+<li>
+Note: Leave a parameter empty to not modify the value.
+</li>
+<li>
+Note: <code>fbgcolor</code>, leaving parameters empty and values for <code>fullscreen</code> that   are not bools are only available since formspec version 3.
+</li>
+</ul>
+<h3 id="background[<X>,<Y>;<W>,<H>;<texture name>]"><code>background[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;]</code></h3>
+<ul>
+<li>
+Example for formspec 8x4 in 16x resolution: image shall be sized   8 times 16px  times  4 times 16px.
+</li>
+</ul>
+<h3 id="background[<X>,<Y>;<W>,<H>;<texture name>;<auto_clip>]"><code>background[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;auto_clip&gt;]</code></h3>
+<ul>
+<li>
+Example for formspec 8x4 in 16x resolution:   image shall be sized 8 times 16px  times  4 times 16px
+</li>
+<li>
+If <code>auto_clip</code> is <code>true</code>, the background is clipped to the formspec size   (<code>x</code> and <code>y</code> are used as offset values, <code>w</code> and <code>h</code> are ignored)
+</li>
+</ul>
+<h3 id="background9[<X>,<Y>;<W>,<H>;<texture name>;<auto_clip>;<middle>]"><code>background9[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;auto_clip&gt;;&lt;middle&gt;]</code></h3>
+<ul>
+<li>
+9-sliced background. See https://en.wikipedia.org/wiki/9-slice_scaling
+</li>
+<li>
+Middle is a rect which defines the middle of the 9-slice.
+<ul>
+<li>
+<code>x</code> - The middle will be x pixels from all sides.
+</li>
+<li>
+<code>x,y</code> - The middle will be x pixels from the horizontal and y from the vertical.
+</li>
+<li>
+<code>x,y,x2,y2</code> - The middle will start at x,y, and end at x2, y2. Negative x2 and y2 values         will be added to the width and height of the texture, allowing it to be used as the         distance from the far end.
+</li>
+<li>
+All numbers in middle are integers.
+</li>
+</ul>
+</li>
+<li>
+Example for formspec 8x4 in 16x resolution:   image shall be sized 8 times 16px  times  4 times 16px
+</li>
+<li>
+If <code>auto_clip</code> is <code>true</code>, the background is clipped to the formspec size   (<code>x</code> and <code>y</code> are used as offset values, <code>w</code> and <code>h</code> are ignored)
+</li>
+<li>
+Available since formspec version 2
+</li>
+</ul>
+<h3 id="pwdfield[<X>,<Y>;<W>,<H>;<name>;<label>]"><code>pwdfield[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+Textual password style field; will be sent to server when a button is clicked
+</li>
+<li>
+When enter is pressed in field, fields.key_enter_field will be sent with the   name of this field.
+</li>
+<li>
+With the old coordinate system, fields are a set height, but will be vertically   centred on <code>H</code>. With the new coordinate system, <code>H</code> will modify the height.
+</li>
+<li>
+<code>name</code> is the name of the field as returned in fields to <code>on_receive_fields</code>
+</li>
+<li>
+<code>label</code>, if not blank, will be text printed on the top left above the field
+</li>
+<li>
+See <code>field_close_on_enter</code> to stop enter closing the formspec
+</li>
+</ul>
+<h3 id="field[<X>,<Y>;<W>,<H>;<name>;<label>;<default>]"><code>field[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;;&lt;default&gt;]</code></h3>
+<ul>
+<li>
+Textual field; will be sent to server when a button is clicked
+</li>
+<li>
+When enter is pressed in field, <code>fields.key_enter_field</code> will be sent with   the name of this field.
+</li>
+<li>
+With the old coordinate system, fields are a set height, but will be vertically   centred on <code>H</code>. With the new coordinate system, <code>H</code> will modify the height.
+</li>
+<li>
+<code>name</code> is the name of the field as returned in fields to <code>on_receive_fields</code>
+</li>
+<li>
+<code>label</code>, if not blank, will be text printed on the top left above the field
+</li>
+<li>
+<code>default</code> is the default value of the field
+<ul>
+<li>
+<code>default</code> may contain variable references such as <code>${text}</code> which       will fill the value from the metadata value <code>text</code>
+</li>
+<li>
+<em>Note</em>: no extra text or more than a single variable is supported ATM.
+</li>
+</ul>
+</li>
+<li>
+See <code>field_close_on_enter</code> to stop enter closing the formspec
+</li>
+</ul>
+<h3 id="field[<name>;<label>;<default>]"><code>field[&lt;name&gt;;&lt;label&gt;;&lt;default&gt;]</code></h3>
+<ul>
+<li>
+As above, but without position/size units
+</li>
+<li>
+When enter is pressed in field, <code>fields.key_enter_field</code> will be sent with   the name of this field.
+</li>
+<li>
+Special field for creating simple forms, such as sign text input
+</li>
+<li>
+Must be used without a <code>size[]</code> element
+</li>
+<li>
+A "Proceed" button will be added automatically
+</li>
+<li>
+See <code>field_close_on_enter</code> to stop enter closing the formspec
+</li>
+</ul>
+<h3 id="field_close_on_enter[<name>;<close_on_enter>]"><code>field_close_on_enter[&lt;name&gt;;&lt;close_on_enter&gt;]</code></h3>
+<ul>
+<li>
+&lt;name&gt; is the name of the field
+</li>
+<li>
+if &lt;close_on_enter&gt; is false, pressing enter in the field will submit the   form but not close it.
+</li>
+<li>
+defaults to true when not specified (ie: no tag for a field)
+</li>
+</ul>
+<h3 id="textarea[<X>,<Y>;<W>,<H>;<name>;<label>;<default>]"><code>textarea[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;;&lt;default&gt;]</code></h3>
+<ul>
+<li>
+Same as fields above, but with multi-line input
+</li>
+<li>
+If the text overflows, a vertical scrollbar is added.
+</li>
+<li>
+If the name is empty, the textarea is read-only and   the background is not shown, which corresponds to a multi-line label.
+</li>
+</ul>
+<h3 id="label[<X>,<Y>;<label>]"><code>label[&lt;X&gt;,&lt;Y&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+The label formspec element displays the text set in <code>label</code>   at the specified position.
+</li>
+<li>
+<em>Note</em>: If the new coordinate system is enabled, labels are   positioned from the center of the text, not the top.
+</li>
+<li>
+The text is displayed directly without automatic line breaking,   so label should not be used for big text chunks.  Newlines can be   used to make labels multiline.
+</li>
+<li>
+<em>Note</em>: With the new coordinate system, newlines are spaced with   half a coordinate.  With the old system, newlines are spaced 2/5 of   an inventory slot.
+</li>
+</ul>
+<h3 id="hypertext[<X>,<Y>;<W>,<H>;<name>;<text>]"><code>hypertext[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;text&gt;]</code></h3>
+<ul>
+<li>
+Displays a static formatted text with hyperlinks.
+</li>
+<li>
+<em>Note</em>: This element is currently unstable and subject to change.
+</li>
+<li>
+<code>x</code>, <code>y</code>, <code>w</code> and <code>h</code> work as per field
+</li>
+<li>
+<code>name</code> is the name of the field as returned in fields to <code>on_receive_fields</code> in case of action in text.
+</li>
+<li>
+<code>text</code> is the formatted text using <code>Markup Language</code> described below.
+</li>
+</ul>
+<h3 id="vertlabel[<X>,<Y>;<label>]"><code>vertlabel[&lt;X&gt;,&lt;Y&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+Textual label drawn vertically
+</li>
+<li>
+<code>label</code> is the text on the label
+</li>
+<li>
+<em>Note</em>: If the new coordinate system is enabled, vertlabels are   positioned from the center of the text, not the left.
+</li>
+</ul>
+<h3 id="button[<X>,<Y>;<W>,<H>;<name>;<label>]"><code>button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+Clickable button. When clicked, fields will be sent.
+</li>
+<li>
+With the old coordinate system, buttons are a set height, but will be vertically   centred on <code>H</code>. With the new coordinate system, <code>H</code> will modify the height.
+</li>
+<li>
+<code>label</code> is the text on the button
+</li>
+</ul>
+<h3 id="image_button[<X>,<Y>;<W>,<H>;<texture name>;<name>;<label>]"><code>image_button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;name&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+<code>texture name</code> is the filename of an image
+</li>
+<li>
+<em>Note</em>: Height is supported on both the old and new coordinate systems   for image_buttons.
+</li>
+</ul>
+<h3 id="image_button[<X>,<Y>;<W>,<H>;<texture name>;<name>;<label>;<noclip>;<drawborder>;<pressed texture name>]"><code>image_button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;name&gt;;&lt;label&gt;;&lt;noclip&gt;;&lt;drawborder&gt;;&lt;pressed texture name&gt;]</code></h3>
+<ul>
+<li>
+<code>texture name</code> is the filename of an image
+</li>
+<li>
+<code>noclip=true</code> means the image button doesn't need to be within specified   formsize.
+</li>
+<li>
+<code>drawborder</code>: draw button border or not
+</li>
+<li>
+<code>pressed texture name</code> is the filename of an image on pressed state
+</li>
+</ul>
+<h3 id="item_image_button[<X>,<Y>;<W>,<H>;<item name>;<name>;<label>]"><code>item_image_button[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;item name&gt;;&lt;name&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+<code>item name</code> is the registered name of an item/node
+</li>
+<li>
+The item description will be used as the tooltip. This can be overridden with   a tooltip element.
+</li>
+</ul>
+<h3 id="button_exit[<X>,<Y>;<W>,<H>;<name>;<label>]"><code>button_exit[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+When clicked, fields will be sent and the form will quit.
+</li>
+<li>
+Same as <code>button</code> in all other respects.
+</li>
+</ul>
+<h3 id="image_button_exit[<X>,<Y>;<W>,<H>;<texture name>;<name>;<label>]"><code>image_button_exit[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;texture name&gt;;&lt;name&gt;;&lt;label&gt;]</code></h3>
+<ul>
+<li>
+When clicked, fields will be sent and the form will quit.
+</li>
+<li>
+Same as <code>image_button</code> in all other respects.
+</li>
+</ul>
+<h3 id="textlist[<X>,<Y>;<W>,<H>;<name>;<listelem 1>,<listelem 2>,...,<listelem n>]"><code>textlist[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;listelem 1&gt;,&lt;listelem 2&gt;,...,&lt;listelem n&gt;]</code></h3>
+<ul>
+<li>
+Scrollable item list showing arbitrary text elements
+</li>
+<li>
+<code>name</code> fieldname sent to server on doubleclick value is current selected   element.
+</li>
+<li>
+<code>listelements</code> can be prepended by #color in hexadecimal format RRGGBB   (only).
+<ul>
+<li>
+if you want a listelement to start with "#" write "##".
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="textlist[<X>,<Y>;<W>,<H>;<name>;<listelem 1>,<listelem 2>,...,<listelem n>;<selected idx>;<transparent>]"><code>textlist[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;listelem 1&gt;,&lt;listelem 2&gt;,...,&lt;listelem n&gt;;&lt;selected idx&gt;;&lt;transparent&gt;]</code></h3>
+<ul>
+<li>
+Scrollable itemlist showing arbitrary text elements
+</li>
+<li>
+<code>name</code> fieldname sent to server on doubleclick value is current selected   element.
+</li>
+<li>
+<code>listelements</code> can be prepended by #RRGGBB (only) in hexadecimal format
+<ul>
+<li>
+if you want a listelement to start with "#" write "##"
+</li>
+</ul>
+</li>
+<li>
+Index to be selected within textlist
+</li>
+<li>
+<code>true</code>/<code>false</code>: draw transparent background
+</li>
+<li>
+See also <code>minetest.explode_textlist_event</code>   (main menu: <code>core.explode_textlist_event</code>).
+</li>
+</ul>
+<h3 id="tabheader[<X>,<Y>;<name>;<caption 1>,<caption 2>,...,<caption n>;<current_tab>;<transparent>;<draw_border>]"><code>tabheader[&lt;X&gt;,&lt;Y&gt;;&lt;name&gt;;&lt;caption 1&gt;,&lt;caption 2&gt;,...,&lt;caption n&gt;;&lt;current_tab&gt;;&lt;transparent&gt;;&lt;draw_border&gt;]</code></h3>
+<ul>
+<li>
+Show a tab<em>header</em> at specific position (ignores formsize)
+</li>
+<li>
+<code>X</code> and <code>Y</code>: position of the tabheader
+</li>
+<li>
+*Note*: Width and height are automatically chosen with this syntax
+</li>
+<li>
+<code>name</code> fieldname data is transferred to Lua
+</li>
+<li>
+<code>caption 1</code>...: name shown on top of tab
+</li>
+<li>
+<code>current_tab</code>: index of selected tab 1...
+</li>
+<li>
+<code>transparent</code> (optional): if true, tabs are semi-transparent
+</li>
+<li>
+<code>draw_border</code> (optional): if true, draw a thin line at tab base
+</li>
+</ul>
+<h3 id="tabheader[<X>,<Y>;<H>;<name>;<caption 1>,<caption 2>,...,<caption n>;<current_tab>;<transparent>;<draw_border>]"><code>tabheader[&lt;X&gt;,&lt;Y&gt;;&lt;H&gt;;&lt;name&gt;;&lt;caption 1&gt;,&lt;caption 2&gt;,...,&lt;caption n&gt;;&lt;current_tab&gt;;&lt;transparent&gt;;&lt;draw_border&gt;]</code></h3>
+<ul>
+<li>
+Show a tab<em>header</em> at specific position (ignores formsize)
+</li>
+<li>
+<em>Important note</em>: This syntax for tabheaders can only be used with the   new coordinate system.
+</li>
+<li>
+<code>X</code> and <code>Y</code>: position of the tabheader
+</li>
+<li>
+<code>H</code>: height of the tabheader. Width is automatically determined with this syntax.
+</li>
+<li>
+<code>name</code> fieldname data is transferred to Lua
+</li>
+<li>
+<code>caption 1</code>...: name shown on top of tab
+</li>
+<li>
+<code>current_tab</code>: index of selected tab 1...
+</li>
+<li>
+<code>transparent</code> (optional): show transparent
+</li>
+<li>
+<code>draw_border</code> (optional): draw border
+</li>
+</ul>
+<h3 id="tabheader[<X>,<Y>;<W>,<H>;<name>;<caption 1>,<caption 2>,...,<caption n>;<current_tab>;<transparent>;<draw_border>]"><code>tabheader[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;caption 1&gt;,&lt;caption 2&gt;,...,&lt;caption n&gt;;&lt;current_tab&gt;;&lt;transparent&gt;;&lt;draw_border&gt;]</code></h3>
+<ul>
+<li>
+Show a tab<em>header</em> at specific position (ignores formsize)
+</li>
+<li>
+<em>Important note</em>: This syntax for tabheaders can only be used with the   new coordinate system.
+</li>
+<li>
+<code>X</code> and <code>Y</code>: position of the tabheader
+</li>
+<li>
+<code>W</code> and <code>H</code>: width and height of the tabheader
+</li>
+<li>
+<code>name</code> fieldname data is transferred to Lua
+</li>
+<li>
+<code>caption 1</code>...: name shown on top of tab
+</li>
+<li>
+<code>current_tab</code>: index of selected tab 1...
+</li>
+<li>
+<code>transparent</code> (optional): show transparent
+</li>
+<li>
+<code>draw_border</code> (optional): draw border
+</li>
+</ul>
+<h3 id="box[<X>,<Y>;<W>,<H>;<color>]"><code>box[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;color&gt;]</code></h3>
+<ul>
+<li>
+Simple colored box
+</li>
+<li>
+<code>color</code> is color specified as a <code>ColorString</code>.   If the alpha component is left blank, the box will be semitransparent.   If the color is not specified, the box will use the options specified by   its style. If the color is specified, all styling options will be ignored.
+</li>
+</ul>
+<h3 id="dropdown[<X>,<Y>;<W>;<name>;<item 1>,<item 2>, ...,<item n>;<selected idx>;<index event>]"><code>dropdown[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;;&lt;name&gt;;&lt;item 1&gt;,&lt;item 2&gt;, ...,&lt;item n&gt;;&lt;selected idx&gt;;&lt;index event&gt;]</code></h3>
+<ul>
+<li>
+Show a dropdown field
+</li>
+<li>
+<em>Important note</em>: There are two different operation modes:     1. handle directly on change (only changed dropdown is submitted)     2. read the value on pressing a button (all dropdown values are available)
+</li>
+<li>
+<code>X</code> and <code>Y</code>: position of the dropdown
+</li>
+<li>
+<code>W</code>: width of the dropdown. Height is automatically chosen with this syntax.
+</li>
+<li>
+Fieldname data is transferred to Lua
+</li>
+<li>
+Items to be shown in dropdown
+</li>
+<li>
+Index of currently selected dropdown item
+</li>
+<li>
+<code>index event</code> (optional, allowed parameter since formspec version 4): Specifies the   event field value for selected items.
+<ul>
+<li>
+<code>true</code>: Selected item index
+</li>
+<li>
+<code>false</code> (default): Selected item value
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="dropdown[<X>,<Y>;<W>,<H>;<name>;<item 1>,<item 2>, ...,<item n>;<selected idx>;<index event>]"><code>dropdown[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;item 1&gt;,&lt;item 2&gt;, ...,&lt;item n&gt;;&lt;selected idx&gt;;&lt;index event&gt;]</code></h3>
+<ul>
+<li>
+Show a dropdown field
+</li>
+<li>
+<em>Important note</em>: This syntax for dropdowns can only be used with the   new coordinate system.
+</li>
+<li>
+<em>Important note</em>: There are two different operation modes:     1. handle directly on change (only changed dropdown is submitted)     2. read the value on pressing a button (all dropdown values are available)
+</li>
+<li>
+<code>X</code> and <code>Y</code>: position of the dropdown
+</li>
+<li>
+<code>W</code> and <code>H</code>: width and height of the dropdown
+</li>
+<li>
+Fieldname data is transferred to Lua
+</li>
+<li>
+Items to be shown in dropdown
+</li>
+<li>
+Index of currently selected dropdown item
+</li>
+<li>
+<code>index event</code> (optional, allowed parameter since formspec version 4): Specifies the   event field value for selected items.
+<ul>
+<li>
+<code>true</code>: Selected item index
+</li>
+<li>
+<code>false</code> (default): Selected item value
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="checkbox[<X>,<Y>;<name>;<label>;<selected>]"><code>checkbox[&lt;X&gt;,&lt;Y&gt;;&lt;name&gt;;&lt;label&gt;;&lt;selected&gt;]</code></h3>
+<ul>
+<li>
+Show a checkbox
+</li>
+<li>
+<code>name</code> fieldname data is transferred to Lua
+</li>
+<li>
+<code>label</code> to be shown left of checkbox
+</li>
+<li>
+<code>selected</code> (optional): <code>true</code>/<code>false</code>
+</li>
+<li>
+<em>Note</em>: If the new coordinate system is enabled, checkboxes are   positioned from the center of the checkbox, not the top.
+</li>
+</ul>
+<h3 id="scrollbar[<X>,<Y>;<W>,<H>;<orientation>;<name>;<value>]"><code>scrollbar[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;orientation&gt;;&lt;name&gt;;&lt;value&gt;]</code></h3>
+<ul>
+<li>
+Show a scrollbar using options defined by the previous <code>scrollbaroptions[]</code>
+</li>
+<li>
+There are two ways to use it:     1. handle the changed event (only changed scrollbar is available)     2. read the value on pressing a button (all scrollbars are available)
+</li>
+<li>
+<code>orientation</code>: <code>vertical</code>/<code>horizontal</code>. Default horizontal.
+</li>
+<li>
+Fieldname data is transferred to Lua
+</li>
+<li>
+Value of this trackbar is set to (<code>0</code>-<code>1000</code>) by default
+</li>
+<li>
+See also <code>minetest.explode_scrollbar_event</code>   (main menu: <code>core.explode_scrollbar_event</code>).
+</li>
+</ul>
+<h3 id="scrollbaroptions[opt1;opt2;...]"><code>scrollbaroptions[opt1;opt2;...]</code></h3>
+<ul>
+<li>
+Sets options for all following <code>scrollbar[]</code> elements
+</li>
+<li>
+<code>min=&lt;int&gt;</code>
+<ul>
+<li>
+Sets scrollbar minimum value, defaults to <code>0</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>max=&lt;int&gt;</code>
+<ul>
+<li>
+Sets scrollbar maximum value, defaults to <code>1000</code>.       If the max is equal to the min, the scrollbar will be disabled.
+</li>
+</ul>
+</li>
+<li>
+<code>smallstep=&lt;int&gt;</code>
+<ul>
+<li>
+Sets scrollbar step value when the arrows are clicked or the mouse wheel is       scrolled.
+</li>
+<li>
+If this is set to a negative number, the value will be reset to <code>10</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>largestep=&lt;int&gt;</code>
+<ul>
+<li>
+Sets scrollbar step value used by page up and page down.
+</li>
+<li>
+If this is set to a negative number, the value will be reset to <code>100</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>thumbsize=&lt;int&gt;</code>
+<ul>
+<li>
+Sets size of the thumb on the scrollbar. Size is calculated in the number of       units the thumb spans out of the range of the scrollbar values.
+</li>
+<li>
+Example: If a scrollbar has a <code>min</code> of 1 and a <code>max</code> of 100, a thumbsize of 10       would span a tenth of the scrollbar space.
+</li>
+<li>
+If this is set to zero or less, the value will be reset to <code>1</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>arrows=&lt;show/hide/default&gt;</code>
+<ul>
+<li>
+Whether to show the arrow buttons on the scrollbar. <code>default</code> hides the arrows       when the scrollbar gets too small, but shows them otherwise.
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="table[<X>,<Y>;<W>,<H>;<name>;<cell 1>,<cell 2>,...,<cell n>;<selected idx>]"><code>table[&lt;X&gt;,&lt;Y&gt;;&lt;W&gt;,&lt;H&gt;;&lt;name&gt;;&lt;cell 1&gt;,&lt;cell 2&gt;,...,&lt;cell n&gt;;&lt;selected idx&gt;]</code></h3>
+<ul>
+<li>
+Show scrollable table using options defined by the previous <code>tableoptions[]</code>
+</li>
+<li>
+Displays cells as defined by the previous <code>tablecolumns[]</code>
+</li>
+<li>
+<code>name</code>: fieldname sent to server on row select or doubleclick
+</li>
+<li>
+<code>cell 1</code>...<code>cell n</code>: cell contents given in row-major order
+</li>
+<li>
+<code>selected idx</code>: index of row to be selected within table (first row = <code>1</code>)
+</li>
+<li>
+See also <code>minetest.explode_table_event</code>   (main menu: <code>core.explode_table_event</code>).
+</li>
+</ul>
+<h3 id="tableoptions[<opt 1>;<opt 2>;...]"><code>tableoptions[&lt;opt 1&gt;;&lt;opt 2&gt;;...]</code></h3>
+<ul>
+<li>
+Sets options for <code>table[]</code>
+</li>
+<li>
+<code>color=#RRGGBB</code>
+<ul>
+<li>
+default text color (<code>ColorString</code>), defaults to <code>#FFFFFF</code>
+</li>
+</ul>
+</li>
+<li>
+<code>background=#RRGGBB</code>
+<ul>
+<li>
+table background color (<code>ColorString</code>), defaults to <code>#000000</code>
+</li>
+</ul>
+</li>
+<li>
+<code>border=&lt;true/false&gt;</code>
+<ul>
+<li>
+should the table be drawn with a border? (default: <code>true</code>)
+</li>
+</ul>
+</li>
+<li>
+<code>highlight=#RRGGBB</code>
+<ul>
+<li>
+highlight background color (<code>ColorString</code>), defaults to <code>#466432</code>
+</li>
+</ul>
+</li>
+<li>
+<code>highlight_text=#RRGGBB</code>
+<ul>
+<li>
+highlight text color (<code>ColorString</code>), defaults to <code>#FFFFFF</code>
+</li>
+</ul>
+</li>
+<li>
+<code>opendepth=&lt;value&gt;</code>
+<ul>
+<li>
+all subtrees up to <code>depth &lt; value</code> are open (default value = <code>0</code>)
+</li>
+<li>
+only useful when there is a column of type "tree"
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="tablecolumns[<type 1>,<opt 1a>,<opt 1b>,...;<type 2>,<opt 2a>,<opt 2b>;...]"><code>tablecolumns[&lt;type 1&gt;,&lt;opt 1a&gt;,&lt;opt 1b&gt;,...;&lt;type 2&gt;,&lt;opt 2a&gt;,&lt;opt 2b&gt;;...]</code></h3>
+<ul>
+<li>
+Sets columns for <code>table[]</code>
+</li>
+<li>
+Types: <code>text</code>, <code>image</code>, <code>color</code>, <code>indent</code>, <code>tree</code>
+<ul>
+<li>
+<code>text</code>:   show cell contents as text
+</li>
+<li>
+<code>image</code>:  cell contents are an image index, use column options to define                 images.
+</li>
+<li>
+<code>color</code>:  cell contents are a ColorString and define color of following                 cell.
+</li>
+<li>
+<code>indent</code>: cell contents are a number and define indentation of following                 cell.
+</li>
+<li>
+<code>tree</code>:   same as indent, but user can open and close subtrees                 (treeview-like).
+</li>
+</ul>
+</li>
+<li>
+Column options:
+<ul>
+<li>
+<code>align=&lt;value&gt;</code>
+<ul>
+<li>
+for <code>text</code> and <code>image</code>: content alignment within cells.           Available values: <code>left</code> (default), <code>center</code>, <code>right</code>, <code>inline</code>
+</li>
+</ul>
+</li>
+<li>
+<code>width=&lt;value&gt;</code>
+<ul>
+<li>
+for <code>text</code> and <code>image</code>: minimum width in em (default: <code>0</code>)
+</li>
+<li>
+for <code>indent</code> and <code>tree</code>: indent width in em (default: <code>1.5</code>)
+</li>
+</ul>
+</li>
+<li>
+<code>padding=&lt;value&gt;</code>: padding left of the column, in em (default <code>0.5</code>).       Exception: defaults to 0 for indent columns
+</li>
+<li>
+<code>tooltip=&lt;value&gt;</code>: tooltip text (default: empty)
+</li>
+<li>
+<code>image</code> column options:
+<ul>
+<li>
+<code>0=&lt;value&gt;</code> sets image for image index 0
+</li>
+<li>
+<code>1=&lt;value&gt;</code> sets image for image index 1
+</li>
+<li>
+<code>2=&lt;value&gt;</code> sets image for image index 2
+</li>
+<li>
+and so on; defined indices need not be contiguous empty or           non-numeric cells are treated as <code>0</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>color</code> column options:
+<ul>
+<li>
+<code>span=&lt;value&gt;</code>: number of following columns to affect           (default: infinite).
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="style[<selector 1>,<selector 2>;<prop1>;<prop2>;...]"><code>style[&lt;selector 1&gt;,&lt;selector 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]</code></h3>
+<ul>
+<li>
+Set the style for the element(s) matching <code>selector</code> by name.
+</li>
+<li>
+<code>selector</code> can be one of:
+<ul>
+<li>
+<code>&lt;name&gt;</code> - An element name. Includes <code>*</code>, which represents every element.
+</li>
+<li>
+<code>&lt;name&gt;:&lt;state&gt;</code> - An element name, a colon, and one or more states.
+</li>
+</ul>
+</li>
+<li>
+<code>state</code> is a list of states separated by the <code>+</code> character.
+<ul>
+<li>
+If a state is provided, the style will only take effect when the element is in that state.
+</li>
+<li>
+All provided states must be active for the style to apply.
+</li>
+</ul>
+</li>
+<li>
+Note: this <em>must</em> be before the element is defined.
+</li>
+<li>
+See <a href="Formspec.html#Styling Formspecs">Styling Formspecs</a>.
+</li>
+</ul>
+<h3 id="style_type[<selector 1>,<selector 2>;<prop1>;<prop2>;...]"><code>style_type[&lt;selector 1&gt;,&lt;selector 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]</code></h3>
+<ul>
+<li>
+Set the style for the element(s) matching <code>selector</code> by type.
+</li>
+<li>
+<code>selector</code> can be one of:
+<ul>
+<li>
+<code>&lt;type&gt;</code> - An element type. Includes <code>*</code>, which represents every element.
+</li>
+<li>
+<code>&lt;type&gt;:&lt;state&gt;</code> - An element type, a colon, and one or more states.
+</li>
+</ul>
+</li>
+<li>
+<code>state</code> is a list of states separated by the <code>+</code> character.
+<ul>
+<li>
+If a state is provided, the style will only take effect when the element is in that state.
+</li>
+<li>
+All provided states must be active for the style to apply.
+</li>
+</ul>
+</li>
+<li>
+See <a href="Formspec.html#Styling Formspecs">Styling Formspecs</a>.
+</li>
+</ul>
+<h3 id="set_focus[<name>;<force>]"><code>set_focus[&lt;name&gt;;&lt;force&gt;]</code></h3>
+<ul>
+<li>
+Sets the focus to the element with the same <code>name</code> parameter.
+</li>
+<li>
+<em>Note</em>: This element must be placed before the element it focuses.
+</li>
+<li>
+<code>force</code> (optional, default <code>false</code>): By default, focus is not applied for   re-sent formspecs with the same name so that player-set focus is kept.   <code>true</code> sets the focus to the specified element for every sent formspec.
+</li>
+<li>
+The following elements have the ability to be focused:
+<ul>
+<li>
+checkbox
+</li>
+<li>
+button
+</li>
+<li>
+button_exit
+</li>
+<li>
+image_button
+</li>
+<li>
+image_button_exit
+</li>
+<li>
+item_image_button
+</li>
+<li>
+table
+</li>
+<li>
+textlist
+</li>
+<li>
+dropdown
+</li>
+<li>
+field
+</li>
+<li>
+pwdfield
+</li>
+<li>
+textarea
+</li>
+<li>
+scrollbar
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Migrating to Real Coordinates">Migrating to Real Coordinates</h2>
+<p>
+In the old system, positions included padding and spacing. Padding is a gap between the formspec window edges and content, and spacing is the gaps between items. For example, two <code>1x1</code> elements at <code>0,0</code> and <code>1,1</code> would have a spacing of <code>5/4</code> between them, and a padding of <code>3/8</code> from the formspec edge. It may be easiest to recreate old layouts in the new coordinate system from scratch.
+</p>
+<p>
+To recreate an old layout with padding, you'll need to pass the positions and sizes through the following formula to re-introduce padding:
+</p>
+<pre>
+pos = (oldpos + 1)*spacing + padding
+where
+    padding = 3/8
+    spacing = 5/4
+</pre>
+<p>
+You'll need to change the <code>size[]</code> tag like this:
+</p>
+<pre>
+size = (oldsize-1)*spacing + padding*2 + 1
+</pre>
+<p>
+A few elements had random offsets in the old system. Here is a table which shows these offsets when migrating:
+</p>
+<p>
+<table>
+ <tr>
+  <th style="text-align:left;"> Element </th>
+  <th style="text-align:left;">  Position  </th>
+  <th style="text-align:left;">  Size   </th>
+  <th style="text-align:left;"> Notes</th>
+ </tr>
+<tr>
+  <td style="text-align:left;"> box     </td>
+  <td style="text-align:left;"> +0.3, +0.1 </td>
+  <td style="text-align:left;"> 0, -0.4 </td>
+  <td style="text-align:left;">&nbsp;</td>
+ </tr>
+<tr>
+  <td style="text-align:left;"> button  </td>
+  <td style="text-align:left;">            </td>
+  <td style="text-align:left;">         </td>
+  <td style="text-align:left;"> Buttons now support height, so set h = 2 * 15/13 * 0.35, and reposition if h ~= 15/13 * 0.35 before</td>
+ </tr>
+<tr>
+  <td style="text-align:left;"> list    </td>
+  <td style="text-align:left;">            </td>
+  <td style="text-align:left;">         </td>
+  <td style="text-align:left;"> Spacing is now 0.25 for both directions, meaning lists will be taller in height</td>
+ </tr>
+<tr>
+  <td style="text-align:left;"> label   </td>
+  <td style="text-align:left;"> 0, +0.3    </td>
+  <td style="text-align:left;">         </td>
+  <td style="text-align:left;"> The first line of text is now positioned centered exactly at the position specified</td>
+ </tr>
+</table>
+</p>
+<h2 id="Styling Formspecs">Styling Formspecs</h2>
+<p>
+Formspec elements can be themed using the style elements:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;style[&lt;name 1&gt;,&lt;name 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style[&lt;name 1&gt;:&lt;state&gt;,&lt;name 2&gt;:&lt;state&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[&lt;type 1&gt;,&lt;type 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[&lt;type 1&gt;:&lt;state&gt;,&lt;type 2&gt;:&lt;state&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+<p>
+Where a prop is:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;property_name=property_value
+<p>
+For example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[button;bgcolor=#006699]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style[world_delete;bgcolor=red;textcolor=yellow]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;button[4,3.95;2.6,1;world_delete;Delete]
+<p>
+A name/type can optionally be a comma separated list of names/types, like so:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;world_delete,world_create,world_configure
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;button,image_button
+<p>
+A <code>*</code> type can be used to select every element in the formspec.
+</p>
+<p>
+Any name/type in the list can also be accompanied by a <code>+</code>-separated list of states, like so:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;world_delete:hovered+pressed
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;button:pressed
+<p>
+States allow you to apply styles in response to changes in the element, instead of applying at all times.
+</p>
+<p>
+Setting a property to nothing will reset it to the default value. For example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[button;bgimg=button.png;bgimg_pressed=button_pressed.png;border=false]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style[btn_exit;bgimg=;bgimg_pressed=;border=;bgcolor=red]
+<h3 id="Supported Element Types">Supported Element Types</h3>
+<p>
+Some types may inherit styles from parent types.
+</p>
+<ul>
+<li>
+animated_image, inherits from image
+</li>
+<li>
+box
+</li>
+<li>
+button
+</li>
+<li>
+button_exit, inherits from button
+</li>
+<li>
+checkbox
+</li>
+<li>
+dropdown
+</li>
+<li>
+field
+</li>
+<li>
+image
+</li>
+<li>
+image_button
+</li>
+<li>
+item_image_button
+</li>
+<li>
+label
+</li>
+<li>
+model
+</li>
+<li>
+pwdfield, inherits from field
+</li>
+<li>
+scrollbar
+</li>
+<li>
+tabheader
+</li>
+<li>
+table
+</li>
+<li>
+textarea
+</li>
+<li>
+textlist
+</li>
+<li>
+vertlabel, inherits from label
+</li>
+</ul>
+<h3 id="Valid Properties">Valid Properties</h3>
+<ul>
+<li>
+animated_image
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+</ul>
+</li>
+<li>
+box
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+<ul>
+<li>
+Defaults to false in formspec_version version 3 or higher
+</li>
+</ul>
+</li>
+<li>
+<em>Note</em>: <code>colors</code>, <code>bordercolors</code>, and <code>borderwidths</code> accept multiple input types:
+<ul>
+<li>
+Single value (e.g. <code>#FF0</code>): All corners/borders.
+</li>
+<li>
+Two values (e.g. <code>red,#FFAAFF</code>): top-left and bottom-right,top-right and bottom-left/           top and bottom,left and right.
+</li>
+<li>
+Four values (e.g. <code>blue,#A0F,green,#FFFA</code>): top-left/top and rotates clockwise.
+</li>
+<li>
+These work similarly to CSS borders.
+</li>
+</ul>
+</li>
+<li>
+colors - <code>ColorString</code>. Sets the color(s) of the box corners. Default <code>black</code>.
+</li>
+<li>
+bordercolors - <code>ColorString</code>. Sets the color(s) of the borders. Default <code>black</code>.
+</li>
+<li>
+borderwidths - Integer. Sets the width(s) of the borders in pixels. If the width is       negative, the border will extend inside the box, whereas positive extends outside       the box. A width of zero results in no border; this is default.
+</li>
+</ul>
+</li>
+<li>
+button, button_exit, image_button, item_image_button
+<ul>
+<li>
+alpha - boolean, whether to draw alpha in bgimg. Default true.
+</li>
+<li>
+bgcolor - color, sets button tint.
+</li>
+<li>
+bgcolor_hovered - color when hovered. Defaults to a lighter bgcolor when not provided.
+<ul>
+<li>
+This is deprecated, use states instead.
+</li>
+</ul>
+</li>
+<li>
+bgcolor_pressed - color when pressed. Defaults to a darker bgcolor when not provided.
+<ul>
+<li>
+This is deprecated, use states instead.
+</li>
+</ul>
+</li>
+<li>
+bgimg - standard background image. Defaults to none.
+</li>
+<li>
+bgimg_hovered - background image when hovered. Defaults to bgimg when not provided.
+<ul>
+<li>
+This is deprecated, use states instead.
+</li>
+</ul>
+</li>
+<li>
+bgimg_middle - Makes the bgimg textures render in 9-sliced mode and defines the middle rect.                      See background9[] documentation for more details. This property also pads the                      button's content when set.
+</li>
+<li>
+bgimg_pressed - background image when pressed. Defaults to bgimg when not provided.
+<ul>
+<li>
+This is deprecated, use states instead.
+</li>
+</ul>
+</li>
+<li>
+font - Sets font type. This is a comma separated list of options. Valid options:
+</li>
+<li>
+Main font type options. These cannot be combined with each other:
+<ul>
+<li>
+<code>normal</code>: Default font
+</li>
+<li>
+<code>mono</code>: Monospaced font
+</li>
+</ul>
+</li>
+<li>
+Font modification options. If used without a main font type, <code>normal</code> is used:
+<ul>
+<li>
+<code>bold</code>: Makes font bold.
+</li>
+<li>
+<code>italic</code>: Makes font italic.       Default <code>normal</code>.
+</li>
+</ul>
+</li>
+<li>
+font_size - Sets font size. Default is user-set. Can have multiple values:
+</li>
+<li>
+<code>&lt;number&gt;</code>: Sets absolute font size to <code>number</code>.
+</li>
+<li>
+<code>+&lt;number&gt;</code>/<code>-&lt;number&gt;</code>: Offsets default font size by <code>number</code> points.
+</li>
+<li>
+<code>*&lt;number&gt;</code>: Multiplies default font size by <code>number</code>, similar to CSS <code>em</code>.
+</li>
+<li>
+border - boolean, draw border. Set to false to hide the bevelled button pane. Default true.
+</li>
+<li>
+content_offset - 2d vector, shifts the position of the button's content without resizing it.
+</li>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+<li>
+padding - rect, adds space between the edges of the button and the content. This value is                 relative to bgimg_middle.
+</li>
+<li>
+sound - a sound to be played when clicked.
+</li>
+<li>
+textcolor - color, default white.
+</li>
+</ul>
+</li>
+<li>
+checkbox
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+<li>
+sound - a sound to be played when clicked.
+</li>
+</ul>
+</li>
+<li>
+dropdown
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+<li>
+sound - a sound to be played when clicked.
+</li>
+</ul>
+</li>
+<li>
+field, pwdfield, textarea
+<ul>
+<li>
+border - set to false to hide the textbox background and border. Default true.
+</li>
+<li>
+font - Sets font type. See button <code>font</code> property for more information.
+</li>
+<li>
+font_size - Sets font size. See button <code>font_size</code> property for more information.
+</li>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+<li>
+textcolor - color. Default white.
+</li>
+</ul>
+</li>
+<li>
+model
+<ul>
+<li>
+bgcolor - color, sets background color.
+</li>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+<ul>
+<li>
+Default to false in formspec_version version 3 or higher
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+image
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+<ul>
+<li>
+Default to false in formspec_version version 3 or higher
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+item_image
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds. Default to false.
+</li>
+</ul>
+</li>
+<li>
+label, vertlabel
+<ul>
+<li>
+font - Sets font type. See button <code>font</code> property for more information.
+</li>
+<li>
+font_size - Sets font size. See button <code>font_size</code> property for more information.
+</li>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+</ul>
+</li>
+<li>
+image_button (additional properties)
+<ul>
+<li>
+fgimg - standard image. Defaults to none.
+</li>
+<li>
+fgimg_hovered - image when hovered. Defaults to fgimg when not provided.
+<ul>
+<li>
+This is deprecated, use states instead.
+</li>
+</ul>
+</li>
+<li>
+fgimg_pressed - image when pressed. Defaults to fgimg when not provided.
+<ul>
+<li>
+This is deprecated, use states instead.
+</li>
+</ul>
+</li>
+<li>
+NOTE: The parameters of any given image_button will take precedence over fgimg/fgimg_pressed
+</li>
+<li>
+sound - a sound to be played when clicked.
+</li>
+</ul>
+</li>
+<li>
+scrollbar
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+</ul>
+</li>
+<li>
+tabheader
+<ul>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+<li>
+sound - a sound to be played when clicked.
+</li>
+<li>
+textcolor - color. Default white.
+</li>
+</ul>
+</li>
+<li>
+table, textlist
+<ul>
+<li>
+font - Sets font type. See button <code>font</code> property for more information.
+</li>
+<li>
+font_size - Sets font size. See button <code>font_size</code> property for more information.
+</li>
+<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Valid States">Valid States</h3>
+<ul>
+<li>
+*all elements*
+<ul>
+<li>
+default - Equivalent to providing no states
+</li>
+</ul>
+</li>
+<li>
+button, button_exit, image_button, item_image_button
+<ul>
+<li>
+hovered - Active when the mouse is hovering over the element
+</li>
+<li>
+pressed - Active when the button is pressed
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Markup Language">Markup Language</h2>
+<p>
+Markup language used in <code>hypertext[]</code> elements uses tags that look like HTML tags. The markup language is currently unstable and subject to change. Use with caution. Some tags can enclose text, they open with <code>&lt;tagname&gt;</code> and close with <code>&lt;/tagname&gt;</code>. Tags can have attributes, in that case, attributes are in the opening tag in form of a key/value separated with equal signs. Attribute values should not be quoted.
+</p>
+<p>
+These are the technically basic tags but see below for usual tags. Base tags are:
+</p>
+<p>
+<code>&lt;style color=... font=... size=...&gt;...&lt;/style&gt;</code>
+</p>
+<p>
+Changes the style of the text.
+</p>
+<ul>
+<li>
+<code>color</code>: Text color. Given color is a <code>colorspec</code>.
+</li>
+<li>
+<code>size</code>: Text size.
+</li>
+<li>
+<code>font</code>: Text font (<code>mono</code> or <code>normal</code>).
+<br>
+<code>&lt;global background=... margin=... valign=... color=... hovercolor=... size=... font=... halign=... &gt;</code>
+<br>
+Sets global style.
+<br>
+Global only styles:
+</li>
+<li>
+<code>background</code>: Text background, a <code>colorspec</code> or <code>none</code>.
+</li>
+<li>
+<code>margin</code>: Page margins in pixel.
+</li>
+<li>
+<code>valign</code>: Text vertical alignment (<code>top</code>, <code>middle</code>, <code>bottom</code>).
+<br>
+Inheriting styles (affects child elements):
+</li>
+<li>
+<code>color</code>: Default text color. Given color is a <code>colorspec</code>.
+</li>
+<li>
+<code>hovercolor</code>: Color of &lt;action&gt; tags when mouse is over.
+</li>
+<li>
+<code>size</code>: Default text size.
+</li>
+<li>
+<code>font</code>: Default text font (<code>mono</code> or <code>normal</code>).
+</li>
+<li>
+<code>halign</code>: Default text horizontal alignment (<code>left</code>, <code>right</code>, <code>center</code>, <code>justify</code>).
+<br>
+This tag needs to be placed only once as it changes the global settings of the
+<br>
+text. Anyway, if several tags are placed, each changed will be made in the order
+<br>
+tags appear.
+<br>
+<code>&lt;tag name=... color=... hovercolor=... font=... size=...&gt;</code>
+<br>
+Defines or redefines tag style. This can be used to define new tags.
+</li>
+<li>
+<code>name</code>: Name of the tag to define or change.
+</li>
+<li>
+<code>color</code>: Text color. Given color is a <code>colorspec</code>.
+</li>
+<li>
+<code>hovercolor</code>: Text color when element hovered (only for <code>action</code> tags). Given color is a <code>colorspec</code>.
+</li>
+<li>
+<code>size</code>: Text size.
+</li>
+<li>
+<code>font</code>: Text font (<code>mono</code> or <code>normal</code>).
+<br>
+Following tags are the usual tags for text layout. They are defined by default.
+<br>
+Other tags can be added using <code>&lt;tag ...&gt;</code> tag.
+<br>
+<code>&lt;normal&gt;...&lt;/normal&gt;</code>: Normal size text
+<br>
+<code>&lt;big&gt;...&lt;/big&gt;</code>: Big text
+<br>
+<code>&lt;bigger&gt;...&lt;/bigger&gt;</code>: Bigger text
+<br>
+<code>&lt;center&gt;...&lt;/center&gt;</code>: Centered text
+<br>
+<code>&lt;left&gt;...&lt;/left&gt;</code>: Left-aligned text
+<br>
+<code>&lt;right&gt;...&lt;/right&gt;</code>: Right-aligned text
+<br>
+<code>&lt;justify&gt;...&lt;/justify&gt;</code>: Justified text
+<br>
+<code>&lt;mono&gt;...&lt;/mono&gt;</code>: Monospaced font
+<br>
+<code>&lt;b&gt;...&lt;/b&gt;</code>, <code>&lt;i&gt;...&lt;/i&gt;</code>, <code>&lt;u&gt;...&lt;/u&gt;</code>: Bold, italic, underline styles.
+<br>
+<code>&lt;action name=...&gt;...&lt;/action&gt;</code>
+<br>
+Make that text a clickable text triggering an action.
+</li>
+<li>
+<code>name</code>: Name of the action (mandatory).
+<br>
+When clicked, the formspec is send to the server. The value of the text field
+<br>
+sent to <code>on_player_receive_fields</code> will be "action:" concatenated to the action
+<br>
+name.
+<br>
+<code>&lt;img name=... float=... width=... height=...&gt;</code>
+<br>
+Draws an image which is present in the client media cache.
+</li>
+<li>
+<code>name</code>: Name of the texture (mandatory).
+</li>
+<li>
+<code>float</code>: If present, makes the image floating (<code>left</code> or <code>right</code>).
+</li>
+<li>
+<code>width</code>: Force image width instead of taking texture width.
+</li>
+<li>
+<code>height</code>: Force image height instead of taking texture height.
+<br>
+If only width or height given, texture aspect is kept.
+<br>
+<code>&lt;item name=... float=... width=... height=... rotate=...&gt;</code>
+<br>
+Draws an item image.
+</li>
+<li>
+<code>name</code>: Item string of the item to draw (mandatory).
+</li>
+<li>
+<code>float</code>: If present, makes the image floating (<code>left</code> or <code>right</code>).
+</li>
+<li>
+<code>width</code>: Item image width.
+</li>
+<li>
+<code>height</code>: Item image height.
+</li>
+<li>
+<code>rotate</code>: Rotate item image if set to <code>yes</code> or <code>X,Y,Z</code>. X, Y and Z being rotation speeds in percent of standard speed (-1000 to 1000). Works only if <code>inventory_items_animations</code> is set to true.
+</li>
+<li>
+<code>angle</code>: Angle in which the item image is shown. Value has <code>X,Y,Z</code> form. X, Y and Z being angles around each three axes. Works only if <code>inventory_items_animations</code> is set to true.
+</li>
+</ul>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec">Index</a></p>
+<br>
+</body>
+</html>

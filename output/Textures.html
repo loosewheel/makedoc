@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Textures">Index</a></p>
+<h1 id="Textures">Textures</h1>
+<p>
+Mods should generally prefix their textures with <code>modname_</code>, e.g. given the mod name <code>foomod</code>, a texture could be called:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;foomod_foothing.png
+<p>
+Textures are referred to by their complete name, or alternatively by stripping out the file extension:
+</p>
+<ul>
+<li>
+e.g. <code>foomod_foothing.png</code>
+</li>
+<li>
+e.g. <code>foomod_foothing</code>
+</li>
+</ul>
+<h2 id="Texture modifiers">Texture modifiers</h2>
+<p>
+There are various texture modifiers that can be used to let the client generate textures on-the-fly. The modifiers are applied directly in sRGB colorspace, i.e. without gamma-correction.
+</p>
+<h3 id="Texture overlaying">Texture overlaying</h3>
+<p>
+Textures can be overlaid by putting a <code>^</code> between them.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;default_dirt.png^default_grass_side.png
+<p>
+<code>default_grass_side.png</code> is overlaid over <code>default_dirt.png</code>. The texture with the lower resolution will be automatically upscaled to the higher resolution texture.
+</p>
+<h3 id="Texture grouping">Texture grouping</h3>
+<p>
+Textures can be grouped together by enclosing them in <code>(</code> and <code>)</code>.
+</p>
+<p>
+Example: <code>cobble.png^(thing1.png^thing2.png)</code>
+</p>
+<p>
+A texture for <code>thing1.png^thing2.png</code> is created and the resulting texture is overlaid on top of <code>cobble.png</code>.
+</p>
+<h3 id="Escaping">Escaping</h3>
+<p>
+Modifiers that accept texture names (e.g. <code>[combine</code>) accept escaping to allow passing complex texture names as arguments. Escaping is done with backslash and is required for <code>^</code> and <code>:</code>.
+</p>
+<p>
+Example: <code>cobble.png^[lowpart:50:color.png\^[mask\:trans.png</code>
+</p>
+<p>
+The lower 50 percent of <code>color.png^[mask:trans.png</code> are overlaid on top of <code>cobble.png</code>.
+</p>
+<h3 id="Advanced texture modifiers">Advanced texture modifiers</h3>
+<h4 id="Crack">Crack</h4>
+<ul>
+<li>
+<code>[crack:&lt;n&gt;:&lt;p&gt;</code>
+</li>
+<li>
+<code>[cracko:&lt;n&gt;:&lt;p&gt;</code>
+</li>
+<li>
+<code>[crack:&lt;t&gt;:&lt;n&gt;:&lt;p&gt;</code>
+</li>
+<li>
+<code>[cracko:&lt;t&gt;:&lt;n&gt;:&lt;p&gt;</code>
+<br>
+Parameters:
+</li>
+<li>
+<code>&lt;t&gt;</code>: tile count (in each direction)
+</li>
+<li>
+<code>&lt;n&gt;</code>: animation frame count
+</li>
+<li>
+<code>&lt;p&gt;</code>: current animation frame
+<br>
+Draw a step of the crack animation on the texture.
+<br>
+<code>crack</code> draws it normally, while <code>cracko</code> lays it over, keeping transparent
+<br>
+pixels intact.
+<br>
+Example:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;default_cobble.png^[crack:10:1
+</li>
+</ul>
+<h4 id="[combine:<w>x<h>:<x1>,<y1>=<file1>:<x2>,<y2>=<file2>:..."><code>[combine:&lt;w&gt;x&lt;h&gt;:&lt;x1&gt;,&lt;y1&gt;=&lt;file1&gt;:&lt;x2&gt;,&lt;y2&gt;=&lt;file2&gt;:...</code></h4>
+<ul>
+<li>
+<code>&lt;w&gt;</code>: width
+</li>
+<li>
+<code>&lt;h&gt;</code>: height
+</li>
+<li>
+<code>&lt;x&gt;</code>: x position
+</li>
+<li>
+<code>&lt;y&gt;</code>: y position
+</li>
+<li>
+<code>&lt;file&gt;</code>: texture to combine
+<br>
+Creates a texture of size <code>&lt;w&gt;</code> times <code>&lt;h&gt;</code> and blits the listed files to their
+<br>
+specified coordinates.
+<br>
+Example:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[combine:16x32:0,0=default_cobble.png:0,16=default_wood.png
+</li>
+</ul>
+<h4 id="[resize:<w>x<h>"><code>[resize:&lt;w&gt;x&lt;h&gt;</code></h4>
+<p>
+Resizes the texture to the given dimensions.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;default_sandstone.png^[resize:16x16
+<h4 id="[opacity:<r>"><code>[opacity:&lt;r&gt;</code></h4>
+<p>
+Makes the base image transparent according to the given ratio.
+</p>
+<p>
+<code>r</code> must be between 0 (transparent) and 255 (opaque).
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;default_sandstone.png^[opacity:127
+<h4 id="[invert:<mode>"><code>[invert:&lt;mode&gt;</code></h4>
+<p>
+Inverts the given channels of the base image. Mode may contain the characters "r", "g", "b", "a". Only the channels that are mentioned in the mode string will be inverted.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;default_apple.png^[invert:rgb
+<h4 id="[brighten"><code>[brighten</code></h4>
+<p>
+Brightens the texture.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;tnt_tnt_side.png^[brighten
+<h4 id="[noalpha"><code>[noalpha</code></h4>
+<p>
+Makes the texture completely opaque.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;default_leaves.png^[noalpha
+<h4 id="[makealpha:<r>,<g>,<b>"><code>[makealpha:&lt;r&gt;,&lt;g&gt;,&lt;b&gt;</code></h4>
+<p>
+Convert one color to transparency.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;default_cobble.png^[makealpha:128,128,128
+<h4 id="[transform<t>"><code>[transform&lt;t&gt;</code></h4>
+<ul>
+<li>
+<code>&lt;t&gt;</code>: transformation(s) to apply
+<br>
+Rotates and/or flips the image.
+<br>
+<code>&lt;t&gt;</code> can be a number (between 0 and 7) or a transform name.
+<br>
+Rotations are counter-clockwise.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;0  I      identity
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1  R90    rotate by 90 degrees
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;2  R180   rotate by 180 degrees
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3  R270   rotate by 270 degrees
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4  FX     flip X
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5  FXR90  flip X then rotate by 90 degrees
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6  FY     flip Y
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;7  FYR90  flip Y then rotate by 90 degrees
+<br>
+Example:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;default_stone.png^[transformFXR90
+</li>
+</ul>
+<h4 id="[inventorycube{<top>{<left>{<right>"><code>[inventorycube{&lt;top&gt;{&lt;left&gt;{&lt;right&gt;</code></h4>
+<p>
+Escaping does not apply here and <code>^</code> is replaced by <code>&</code> in texture names instead.
+</p>
+<p>
+Create an inventory cube texture using the side textures.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;[inventorycube{grass.png{dirt.png&grass_side.png{dirt.png&grass_side.png
+<p>
+Creates an inventorycube with <code>grass.png</code>, <code>dirt.png^grass_side.png</code> and <code>dirt.png^grass_side.png</code> textures
+</p>
+<h4 id="[lowpart:<percent>:<file>"><code>[lowpart:&lt;percent&gt;:&lt;file&gt;</code></h4>
+<p>
+Blit the lower <code>&lt;percent&gt;</code>% part of <code>&lt;file&gt;</code> on the texture.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;base.png^[lowpart:25:overlay.png
+<h4 id="[verticalframe:<t>:<n>"><code>[verticalframe:&lt;t&gt;:&lt;n&gt;</code></h4>
+<ul>
+<li>
+<code>&lt;t&gt;</code>: animation frame count
+</li>
+<li>
+<code>&lt;n&gt;</code>: current animation frame
+<br>
+Crops the texture to a frame of a vertical animation.
+<br>
+Example:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;default_torch_animated.png^[verticalframe:16:8
+</li>
+</ul>
+<h4 id="[mask:<file>"><code>[mask:&lt;file&gt;</code></h4>
+<p>
+Apply a mask to the base image.
+</p>
+<p>
+The mask is applied using binary AND.
+</p>
+<h4 id="[sheet:<w>x<h>:<x>,<y>"><code>[sheet:&lt;w&gt;x&lt;h&gt;:&lt;x&gt;,&lt;y&gt;</code></h4>
+<p>
+Retrieves a tile at position x,y from the base image which it assumes to be a tilesheet with dimensions w,h.
+</p>
+<h4 id="[colorize:<color>:<ratio>"><code>[colorize:&lt;color&gt;:&lt;ratio&gt;</code></h4>
+<p>
+Colorize the textures with the given color. <code>&lt;color&gt;</code> is specified as a <code>ColorString</code>. <code>&lt;ratio&gt;</code> is an int ranging from 0 to 255 or the word "<code>alpha</code>".  If it is an int, then it specifies how far to interpolate between the colors where 0 is only the texture color and 255 is only <code>&lt;color&gt;</code>. If omitted, the alpha of <code>&lt;color&gt;</code> will be used as the ratio.  If it is the word "<code>alpha</code>", then each texture pixel will contain the RGB of <code>&lt;color&gt;</code> and the alpha of <code>&lt;color&gt;</code> multiplied by the alpha of the texture pixel.
+</p>
+<h4 id="[multiply:<color>"><code>[multiply:&lt;color&gt;</code></h4>
+<p>
+Multiplies texture colors with the given color. <code>&lt;color&gt;</code> is specified as a <code>ColorString</code>. Result is more like what you'd expect if you put a color on top of another color, meaning white surfaces get a lot of your new color while black parts don't change very much.
+</p>
+<h2 id="Hardware coloring">Hardware coloring</h2>
+<p>
+The goal of hardware coloring is to simplify the creation of colorful nodes. If your textures use the same pattern, and they only differ in their color (like colored wool blocks), you can use hardware coloring instead of creating and managing many texture files. All of these methods use color multiplication (so a white-black texture with red coloring will result in red-black color).
+</p>
+<h3 id="Static coloring">Static coloring</h3>
+<p>
+This method is useful if you wish to create nodes/items with the same texture, in different colors, each in a new node/item definition.
+</p>
+<h4 id="Global color">Global color</h4>
+<p>
+When you register an item or node, set its <code>color</code> field (which accepts a <code>ColorSpec</code>) to the desired color.
+</p>
+<p>
+An <code>ItemStack</code>'s static color can be overwritten by the <code>color</code> metadata field. If you set that field to a <code>ColorString</code>, that color will be used.
+</p>
+<h4 id="Tile color">Tile color</h4>
+<p>
+Each tile may have an individual static color, which overwrites every other coloring method. To disable the coloring of a face, set its color to white (because multiplying with white does nothing). You can set the <code>color</code> property of the tiles in the node's definition if the tile is in table format.
+</p>
+<h3 id="Palettes">Palettes</h3>
+<p>
+For nodes and items which can have many colors, a palette is more suitable. A palette is a texture, which can contain up to 256 pixels. Each pixel is one possible color for the node/item. You can register one node/item, which can have up to 256 colors.
+</p>
+<h4 id="Palette indexing">Palette indexing</h4>
+<p>
+When using palettes, you always provide a pixel index for the given node or <code>ItemStack</code>. The palette is read from left to right and from top to bottom. If the palette has less than 256 pixels, then it is stretched to contain exactly 256 pixels (after arranging the pixels to one line). The indexing starts from 0.
+</p>
+<p>
+Examples:
+</p>
+<ul>
+<li>
+16x16 palette, index = 0: the top left corner
+</li>
+<li>
+16x16 palette, index = 4: the fifth pixel in the first row
+</li>
+<li>
+16x16 palette, index = 16: the pixel below the top left corner
+</li>
+<li>
+16x16 palette, index = 255: the bottom right corner
+</li>
+<li>
+2 (width) x 4 (height) palette, index = 31: the top left corner.   The palette has 8 pixels, so each pixel is stretched to 32 pixels,   to ensure the total 256 pixels.
+</li>
+<li>
+2x4 palette, index = 32: the top right corner
+</li>
+<li>
+2x4 palette, index = 63: the top right corner
+</li>
+<li>
+2x4 palette, index = 64: the pixel below the top left corner
+</li>
+</ul>
+<h4 id="Using palettes with items">Using palettes with items</h4>
+<p>
+When registering an item, set the item definition's <code>palette</code> field to a texture. You can also use texture modifiers.
+</p>
+<p>
+The <code>ItemStack</code>'s color depends on the <code>palette_index</code> field of the stack's metadata. <code>palette_index</code> is an integer, which specifies the index of the pixel to use.
+</p>
+<h4 id="Linking palettes with nodes">Linking palettes with nodes</h4>
+<p>
+When registering a node, set the item definition's <code>palette</code> field to a texture. You can also use texture modifiers. The node's color depends on its <code>param2</code>, so you also must set an appropriate <code>paramtype2</code>:
+</p>
+<ul>
+<li>
+<code>paramtype2 = "color"</code> for nodes which use their full <code>param2</code> for   palette indexing. These nodes can have 256 different colors.   The palette should contain 256 pixels.
+</li>
+<li>
+<code>paramtype2 = "colorwallmounted"</code> for nodes which use the first   five bits (most significant) of <code>param2</code> for palette indexing.   The remaining three bits are describing rotation, as in <code>wallmounted</code>   paramtype2. Division by 8 yields the palette index (without stretching the   palette). These nodes can have 32 different colors, and the palette   should contain 32 pixels.   Examples:
+<ul>
+<li>
+<code>param2 = 17</code> is 2 * 8 + 1, so the rotation is 1 and the third (= 2 + 1)       pixel will be picked from the palette.
+</li>
+<li>
+<code>param2 = 35</code> is 4 * 8 + 3, so the rotation is 3 and the fifth (= 4 + 1)       pixel will be picked from the palette.
+</li>
+</ul>
+</li>
+<li>
+<code>paramtype2 = "colorfacedir"</code> for nodes which use the first   three bits of <code>param2</code> for palette indexing. The remaining   five bits are describing rotation, as in <code>facedir</code> paramtype2.   Division by 32 yields the palette index (without stretching the   palette). These nodes can have 8 different colors, and the   palette should contain 8 pixels.   Examples:
+<ul>
+<li>
+<code>param2 = 17</code> is 0 * 32 + 17, so the rotation is 17 and the       first (= 0 + 1) pixel will be picked from the palette.
+</li>
+<li>
+<code>param2 = 35</code> is 1 * 32 + 3, so the rotation is 3 and the       second (= 1 + 1) pixel will be picked from the palette.
+<br>
+To colorize a node on the map, set its <code>param2</code> value (according
+<br>
+to the node's paramtype2).
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Conversion between nodes in the inventory and on the map">Conversion between nodes in the inventory and on the map</h3>
+<p>
+Static coloring is the same for both cases, there is no need for conversion.
+</p>
+<p>
+If the <code>ItemStack</code>'s metadata contains the <code>color</code> field, it will be lost on placement, because nodes on the map can only use palettes.
+</p>
+<p>
+If the <code>ItemStack</code>'s metadata contains the <code>palette_index</code> field, it is automatically transferred between node and item forms by the engine, when a player digs or places a colored node. You can disable this feature by setting the <code>drop</code> field of the node to itself (without metadata). To transfer the color to a special drop, you need a drop table.
+</p>
+<p>
+Example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.register_node("mod:stone", {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description = "Stone",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tiles = {"default_stone.png"},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paramtype2 = "color",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;palette = "palette.png",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drop = {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items = {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- assume that mod:cobblestone also has the same palette
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{items = {"mod:cobblestone"}, inherit_color = true },
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})
+<h3 id="Colored items in craft recipes">Colored items in craft recipes</h3>
+<p>
+Craft recipes only support item strings, but fortunately item strings can also contain metadata. Example craft recipe registration:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.register_craft({
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output = minetest.itemstring_with_palette("wool:block", 3),
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type = "shapeless",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recipe = {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"wool:block",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"dye:red",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})
+<p>
+To set the <code>color</code> field, you can use <code>minetest.itemstring_with_color</code>.
+</p>
+<p>
+Metadata field filtering in the <code>recipe</code> field are not supported yet, so the craft output is independent of the color of the ingredients.
+</p>
+<h2 id="Soft texture overlay">Soft texture overlay</h2>
+<p>
+Sometimes hardware coloring is not enough, because it affects the whole tile. Soft texture overlays were added to Minetest to allow the dynamic coloring of only specific parts of the node's texture. For example a grass block may have colored grass, while keeping the dirt brown.
+</p>
+<p>
+These overlays are 'soft', because unlike texture modifiers, the layers are not merged in the memory, but they are simply drawn on top of each other. This allows different hardware coloring, but also means that tiles with overlays are drawn slower. Using too much overlays might cause FPS loss.
+</p>
+<p>
+For inventory and wield images you can specify overlays which hardware coloring does not modify. You have to set <code>inventory_overlay</code> and <code>wield_overlay</code> fields to an image name.
+</p>
+<p>
+To define a node overlay, simply set the <code>overlay_tiles</code> field of the node definition. These tiles are defined in the same way as plain tiles: they can have a texture name, color etc. To skip one face, set that overlay tile to an empty string.
+</p>
+<p>
+Example (colored grass block):
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.register_node("default:dirt_with_grass", {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description = "Dirt with Grass",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Regular tiles, as usual
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- The dirt tile disables palette coloring
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tiles = {{name = "default_grass.png"},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{name = "default_dirt.png", color = "white"}},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Overlay tiles: define them in the same style
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- The top and bottom tile does not have overlay
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay_tiles = {"", "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{name = "default_grass_side.png"}},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Global color, used in inventory
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color = "green",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Palette in the world
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paramtype2 = "color",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;palette = "default_foilage.png",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Textures">Index</a></p>
+<br>
+</body>
+</html>

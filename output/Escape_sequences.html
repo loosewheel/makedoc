@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Escape_sequences">Index</a></p>
+<h1 id="Escape sequences">Escape sequences</h1>
+<p>
+Most text can contain escape sequences, that can for example color the text. There are a few exceptions: tab headers, dropdowns and vertical labels can't. The following functions provide escape sequences:
+</p>
+<ul>
+<li>
+<code>minetest.get_color_escape_sequence(color)</code>:
+<ul>
+<li>
+<code>color</code> is a ColorString
+</li>
+<li>
+The escape sequence sets the text color to <code>color</code>
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.colorize(color, message)</code>:
+<ul>
+<li>
+Equivalent to:       <code>minetest.get_color_escape_sequence(color) ..       message ..       minetest.get_color_escape_sequence("#ffffff")</code>
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.get_background_escape_sequence(color)</code>
+<ul>
+<li>
+<code>color</code> is a ColorString
+</li>
+<li>
+The escape sequence sets the background of the whole text element to       <code>color</code>. Only defined for item descriptions and tooltips.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.strip_foreground_colors(str)</code>
+<ul>
+<li>
+Removes foreground colors added by <code>get_color_escape_sequence</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.strip_background_colors(str)</code>
+<ul>
+<li>
+Removes background colors added by <code>get_background_escape_sequence</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.strip_colors(str)</code>
+<ul>
+<li>
+Removes all color escape sequences.
+</li>
+</ul>
+</li>
+</ul>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Escape_sequences">Index</a></p>
+<br>
+</body>
+</html>

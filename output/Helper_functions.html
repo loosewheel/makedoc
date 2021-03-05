@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Helper_functions">Index</a></p>
+<h1 id="Helper functions">Helper functions</h1>
+<ul>
+<li>
+<code>dump2(obj, name, dumped)</code>: returns a string which makes <code>obj</code>   human-readable, handles reference loops.
+<ul>
+<li>
+<code>obj</code>: arbitrary variable
+</li>
+<li>
+<code>name</code>: string, default: <code>"_"</code>
+</li>
+<li>
+<code>dumped</code>: table, default: <code>{}</code>
+</li>
+</ul>
+</li>
+<li>
+<code>dump(obj, dumped)</code>: returns a string which makes <code>obj</code> human-readable
+<ul>
+<li>
+<code>obj</code>: arbitrary variable
+</li>
+<li>
+<code>dumped</code>: table, default: <code>{}</code>
+</li>
+</ul>
+</li>
+<li>
+<code>math.hypot(x, y)</code>
+<ul>
+<li>
+Get the hypotenuse of a triangle with legs x and y.       Useful for distance calculation.
+</li>
+</ul>
+</li>
+<li>
+<code>math.sign(x, tolerance)</code>: returns <code>-1</code>, <code>0</code> or <code>1</code>
+<ul>
+<li>
+Get the sign of a number.
+</li>
+<li>
+tolerance: number, default: <code>0.0</code>
+</li>
+<li>
+If the absolute value of <code>x</code> is within the <code>tolerance</code> or <code>x</code> is NaN,       <code>0</code> is returned.
+</li>
+</ul>
+</li>
+<li>
+<code>math.factorial(x)</code>: returns the factorial of <code>x</code>
+</li>
+<li>
+<code>string.split(str, separator, include_empty, max_splits, sep_is_pattern)</code>
+<ul>
+<li>
+<code>separator</code>: string, default: <code>","</code>
+</li>
+<li>
+<code>include_empty</code>: boolean, default: <code>false</code>
+</li>
+<li>
+<code>max_splits</code>: number, if it's negative, splits aren't limited,       default: <code>-1</code>
+</li>
+<li>
+<code>sep_is_pattern</code>: boolean, it specifies whether separator is a plain       string or a pattern (regex), default: <code>false</code>
+</li>
+<li>
+e.g. <code>"a,b":split","</code> returns <code>{"a","b"}</code>
+</li>
+</ul>
+</li>
+<li>
+<code>string:trim()</code>: returns the string without whitespace pre- and suffixes
+<ul>
+<li>
+e.g. <code>"\n \t\tfoo bar\t ":trim()</code> returns <code>"foo bar"</code>
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.wrap_text(str, limit, as_table)</code>: returns a string or table
+<ul>
+<li>
+Adds newlines to the string to keep it within the specified character       limit
+</li>
+<li>
+Note that the returned lines may be longer than the limit since it only       splits at word borders.
+</li>
+<li>
+<code>limit</code>: number, maximal amount of characters in one line
+</li>
+<li>
+<code>as_table</code>: boolean, if set to true, a table of lines instead of a string       is returned, default: <code>false</code>
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.pos_to_string(pos, decimal_places)</code>: returns string <code>"(X,Y,Z)"</code>
+<ul>
+<li>
+<code>pos</code>: table {x=X, y=Y, z=Z}
+</li>
+<li>
+Converts the position <code>pos</code> to a human-readable, printable string
+</li>
+<li>
+<code>decimal_places</code>: number, if specified, the x, y and z values of       the position are rounded to the given decimal place.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.string_to_pos(string)</code>: returns a position or <code>nil</code>
+<ul>
+<li>
+Same but in reverse.
+</li>
+<li>
+If the string can't be parsed to a position, nothing is returned.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.string_to_area("(X1, Y1, Z1) (X2, Y2, Z2)")</code>: returns two positions
+<ul>
+<li>
+Converts a string representing an area box into two positions
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.formspec_escape(string)</code>: returns a string
+<ul>
+<li>
+escapes the characters "[", "]", "\", "," and ";", which can not be used       in formspecs.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.is_yes(arg)</code>
+<ul>
+<li>
+returns true if passed 'y', 'yes', 'true' or a number that isn't zero.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.is_nan(arg)</code>
+<ul>
+<li>
+returns true when the passed number represents NaN.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.get_us_time()</code>
+<ul>
+<li>
+returns time with microsecond precision. May not return wall time.
+</li>
+<li>
+This value might overflow on certain 32-bit systems!
+</li>
+</ul>
+</li>
+<li>
+<code>table.copy(table)</code>: returns a table
+<ul>
+<li>
+returns a deep copy of <code>table</code>
+</li>
+</ul>
+</li>
+<li>
+<code>table.indexof(list, val)</code>: returns the smallest numerical index containing       the value <code>val</code> in the table <code>list</code>. Non-numerical indices are ignored.       If <code>val</code> could not be found, <code>-1</code> is returned. <code>list</code> must not have       negative indices.
+</li>
+<li>
+<code>table.insert_all(table, other_table)</code>:
+<ul>
+<li>
+Appends all values in <code>other_table</code> to <code>table</code> - uses <code>#table + 1</code> to       find new indices.
+</li>
+</ul>
+</li>
+<li>
+<code>table.key_value_swap(t)</code>: returns a table with keys and values swapped
+<ul>
+<li>
+If multiple keys in <code>t</code> map to the same value, the result is undefined.
+</li>
+</ul>
+</li>
+<li>
+<code>table.shuffle(table, [from], [to], [random_func])</code>:
+<ul>
+<li>
+Shuffles elements <code>from</code> to <code>to</code> in <code>table</code> in place
+</li>
+<li>
+<code>from</code> defaults to <code>1</code>
+</li>
+<li>
+<code>to</code> defaults to <code>#table</code>
+</li>
+<li>
+<code>random_func</code> defaults to <code>math.random</code>. This function receives two       integers as arguments and should return a random integer inclusively       between them.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.pointed_thing_to_face_pos(placer, pointed_thing)</code>: returns a   position.
+<ul>
+<li>
+returns the exact position on the surface of a pointed node
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.get_dig_params(groups, tool_capabilities)</code>: Simulates a tool     that digs a node.     Returns a table with the following fields:
+<ul>
+<li>
+<code>diggable</code>: <code>true</code> if node can be dug, <code>false</code> otherwise.
+</li>
+<li>
+<code>time</code>: Time it would take to dig the node.
+</li>
+<li>
+<code>wear</code>: How much wear would be added to the tool.     <code>time</code> and <code>wear</code> are meaningless if node's not diggable     Parameters:
+</li>
+<li>
+<code>groups</code>: Table of the node groups of the node that would be dug
+</li>
+<li>
+<code>tool_capabilities</code>: Tool capabilities table of the tool
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.get_hit_params(groups, tool_capabilities [, time_from_last_punch])</code>:     Simulates an item that punches an object.     Returns a table with the following fields:
+<ul>
+<li>
+<code>hp</code>: How much damage the punch would cause.
+</li>
+<li>
+<code>wear</code>: How much wear would be added to the tool.     Parameters:
+</li>
+<li>
+<code>groups</code>: Damage groups of the object
+</li>
+<li>
+<code>tool_capabilities</code>: Tool capabilities table of the item
+</li>
+<li>
+<code>time_from_last_punch</code>: time in seconds since last punch action
+</li>
+</ul>
+</li>
+</ul>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Helper_functions">Index</a></p>
+<br>
+</body>
+</html>

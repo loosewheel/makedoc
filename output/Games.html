@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Games">Index</a></p>
+<h1 id="Games">Games</h1>
+<p>
+Games are looked up from:
+</p>
+<ul>
+<li>
+<code>$path_share/games/&lt;gameid&gt;/</code>
+</li>
+<li>
+<code>$path_user/games/&lt;gameid&gt;/</code>
+<br>
+Where <code>&lt;gameid&gt;</code> is unique to each game.
+<br>
+The game directory can contain the following files:
+</li>
+<li>
+<code>game.conf</code>, with the following keys:
+<ul>
+<li>
+<code>name</code>: Required, a human readable title to address the game, e.g. <code>name = Minetest</code>.
+</li>
+<li>
+<code>description</code>: Short description to be shown in the content tab
+</li>
+<li>
+<code>allowed_mapgens = &lt;comma-separated mapgens&gt;</code>       e.g. <code>allowed_mapgens = v5,v6,flat</code>       Mapgens not in this list are removed from the list of mapgens for the       game.       If not specified, all mapgens are allowed.
+</li>
+<li>
+<code>disallowed_mapgens = &lt;comma-separated mapgens&gt;</code>       e.g. <code>disallowed_mapgens = v5,v6,flat</code>       These mapgens are removed from the list of mapgens for the game.       When both <code>allowed_mapgens</code> and <code>disallowed_mapgens</code> are       specified, <code>allowed_mapgens</code> is applied before       <code>disallowed_mapgens</code>.
+</li>
+<li>
+<code>disallowed_mapgen_settings= &lt;comma-separated mapgen settings&gt;</code>       e.g. <code>disallowed_mapgen_settings = mgv5_spflags</code>       These settings are hidden for this game in the world creation       dialog and game start menu.
+</li>
+<li>
+<code>author</code>: The author of the game. It only appears when downloaded from                 ContentDB.
+</li>
+<li>
+<code>release</code>: Ignore this: Should only ever be set by ContentDB, as it is                  an internal ID used to track versions.
+</li>
+</ul>
+</li>
+<li>
+<code>minetest.conf</code>:   Used to set default settings when running this game.
+</li>
+<li>
+<code>settingtypes.txt</code>:   In the same format as the one in builtin.   This settingtypes.txt will be parsed by the menu and the settings will be   displayed in the "Games" category in the advanced settings tab.
+</li>
+<li>
+If the game contains a folder called <code>textures</code> the server will load it as a   texturepack, overriding mod textures.   Any server texturepack will override mod textures and the game texturepack.
+</li>
+</ul>
+<h2 id="Menu images">Menu images</h2>
+<p>
+Games can provide custom main menu images. They are put inside a <code>menu</code> directory inside the game directory.
+</p>
+<p>
+The images are named <code>$identifier.png</code>, where <code>$identifier</code> is one of <code>overlay</code>, <code>background</code>, <code>footer</code>, <code>header</code>. If you want to specify multiple images for one identifier, add additional images named like <code>$identifier.$n.png</code>, with an ascending number $n starting with 1, and a random image will be chosen from the provided ones.
+</p>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Games">Index</a></p>
+<br>
+</body>
+</html>

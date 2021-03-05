@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Registered_definitions">Index</a></p>
+<h1 id="Registered definitions">Registered definitions</h1>
+<p>
+Anything added using certain <a href="minetest_namespace_reference.html#Registration functions">Registration functions</a> gets added to one or more of the global <a href="minetest_namespace_reference.html#Registered definition tables">Registered definition tables</a>.
+</p>
+<p>
+Note that in some cases you will stumble upon things that are not contained in these tables (e.g. when a mod has been removed). Always check for existence before trying to access the fields.
+</p>
+<p>
+Example:
+</p>
+<p>
+All nodes register with <code>minetest.register_node</code> get added to the table <code>minetest.registered_nodes</code>.
+</p>
+<p>
+If you want to check the drawtype of a node, you could do:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;local function get_nodedef_field(nodename, fieldname)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not minetest.registered_nodes[nodename] then
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return nil
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return minetest.registered_nodes[nodename][fieldname]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;local drawtype = get_nodedef_field(nodename, "drawtype")
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Registered_definitions">Index</a></p>
+<br>
+</body>
+</html>

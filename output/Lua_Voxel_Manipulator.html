@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="minetest.css">
+<head>
+<body>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Lua_Voxel_Manipulator">Index</a></p>
+<h1 id="Lua Voxel Manipulator">Lua Voxel Manipulator</h1>
+<h2 id="About VoxelManip">About VoxelManip</h2>
+<p>
+VoxelManip is a scripting interface to the internal 'Map Voxel Manipulator' facility. The purpose of this object is for fast, low-level, bulk access to reading and writing Map content. As such, setting map nodes through VoxelManip will lack many of the higher level features and concepts you may be used to with other methods of setting nodes. For example, nodes will not have their construction and destruction callbacks run, and no rollback information is logged.
+</p>
+<p>
+It is important to note that VoxelManip is designed for speed, and *not* ease of use or flexibility. If your mod requires a map manipulation facility that will handle 100% of all edge cases, or the use of high level node placement features, perhaps <code>minetest.set_node()</code> is better suited for the job.
+</p>
+<p>
+In addition, VoxelManip might not be faster, or could even be slower, for your specific use case. VoxelManip is most effective when setting large areas of map at once - for example, if only setting a 3x3x3 node area, a <code>minetest.set_node()</code> loop may be more optimal. Always profile code using both methods of map manipulation to determine which is most appropriate for your usage.
+</p>
+<p>
+A recent simple test of setting cubic areas showed that <code>minetest.set_node()</code> is faster than a VoxelManip for a 3x3x3 node cube or smaller.
+</p>
+<h2 id="Using VoxelManip">Using VoxelManip</h2>
+<p>
+A VoxelManip object can be created any time using either: <code>VoxelManip([p1, p2])</code>, or <code>minetest.get_voxel_manip([p1, p2])</code>.
+</p>
+<p>
+If the optional position parameters are present for either of these routines, the specified region will be pre-loaded into the VoxelManip object on creation. Otherwise, the area of map you wish to manipulate must first be loaded into the VoxelManip object using <code>VoxelManip:read_from_map()</code>.
+</p>
+<p>
+Note that <code>VoxelManip:read_from_map()</code> returns two position vectors. The region formed by these positions indicate the minimum and maximum (respectively) positions of the area actually loaded in the VoxelManip, which may be larger than the area requested. For convenience, the loaded area coordinates can also be queried any time after loading map data with <code>VoxelManip:get_emerged_area()</code>.
+</p>
+<p>
+Now that the VoxelManip object is populated with map data, your mod can fetch a copy of this data using either of two methods. <code>VoxelManip:get_node_at()</code>, which retrieves an individual node in a MapNode formatted table at the position requested is the simplest method to use, but also the slowest.
+</p>
+<p>
+Nodes in a VoxelManip object may also be read in bulk to a flat array table using:
+</p>
+<ul>
+<li>
+<code>VoxelManip:get_data()</code> for node content (in Content ID form, see section   <a href="Lua_Voxel_Manipulator.html#Content IDs">Content IDs</a>),
+</li>
+<li>
+<code>VoxelManip:get_light_data()</code> for node light levels, and
+</li>
+<li>
+<code>VoxelManip:get_param2_data()</code> for the node type-dependent "param2" values.
+<br>
+See section <a href="Lua_Voxel_Manipulator.html#Flat array format">Flat array format</a> for more details.
+<br>
+It is very important to understand that the tables returned by any of the above
+<br>
+three functions represent a snapshot of the VoxelManip's internal state at the
+<br>
+time of the call. This copy of the data will not magically update itself if
+<br>
+another function modifies the internal VoxelManip state.
+<br>
+Any functions that modify a VoxelManip's contents work on the VoxelManip's
+<br>
+internal state unless otherwise explicitly stated.
+<br>
+Once the bulk data has been edited to your liking, the internal VoxelManip
+<br>
+state can be set using:
+</li>
+<li>
+<code>VoxelManip:set_data()</code> for node content (in Content ID form, see section   <a href="Lua_Voxel_Manipulator.html#Content IDs">Content IDs</a>),
+</li>
+<li>
+<code>VoxelManip:set_light_data()</code> for node light levels, and
+</li>
+<li>
+<code>VoxelManip:set_param2_data()</code> for the node type-dependent <code>param2</code> values.
+<br>
+The parameter to each of the above three functions can use any table at all in
+<br>
+the same flat array format as produced by <code>get_data()</code> etc. and is not required
+<br>
+to be a table retrieved from <code>get_data()</code>.
+<br>
+Once the internal VoxelManip state has been modified to your liking, the
+<br>
+changes can be committed back to the map by calling <code>VoxelManip:write_to_map()</code>
+</li>
+</ul>
+<h3 id="Flat array format">Flat array format</h3>
+<p>
+Let
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<code>Nx = p2.X - p1.X + 1</code>,
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<code>Ny = p2.Y - p1.Y + 1</code>, and
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<code>Nz = p2.Z - p1.Z + 1</code>.
+</p>
+<p>
+Then, for a loaded region of p1..p2, this array ranges from <code>1</code> up to and including the value of the expression <code>Nx * Ny * Nz</code>.
+</p>
+<p>
+Positions offset from p1 are present in the array with the format of:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;[
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0, 0, 0),   (1, 0, 0),   (2, 0, 0),   ... (Nx, 0, 0),
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0, 1, 0),   (1, 1, 0),   (2, 1, 0),   ... (Nx, 1, 0),
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0, Ny, 0),  (1, Ny, 0),  (2, Ny, 0),  ... (Nx, Ny, 0),
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0, 0, 1),   (1, 0, 1),   (2, 0, 1),   ... (Nx, 0, 1),
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0, Ny, 2),  (1, Ny, 2),  (2, Ny, 2),  ... (Nx, Ny, 2),
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0, Ny, Nz), (1, Ny, Nz), (2, Ny, Nz), ... (Nx, Ny, Nz)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;]
+<p>
+and the array index for a position p contained completely in p1..p2 is:
+</p>
+<p>
+<code>(p.Z - p1.Z) * Ny * Nx + (p.Y - p1.Y) * Nx + (p.X - p1.X) + 1</code>
+</p>
+<p>
+Note that this is the same "flat 3D array" format as <code>PerlinNoiseMap:get3dMap_flat()</code>. VoxelArea objects (see section <a href="Lua_Voxel_Manipulator.html#VoxelArea"><code>VoxelArea</code></a>) can be used to simplify calculation of the index for a single point in a flat VoxelManip array.
+</p>
+<h3 id="Content IDs">Content IDs</h3>
+<p>
+A Content ID is a unique integer identifier for a specific node type. These IDs are used by VoxelManip in place of the node name string for <code>VoxelManip:get_data()</code> and <code>VoxelManip:set_data()</code>. You can use <code>minetest.get_content_id()</code> to look up the Content ID for the specified node name, and <code>minetest.get_name_from_content_id()</code> to look up the node name string for a given Content ID. After registration of a node, its Content ID will remain the same throughout execution of the mod. Note that the node being queried needs to have already been been registered.
+</p>
+<p>
+The following builtin node types have their Content IDs defined as constants:
+</p>
+<ul>
+<li>
+<code>minetest.CONTENT_UNKNOWN</code>: ID for "unknown" nodes
+</li>
+<li>
+<code>minetest.CONTENT_AIR</code>:     ID for "air" nodes
+</li>
+<li>
+<code>minetest.CONTENT_IGNORE</code>:  ID for "ignore" nodes
+</li>
+</ul>
+<h3 id="Mapgen VoxelManip objects">Mapgen VoxelManip objects</h3>
+<p>
+Inside of <code>on_generated()</code> callbacks, it is possible to retrieve the same VoxelManip object used by the core's Map Generator (commonly abbreviated Mapgen). Most of the rules previously described still apply but with a few differences:
+</p>
+<ul>
+<li>
+The Mapgen VoxelManip object is retrieved using:   <code>minetest.get_mapgen_object("voxelmanip")</code>
+</li>
+<li>
+This VoxelManip object already has the region of map just generated loaded   into it; it's not necessary to call <code>VoxelManip:read_from_map()</code> before using   a Mapgen VoxelManip.
+</li>
+<li>
+The <code>on_generated()</code> callbacks of some mods may place individual nodes in the   generated area using non-VoxelManip map modification methods. Because the   same Mapgen VoxelManip object is passed through each <code>on_generated()</code>   callback, it becomes necessary for the Mapgen VoxelManip object to maintain   consistency with the current map state. For this reason, calling any of the   following functions:   <code>minetest.add_node()</code>, <code>minetest.set_node()</code>, or <code>minetest.swap_node()</code>   will also update the Mapgen VoxelManip object's internal state active on the   current thread.
+</li>
+<li>
+After modifying the Mapgen VoxelManip object's internal buffer, it may be   necessary to update lighting information using either:   <code>VoxelManip:calc_lighting()</code> or <code>VoxelManip:set_lighting()</code>.
+</li>
+</ul>
+<h3 id="Other API functions operating on a VoxelManip">Other API functions operating on a VoxelManip</h3>
+<p>
+If any VoxelManip contents were set to a liquid node, <code>VoxelManip:update_liquids()</code> must be called for these liquid nodes to begin flowing. It is recommended to call this function only after having written all buffered data back to the VoxelManip object, save for special situations where the modder desires to only have certain liquid nodes begin flowing.
+</p>
+<p>
+The functions <code>minetest.generate_ores()</code> and <code>minetest.generate_decorations()</code> will generate all registered decorations and ores throughout the full area inside of the specified VoxelManip object.
+</p>
+<p>
+<code>minetest.place_schematic_on_vmanip()</code> is otherwise identical to <code>minetest.place_schematic()</code>, except instead of placing the specified schematic directly on the map at the specified position, it will place the schematic inside the VoxelManip.
+</p>
+<h3 id="Notes">Notes</h3>
+<ul>
+<li>
+Attempting to read data from a VoxelManip object before map is read will   result in a zero-length array table for <code>VoxelManip:get_data()</code>, and an   "ignore" node at any position for <code>VoxelManip:get_node_at()</code>.
+</li>
+<li>
+If either a region of map has not yet been generated or is out-of-bounds of   the map, that region is filled with "ignore" nodes.
+</li>
+<li>
+Other mods, or the core itself, could possibly modify the area of map   currently loaded into a VoxelManip object. With the exception of Mapgen   VoxelManips (see above section), the internal buffers are not updated. For   this reason, it is strongly encouraged to complete the usage of a particular   VoxelManip object in the same callback it had been created.
+</li>
+<li>
+If a VoxelManip object will be used often, such as in an <code>on_generated()</code>   callback, consider passing a file-scoped table as the optional parameter to   <code>VoxelManip:get_data()</code>, which serves as a static buffer the function can use   to write map data to instead of returning a new table each call. This greatly   enhances performance by avoiding unnecessary memory allocations.
+</li>
+</ul>
+<h2 id="Methods">Methods</h2>
+<ul>
+<li>
+<code>read_from_map(p1, p2)</code>:  Loads a chunk of map into the VoxelManip object   containing the region formed by <code>p1</code> and <code>p2</code>.
+<ul>
+<li>
+returns actual emerged <code>pmin</code>, actual emerged <code>pmax</code>
+</li>
+</ul>
+</li>
+<li>
+<code>write_to_map([light])</code>: Writes the data loaded from the <code>VoxelManip</code> back to   the map.
+<ul>
+<li>
+<em>important</em>: data must be set using <code>VoxelManip:set_data()</code> before       calling this.
+</li>
+<li>
+if <code>light</code> is true, then lighting is automatically recalculated.       The default value is true.       If <code>light</code> is false, no light calculations happen, and you should correct       all modified blocks with <code>minetest.fix_light()</code> as soon as possible.       Keep in mind that modifying the map where light is incorrect can cause       more lighting bugs.
+</li>
+</ul>
+</li>
+<li>
+<code>get_node_at(pos)</code>: Returns a <code>MapNode</code> table of the node currently loaded in   the <code>VoxelManip</code> at that position
+</li>
+<li>
+<code>set_node_at(pos, node)</code>: Sets a specific <code>MapNode</code> in the <code>VoxelManip</code> at   that position.
+</li>
+<li>
+<code>get_data([buffer])</code>: Retrieves the node content data loaded into the   <code>VoxelManip</code> object.
+<ul>
+<li>
+returns raw node data in the form of an array of node content IDs
+</li>
+<li>
+if the param <code>buffer</code> is present, this table will be used to store the       result instead.
+</li>
+</ul>
+</li>
+<li>
+<code>set_data(data)</code>: Sets the data contents of the <code>VoxelManip</code> object
+</li>
+<li>
+<code>update_map()</code>: Does nothing, kept for compatibility.
+</li>
+<li>
+<code>set_lighting(light, [p1, p2])</code>: Set the lighting within the <code>VoxelManip</code> to   a uniform value.
+<ul>
+<li>
+<code>light</code> is a table, <code>{day=&lt;0...15&gt;, night=&lt;0...15&gt;}</code>
+</li>
+<li>
+To be used only by a <code>VoxelManip</code> object from       <code>minetest.get_mapgen_object</code>.
+</li>
+<li>
+(<code>p1</code>, <code>p2</code>) is the area in which lighting is set, defaults to the whole       area if left out.
+</li>
+</ul>
+</li>
+<li>
+<code>get_light_data()</code>: Gets the light data read into the <code>VoxelManip</code> object
+<ul>
+<li>
+Returns an array (indices 1 to volume) of integers ranging from <code>0</code> to       <code>255</code>.
+</li>
+<li>
+Each value is the bitwise combination of day and night light values       (<code>0</code> to <code>15</code> each).
+</li>
+<li>
+<code>light = day + (night * 16)</code>
+</li>
+</ul>
+</li>
+<li>
+<code>set_light_data(light_data)</code>: Sets the <code>param1</code> (light) contents of each node   in the <code>VoxelManip</code>.
+<ul>
+<li>
+expects lighting data in the same format that <code>get_light_data()</code> returns
+</li>
+</ul>
+</li>
+<li>
+<code>get_param2_data([buffer])</code>: Gets the raw <code>param2</code> data read into the   <code>VoxelManip</code> object.
+<ul>
+<li>
+Returns an array (indices 1 to volume) of integers ranging from <code>0</code> to       <code>255</code>.
+</li>
+<li>
+If the param <code>buffer</code> is present, this table will be used to store the       result instead.
+</li>
+</ul>
+</li>
+<li>
+<code>set_param2_data(param2_data)</code>: Sets the <code>param2</code> contents of each node in   the <code>VoxelManip</code>.
+</li>
+<li>
+<code>calc_lighting([p1, p2], [propagate_shadow])</code>:  Calculate lighting within the   <code>VoxelManip</code>.
+<ul>
+<li>
+To be used only by a <code>VoxelManip</code> object from       <code>minetest.get_mapgen_object</code>.
+</li>
+<li>
+(<code>p1</code>, <code>p2</code>) is the area in which lighting is set, defaults to the whole       area if left out or nil. For almost all uses these should be left out       or nil to use the default.
+</li>
+<li>
+<code>propagate_shadow</code> is an optional boolean deciding whether shadows in a       generated mapchunk above are propagated down into the mapchunk, defaults       to <code>true</code> if left out.
+</li>
+</ul>
+</li>
+<li>
+<code>update_liquids()</code>: Update liquid flow
+</li>
+<li>
+<code>was_modified()</code>: Returns <code>true</code> or <code>false</code> if the data in the voxel   manipulator had been modified since the last read from map, due to a call to   <code>minetest.set_data()</code> on the loaded area elsewhere.
+</li>
+<li>
+<code>get_emerged_area()</code>: Returns actual emerged minimum and maximum positions.
+</li>
+</ul>
+<h2 id="VoxelArea"><code>VoxelArea</code></h2>
+<p>
+A helper class for voxel areas. It can be created via <code>VoxelArea:new{MinEdge = pmin, MaxEdge = pmax}</code>. The coordinates are *inclusive*, like most other things in Minetest.
+</p>
+<h3 id="Methods">Methods</h3>
+<ul>
+<li>
+<code>getExtent()</code>: returns a 3D vector containing the size of the area formed by   <code>MinEdge</code> and <code>MaxEdge</code>.
+</li>
+<li>
+<code>getVolume()</code>: returns the volume of the area formed by <code>MinEdge</code> and   <code>MaxEdge</code>.
+</li>
+<li>
+<code>index(x, y, z)</code>: returns the index of an absolute position in a flat array   starting at <code>1</code>.
+<ul>
+<li>
+<code>x</code>, <code>y</code> and <code>z</code> must be integers to avoid an incorrect index result.
+</li>
+<li>
+The position (x, y, z) is not checked for being inside the area volume,       being outside can cause an incorrect index result.
+</li>
+<li>
+Useful for things like <code>VoxelManip</code>, raw Schematic specifiers,       <code>PerlinNoiseMap:get2d</code>/<code>3dMap</code>, and so on.
+</li>
+</ul>
+</li>
+<li>
+<code>indexp(p)</code>: same functionality as <code>index(x, y, z)</code> but takes a vector.
+<ul>
+<li>
+As with <code>index(x, y, z)</code>, the components of <code>p</code> must be integers, and <code>p</code>       is not checked for being inside the area volume.
+</li>
+</ul>
+</li>
+<li>
+<code>position(i)</code>: returns the absolute position vector corresponding to index   <code>i</code>.
+</li>
+<li>
+<code>contains(x, y, z)</code>: check if (<code>x</code>,<code>y</code>,<code>z</code>) is inside area formed by   <code>MinEdge</code> and <code>MaxEdge</code>.
+</li>
+<li>
+<code>containsp(p)</code>: same as above, except takes a vector
+</li>
+<li>
+<code>containsi(i)</code>: same as above, except takes an index <code>i</code>
+</li>
+<li>
+<code>iter(minx, miny, minz, maxx, maxy, maxz)</code>: returns an iterator that returns   indices.
+<ul>
+<li>
+from (<code>minx</code>,<code>miny</code>,<code>minz</code>) to (<code>maxx</code>,<code>maxy</code>,<code>maxz</code>) in the order of       <code>[z [y [x]]]</code>.
+</li>
+</ul>
+</li>
+<li>
+<code>iterp(minp, maxp)</code>: same as above, except takes a vector
+</li>
+</ul>
+<h3 id="Y stride and z stride of a flat array">Y stride and z stride of a flat array</h3>
+<p>
+For a particular position in a voxel area, whose flat array index is known, it is often useful to know the index of a neighboring or nearby position. The table below shows the changes of index required for 1 node movements along the axes in a voxel area:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;Movement    Change of index
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;+x          +1
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-x          -1
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;+y          +ystride
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-y          -ystride
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;+z          +zstride
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-z          -zstride
+<p>
+If, for example:
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;local area = VoxelArea:new{MinEdge = emin, MaxEdge = emax}
+<p>
+The values of <code>ystride</code> and <code>zstride</code> can be obtained using <code>area.ystride</code> and <code>area.zstride</code>.
+</p>
+<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Lua_Voxel_Manipulator">Index</a></p>
+<br>
+</body>
+</html>
