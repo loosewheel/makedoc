@@ -484,7 +484,7 @@ local function eval_inline_reference (str)
 
 		for l = 1, #doc do
 			if doc[l].anchor and doc[l].anchor == clean_name (copy) then
-				return "<a href=\""..g_docs[d].name..".html#"..doc[l].anchor.."\">"..copy.."</a>"
+				return "<a href=\""..g_docs[d].file_name.."#"..doc[l].anchor.."\">"..copy.."</a>"
 			end
 		end
 	end
@@ -625,7 +625,7 @@ function app:read_input ()
 		return true
 	end
 
-	return fale
+	return false
 end
 
 
