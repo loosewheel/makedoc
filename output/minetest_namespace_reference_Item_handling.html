@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, Item handling</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Item_handling">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Item handling">minetest namespace reference, Item handling</h1>
+			<ul>
+				<li class="line1">
+<code>minetest.inventorycube(img1, img2, img3)</code>
+				<ul>
+					<li>
+Returns a string for making an image of a cube (useful as an item image)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_pointed_thing_position(pointed_thing, above)</code>
+				<ul>
+					<li>
+Returns the position of a <code>pointed_thing</code> or <code>nil</code> if the <code>pointed_thing</code>       does not refer to a node or entity.
+					</li>
+					<li>
+If the optional <code>above</code> parameter is true and the <code>pointed_thing</code> refers       to a node, then it will return the <code>above</code> position of the <code>pointed_thing</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.dir_to_facedir(dir, is6d)</code>
+				<ul>
+					<li>
+Convert a vector to a facedir value, used in <code>param2</code> for       <code>paramtype2="facedir"</code>.
+					</li>
+					<li>
+passing something non-<code>nil</code>/<code>false</code> for the optional second parameter       causes it to take the y component into account.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.facedir_to_dir(facedir)</code>
+				<ul>
+					<li>
+Convert a facedir back into a vector aimed directly out the "back" of a       node.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.dir_to_wallmounted(dir)</code>
+				<ul>
+					<li>
+Convert a vector to a wallmounted value, used for       <code>paramtype2="wallmounted"</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.wallmounted_to_dir(wallmounted)</code>
+				<ul>
+					<li>
+Convert a wallmounted value back into a vector aimed directly out the       "back" of a node.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.dir_to_yaw(dir)</code>
+				<ul>
+					<li>
+Convert a vector into a yaw (angle)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.yaw_to_dir(yaw)</code>
+				<ul>
+					<li>
+Convert yaw (angle) to a vector
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.is_colored_paramtype(ptype)</code>
+				<ul>
+					<li>
+Returns a boolean. Returns <code>true</code> if the given <code>paramtype2</code> contains       color information (<code>color</code>, <code>colorwallmounted</code> or <code>colorfacedir</code>).
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.strip_param2_color(param2, paramtype2)</code>
+				<ul>
+					<li>
+Removes everything but the color information from the       given <code>param2</code> value.
+					</li>
+					<li>
+Returns <code>nil</code> if the given <code>paramtype2</code> does not contain color       information.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_node_drops(node, toolname)</code>
+				<ul>
+					<li>
+Returns list of itemstrings that are dropped by <code>node</code> when dug       with <code>toolname</code>.
+					</li>
+					<li>
+<code>node</code>: node as table or node name
+					</li>
+					<li>
+<code>toolname</code>: name of the tool item (can be <code>nil</code>)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_craft_result(input)</code>: returns <code>output, decremented_input</code>
+				<ul>
+					<li>
+<code>input.method</code> = <code>"normal"</code> or <code>"cooking"</code> or <code>"fuel"</code>
+					</li>
+					<li>
+<code>input.width</code> = for example <code>3</code>
+					</li>
+					<li>
+<code>input.items</code> = for example       <code>{stack1, stack2, stack3, stack4, stack 5, stack 6, stack 7, stack 8, stack 9}</code>
+					</li>
+					<li>
+<code>output.item</code> = <code>ItemStack</code>, if unsuccessful: empty <code>ItemStack</code>
+					</li>
+					<li>
+<code>output.time</code> = a number, if unsuccessful: <code>0</code>
+					</li>
+					<li>
+<code>output.replacements</code> = List of replacement <code>ItemStack</code>s that couldn't be       placed in <code>decremented_input.items</code>. Replacements can be placed in       <code>decremented_input</code> if the stack of the replaced item has a count of 1.
+					</li>
+					<li>
+<code>decremented_input</code> = like <code>input</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_craft_recipe(output)</code>: returns input
+				<ul>
+					<li>
+returns last registered recipe for output item (node)
+					</li>
+					<li>
+<code>output</code> is a node or item type such as <code>"default:torch"</code>
+					</li>
+					<li>
+<code>input.method</code> = <code>"normal"</code> or <code>"cooking"</code> or <code>"fuel"</code>
+					</li>
+					<li>
+<code>input.width</code> = for example <code>3</code>
+					</li>
+					<li>
+<code>input.items</code> = for example       <code>{stack1, stack2, stack3, stack4, stack 5, stack 6, stack 7, stack 8, stack 9}</code>
+					<ul>
+						<li>
+<code>input.items</code> = <code>nil</code> if no recipe found
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_all_craft_recipes(query item)</code>: returns a table or <code>nil</code>
+				<ul>
+					<li>
+returns indexed table with all registered recipes for query item (node)       or <code>nil</code> if no recipe was found.
+					</li>
+					<li>
+recipe entry table:
+					<ul>
+						<li>
+<code>method</code>: 'normal' or 'cooking' or 'fuel'
+						</li>
+						<li>
+<code>width</code>: 0-3, 0 means shapeless recipe
+						</li>
+						<li>
+<code>items</code>: indexed [1-9] table with recipe items
+						</li>
+						<li>
+<code>output</code>: string with item name and quantity
+						</li>
+					</ul>
+					</li>
+					<li>
+Example query for <code>"default:gold_ingot"</code> will return table:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1]={method = "cooking", width = 3, output = "default:gold_ingot",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items = {1 = "default:gold_lump"}},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2]={method = "normal", width = 1, output = "default:gold_ingot 9",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items = {1 = "default:goldblock"}}
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.handle_node_drops(pos, drops, digger)</code>
+				<ul>
+					<li>
+<code>drops</code>: list of itemstrings
+					</li>
+					<li>
+Handles drops from nodes after digging: Default action is to put them       into digger's inventory.
+					</li>
+					<li>
+Can be overridden to get different functionality (e.g. dropping items on       ground)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.itemstring_with_palette(item, palette_index)</code>: returns an item   string.
+				<ul>
+					<li>
+Creates an item string which contains palette index information       for hardware colorization. You can use the returned string       as an output in a craft recipe.
+					</li>
+					<li>
+<code>item</code>: the item stack which becomes colored. Can be in string,       table and native form.
+					</li>
+					<li>
+<code>palette_index</code>: this index is added to the item stack
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.itemstring_with_color(item, colorstring)</code>: returns an item string
+				<ul>
+					<li>
+Creates an item string which contains static color information       for hardware colorization. Use this method if you wish to colorize       an item that does not own a palette. You can use the returned string       as an output in a craft recipe.
+					</li>
+					<li>
+<code>item</code>: the item stack which becomes colored. Can be in string,       table and native form.
+					</li>
+					<li>
+<code>colorstring</code>: the new color of the item stack
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Item_handling">Index</a></p>
+	</body>
+</html>

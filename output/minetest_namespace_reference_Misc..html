@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, Misc.</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Misc.">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Misc.">minetest namespace reference, Misc.</h1>
+			<ul>
+				<li class="line1">
+<code>minetest.get_connected_players()</code>: returns list of <code>ObjectRefs</code>
+				</li>
+				<li class="line1">
+<code>minetest.is_player(obj)</code>: boolean, whether <code>obj</code> is a player
+				</li>
+				<li class="line1">
+<code>minetest.player_exists(name)</code>: boolean, whether player exists   (regardless of online status)
+				</li>
+				<li class="line1">
+<code>minetest.hud_replace_builtin(name, hud_definition)</code>
+				<ul>
+					<li>
+Replaces definition of a builtin hud element
+					</li>
+					<li>
+<code>name</code>: <code>"breath"</code> or <code>"health"</code>
+					</li>
+					<li>
+<code>hud_definition</code>: definition to replace builtin definition
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.send_join_message(player_name)</code>
+				<ul>
+					<li>
+This function can be overridden by mods to change the join message.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.send_leave_message(player_name, timed_out)</code>
+				<ul>
+					<li>
+This function can be overridden by mods to change the leave message.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.hash_node_position(pos)</code>: returns an 48-bit integer
+				<ul>
+					<li>
+<code>pos</code>: table {x=number, y=number, z=number},
+					</li>
+					<li>
+Gives a unique hash number for a node position (16+16+16=48bit)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_position_from_hash(hash)</code>: returns a position
+				<ul>
+					<li>
+Inverse transform of <code>minetest.hash_node_position</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_item_group(name, group)</code>: returns a rating
+				<ul>
+					<li>
+Get rating of a group of an item. (<code>0</code> means: not in group)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_node_group(name, group)</code>: returns a rating
+				<ul>
+					<li>
+Deprecated: An alias for the former.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.raillike_group(name)</code>: returns a rating
+				<ul>
+					<li>
+Returns rating of the connect_to_raillike group corresponding to name
+					</li>
+					<li>
+If name is not yet the name of a connect_to_raillike group, a new group       id is created, with that name.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_content_id(name)</code>: returns an integer
+				<ul>
+					<li>
+Gets the internal content ID of <code>name</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.get_name_from_content_id(content_id)</code>: returns a string
+				<ul>
+					<li>
+Gets the name of the content with that content ID
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.parse_json(string[, nullvalue])</code>: returns something
+				<ul>
+					<li>
+Convert a string containing JSON data into the Lua equivalent
+					</li>
+					<li>
+<code>nullvalue</code>: returned in place of the JSON null; defaults to <code>nil</code>
+					</li>
+					<li>
+On success returns a table, a string, a number, a boolean or <code>nullvalue</code>
+					</li>
+					<li>
+On failure outputs an error message and returns <code>nil</code>
+					</li>
+					<li>
+Example: <code>parse_json("[10, {\"a\":false}]")</code>, returns <code>{10, {a = false}}</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.write_json(data[, styled])</code>: returns a string or <code>nil</code> and an error   message.
+				<ul>
+					<li>
+Convert a Lua table into a JSON string
+					</li>
+					<li>
+styled: Outputs in a human-readable format if this is set, defaults to       false.
+					</li>
+					<li>
+Unserializable things like functions and userdata will cause an error.
+					</li>
+					<li>
+<em>Warning</em>: JSON is more strict than the Lua table format.         1. You can only use strings and positive integers of at least one as            keys.         2. You can not mix string and integer keys.            This is due to the fact that JSON has two distinct array and object            values.
+					</li>
+					<li>
+Example: <code>write_json({10, {a = false}})</code>,       returns <code>"[10, {\"a\": false}]"</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.serialize(table)</code>: returns a string
+				<ul>
+					<li>
+Convert a table containing tables, strings, numbers, booleans and <code>nil</code>s       into string form readable by <code>minetest.deserialize</code>
+					</li>
+					<li>
+Example: <code>serialize({foo='bar'})</code>, returns <code>'return { ["foo"] = "bar" }'</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.deserialize(string[, safe])</code>: returns a table
+				<ul>
+					<li>
+Convert a string returned by <code>minetest.serialize</code> into a table
+					</li>
+					<li>
+<code>string</code> is loaded in an empty sandbox environment.
+					</li>
+					<li>
+Will load functions if safe is false or omitted. Although these functions       cannot directly access the global environment, they could bypass this       restriction with maliciously crafted Lua bytecode if mod security is       disabled.
+					</li>
+					<li>
+This function should not be used on untrusted data, regardless of the      value of <code>safe</code>. It is fine to serialize then deserialize user-provided      data, but directly providing user input to deserialize is always unsafe.
+					</li>
+					<li>
+Example: <code>deserialize('return { ["foo"] = "bar" }')</code>,       returns <code>{foo='bar'}</code>
+					</li>
+					<li>
+Example: <code>deserialize('print("foo")')</code>, returns <code>nil</code>       (function call fails), returns       <code>error:[string "print("foo")"]:1: attempt to call global 'print' (a nil value)</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.compress(data, method, ...)</code>: returns <code>compressed_data</code>
+				<ul>
+					<li>
+Compress a string of data.
+					</li>
+					<li>
+<code>method</code> is a string identifying the compression method to be used.
+					</li>
+					<li>
+Supported compression methods:
+					<ul>
+						<li>
+Deflate (zlib): <code>"deflate"</code>
+						</li>
+					</ul>
+					</li>
+					<li>
+<code>...</code> indicates method-specific arguments. Currently defined arguments       are:
+					<ul>
+						<li>
+Deflate: <code>level</code> - Compression level, <code>0</code>-<code>9</code> or <code>nil</code>.
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.decompress(compressed_data, method, ...)</code>: returns data
+				<ul>
+					<li>
+Decompress a string of data (using ZLib).
+					</li>
+					<li>
+See documentation on <code>minetest.compress()</code> for supported compression       methods.
+					</li>
+					<li>
+<code>...</code> indicates method-specific arguments. Currently, no methods use this
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.rgba(red, green, blue[, alpha])</code>: returns a string
+				<ul>
+					<li>
+Each argument is a 8 Bit unsigned integer
+					</li>
+					<li>
+Returns the ColorString from rgb or rgba values
+					</li>
+					<li>
+Example: <code>minetest.rgba(10, 20, 30, 40)</code>, returns <code>"#0A141E28"</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.encode_base64(string)</code>: returns string encoded in base64
+				<ul>
+					<li>
+Encodes a string in base64.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.decode_base64(string)</code>: returns string or nil for invalid base64
+				<ul>
+					<li>
+Decodes a string encoded in base64.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.is_protected(pos, name)</code>: returns boolean
+				<ul>
+					<li>
+Returning <code>true</code> restricts the player <code>name</code> from modifying (i.e. digging,        placing) the node at position <code>pos</code>.
+					</li>
+					<li>
+<code>name</code> will be <code>""</code> for non-players or unknown players.
+					</li>
+					<li>
+This function should be overridden by protection mods. It is highly       recommended to grant access to players with the <code>protection_bypass</code> privilege.
+					</li>
+					<li>
+Cache and call the old version of this function if the position is       not protected by the mod. This will allow using multiple protection mods.
+					</li>
+					<li>
+Example:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local old_is_protected = minetest.is_protected
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function minetest.is_protected(pos, name)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if mymod:position_protected_from(pos, name) then
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return old_is_protected(pos, name)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.record_protection_violation(pos, name)</code>
+				<ul>
+					<li>
+This function calls functions registered with       <code>minetest.register_on_protection_violation</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.is_creative_enabled(name)</code>: returns boolean
+				<ul>
+					<li>
+Returning <code>true</code> means that Creative Mode is enabled for player <code>name</code>.
+					</li>
+					<li>
+<code>name</code> will be <code>""</code> for non-players or if the player is unknown.
+					</li>
+					<li>
+This function should be overridden by Creative Mode-related mods to       implement a per-player Creative Mode.
+					</li>
+					<li>
+By default, this function returns <code>true</code> if the setting       <code>creative_mode</code> is <code>true</code> and <code>false</code> otherwise.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.is_area_protected(pos1, pos2, player_name, interval)</code>
+				<ul>
+					<li>
+Returns the position of the first node that <code>player_name</code> may not modify       in the specified cuboid between <code>pos1</code> and <code>pos2</code>.
+					</li>
+					<li>
+Returns <code>false</code> if no protections were found.
+					</li>
+					<li>
+Applies <code>is_protected()</code> to a 3D lattice of points in the defined volume.       The points are spaced evenly throughout the volume and have a spacing       similar to, but no larger than, <code>interval</code>.
+					</li>
+					<li>
+All corners and edges of the defined volume are checked.
+					</li>
+					<li>
+<code>interval</code> defaults to 4.
+					</li>
+					<li>
+<code>interval</code> should be carefully chosen and maximised to avoid an excessive       number of points being checked.
+					</li>
+					<li>
+Like <code>minetest.is_protected</code>, this function may be extended or       overwritten by mods to provide a faster implementation to check the       cuboid for intersections.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.rotate_and_place(itemstack, placer, pointed_thing[, infinitestacks,   orient_flags, prevent_after_place])</code>
+				<ul>
+					<li>
+Attempt to predict the desired orientation of the facedir-capable node       defined by <code>itemstack</code>, and place it accordingly (on-wall, on the floor,       or hanging from the ceiling).
+					</li>
+					<li>
+<code>infinitestacks</code>: if <code>true</code>, the itemstack is not changed. Otherwise the       stacks are handled normally.
+					</li>
+					<li>
+<code>orient_flags</code>: Optional table containing extra tweaks to the placement code:
+					<ul>
+						<li>
+<code>invert_wall</code>:   if <code>true</code>, place wall-orientation on the ground and           ground-orientation on the wall.
+						</li>
+						<li>
+<code>force_wall</code> :   if <code>true</code>, always place the node in wall orientation.
+						</li>
+						<li>
+<code>force_ceiling</code>: if <code>true</code>, always place on the ceiling.
+						</li>
+						<li>
+<code>force_floor</code>:   if <code>true</code>, always place the node on the floor.
+						</li>
+						<li>
+<code>force_facedir</code>: if <code>true</code>, forcefully reset the facedir to north           when placing on the floor or ceiling.
+						</li>
+						<li>
+The first four options are mutually-exclusive; the last in the list           takes precedence over the first.
+						</li>
+					</ul>
+					</li>
+					<li>
+<code>prevent_after_place</code> is directly passed to <code>minetest.item_place_node</code>
+					</li>
+					<li>
+Returns the new itemstack after placement
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.rotate_node(itemstack, placer, pointed_thing)</code>
+				<ul>
+					<li>
+calls <code>rotate_and_place()</code> with <code>infinitestacks</code> set according to the state       of the creative mode setting, checks for "sneak" to set the <code>invert_wall</code>       parameter and <code>prevent_after_place</code> set to <code>true</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.calculate_knockback(player, hitter, time_from_last_punch,   tool_capabilities, dir, distance, damage)</code>
+				<ul>
+					<li>
+Returns the amount of knockback applied on the punched player.
+					</li>
+					<li>
+Arguments are equivalent to <code>register_on_punchplayer</code>, except the following:
+					<ul>
+						<li>
+<code>distance</code>: distance between puncher and punched player
+						</li>
+					</ul>
+					</li>
+					<li>
+This function can be overriden by mods that wish to modify this behaviour.
+					</li>
+					<li>
+You may want to cache and call the old function to allow multiple mods to       change knockback behaviour.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.forceload_block(pos[, transient])</code>
+				<ul>
+					<li>
+forceloads the position <code>pos</code>.
+					</li>
+					<li>
+returns <code>true</code> if area could be forceloaded
+					</li>
+					<li>
+If <code>transient</code> is <code>false</code> or absent, the forceload will be persistent       (saved between server runs). If <code>true</code>, the forceload will be transient       (not saved between server runs).
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.forceload_free_block(pos[, transient])</code>
+				<ul>
+					<li>
+stops forceloading the position <code>pos</code>
+					</li>
+					<li>
+If <code>transient</code> is <code>false</code> or absent, frees a persistent forceload.       If <code>true</code>, frees a transient forceload.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.request_insecure_environment()</code>: returns an environment containing   insecure functions if the calling mod has been listed as trusted in the   <code>secure.trusted_mods</code> setting or security is disabled, otherwise returns   <code>nil</code>.
+				<ul>
+					<li>
+Only works at init time and must be called from the mod's main scope       (ie: the init.lua of the mod, not from another Lua file or within a function).
+					</li>
+					<li>
+<em>DO NOT ALLOW ANY OTHER MODS TO ACCESS THE RETURNED ENVIRONMENT, STORE       IT IN A LOCAL VARIABLE!</em>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.global_exists(name)</code>
+				<ul>
+					<li>
+Checks if a global variable has been set, without triggering a warning.
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Misc.">Index</a></p>
+	</body>
+</html>

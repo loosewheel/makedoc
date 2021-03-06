@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Representations of simple things</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Representations_of_simple_things">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Representations of simple things">Representations of simple things</h1>
+		<h2 id="Position/vector">Position/vector</h2>
+&nbsp;&nbsp;&nbsp;&nbsp;{x=num, y=num, z=num}
+		<p>
+For helper functions see <a href="Spatial_Vectors.html#Spatial Vectors">Spatial Vectors</a>.
+		</p>
+		<h2 id="pointed_thing"><code>pointed_thing</code></h2>
+			<ul>
+				<li class="line1">
+<code>{type="nothing"}</code>
+				</li>
+				<li class="line1">
+<code>{type="node", under=pos, above=pos}</code>
+				<ul>
+					<li>
+Indicates a pointed node selection box.
+					</li>
+					<li>
+<code>under</code> refers to the node position behind the pointed face.
+					</li>
+					<li>
+<code>above</code> refers to the node position in front of the pointed face.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>{type="object", ref=ObjectRef}</code>
+<br>
+Exact pointing location (currently only <code>Raycast</code> supports these fields):
+				</li>
+				<li class="line1">
+<code>pointed_thing.intersection_point</code>: The absolute world coordinates of the   point on the selection box which is pointed at. May be in the selection box   if the pointer is in the box too.
+				</li>
+				<li class="line1">
+<code>pointed_thing.box_id</code>: The ID of the pointed selection box (counting starts   from 1).
+				</li>
+				<li class="line1">
+<code>pointed_thing.intersection_normal</code>: Unit vector, points outwards of the   selected selection box. This specifies which face is pointed at.   Is a null vector <code>{x = 0, y = 0, z = 0}</code> when the pointer is inside the   selection box.
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Representations_of_simple_things">Index</a></p>
+	</body>
+</html>

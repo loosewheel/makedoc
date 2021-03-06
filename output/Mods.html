@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mods</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Mods">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Mods">Mods</h1>
+		<h2 id="Mod load path">Mod load path</h2>
+		<p>
+Paths are relative to the directories listed in the <a href="Minetest_Lua_Modding_API_Reference.html#Paths">Paths</a> section above.
+		</p>
+			<ul>
+				<li class="line1">
+<code>games/&lt;gameid&gt;/mods/</code>
+				</li>
+				<li class="line1">
+<code>mods/</code>
+				</li>
+				<li class="line1">
+<code>worlds/&lt;worldname&gt;/worldmods/</code>
+				</li>
+			</ul>
+		<h2 id="World-specific games">World-specific games</h2>
+		<p>
+It is possible to include a game in a world; in this case, no mods or games are loaded or checked from anywhere else.
+		</p>
+		<p>
+This is useful for e.g. adventure worlds and happens if the <code>&lt;worldname&gt;/game/</code> directory exists.
+		</p>
+		<p>
+Mods should then be placed in <code>&lt;worldname&gt;/game/mods/</code>.
+		</p>
+		<h2 id="Modpacks">Modpacks</h2>
+		<p>
+Mods can be put in a subdirectory, if the parent directory, which otherwise should be a mod, contains a file named <code>modpack.conf</code>. The file is a key-value store of modpack details.
+		</p>
+			<ul>
+				<li class="line1">
+<code>name</code>: The modpack name. Allows Minetest to determine the modpack name even           if the folder is wrongly named.
+				</li>
+				<li class="line1">
+<code>description</code>: Description of mod to be shown in the Mods tab of the main                  menu.
+				</li>
+				<li class="line1">
+<code>author</code>: The author of the modpack. It only appears when downloaded from             ContentDB.
+				</li>
+				<li class="line1">
+<code>release</code>: Ignore this: Should only ever be set by ContentDB, as it is an              internal ID used to track versions.
+				</li>
+				<li class="line1">
+<code>title</code>: A human-readable title to address the modpack.
+<br>
+Note: to support 0.4.x, please also create an empty modpack.txt file.
+				</li>
+			</ul>
+		<h2 id="Mod directory structure">Mod directory structure</h2>
+		<pre>
+    mods
+    ├── modname
+    │   ├── mod.conf
+    │   ├── screenshot.png
+    │   ├── settingtypes.txt
+    │   ├── init.lua
+    │   ├── models
+    │   ├── textures
+    │   │   ├── modname_stuff.png
+    │   │   ├── modname_stuff_normal.png
+    │   │   ├── modname_something_else.png
+    │   │   ├── subfolder_foo
+    │   │   │   ├── modname_more_stuff.png
+    │   │   │   └── another_subfolder
+    │   │   └── bar_subfolder
+    │   ├── sounds
+    │   ├── media
+    │   ├── locale
+    │   └── &lt;custom data&gt;
+    └── another
+</pre>		<h3 id="modname">modname</h3>
+		<p>
+The location of this directory can be fetched by using <code>minetest.get_modpath(modname)</code>.
+		</p>
+		<h3 id="mod.conf">mod.conf</h3>
+		<p>
+A <code>Settings</code> file that provides meta information about the mod.
+		</p>
+			<ul>
+				<li class="line1">
+<code>name</code>: The mod name. Allows Minetest to determine the mod name even if the           folder is wrongly named.
+				</li>
+				<li class="line1">
+<code>description</code>: Description of mod to be shown in the Mods tab of the main                  menu.
+				</li>
+				<li class="line1">
+<code>depends</code>: A comma separated list of dependencies. These are mods that must be              loaded before this mod.
+				</li>
+				<li class="line1">
+<code>optional_depends</code>: A comma separated list of optional dependencies.                       Like a dependency, but no error if the mod doesn't exist.
+				</li>
+				<li class="line1">
+<code>author</code>: The author of the mod. It only appears when downloaded from             ContentDB.
+				</li>
+				<li class="line1">
+<code>release</code>: Ignore this: Should only ever be set by ContentDB, as it is an              internal ID used to track versions.
+				</li>
+				<li class="line1">
+<code>title</code>: A human-readable title to address the mod.
+<br>
+Note: to support 0.4.x, please also provide depends.txt.
+				</li>
+			</ul>
+		<h3 id="screenshot.png"><code>screenshot.png</code></h3>
+		<p>
+A screenshot shown in the mod manager within the main menu. It should have an aspect ratio of 3:2 and a minimum size of 300×200 pixels.
+		</p>
+		<h3 id="depends.txt"><code>depends.txt</code></h3>
+		<p>
+<em>Deprecated:</em> you should use mod.conf instead.
+		</p>
+		<p>
+This file is used if there are no dependencies in mod.conf.
+		</p>
+		<p>
+List of mods that have to be loaded before loading this mod.
+		</p>
+		<p>
+A single line contains a single modname.
+		</p>
+		<p>
+Optional dependencies can be defined by appending a question mark to a single modname. This means that if the specified mod is missing, it does not prevent this mod from being loaded.
+		</p>
+		<h3 id="description.txt"><code>description.txt</code></h3>
+		<p>
+<em>Deprecated:</em> you should use mod.conf instead.
+		</p>
+		<p>
+This file is used if there is no description in mod.conf.
+		</p>
+		<p>
+A file containing a description to be shown in the Mods tab of the main menu.
+		</p>
+		<h3 id="settingtypes.txt"><code>settingtypes.txt</code></h3>
+		<p>
+The format is documented in <code>builtin/settingtypes.txt</code>. It is parsed by the main menu settings dialogue to list mod-specific settings in the "Mods" category.
+		</p>
+		<h3 id="init.lua"><code>init.lua</code></h3>
+		<p>
+The main Lua script. Running this script should register everything it wants to register. Subsequent execution depends on minetest calling the registered callbacks.
+		</p>
+		<p>
+<code>minetest.settings</code> can be used to read custom or existing settings at load time, if necessary. (See <a href="Class_reference_Settings.html#Settings"><code>Settings</code></a>)
+		</p>
+		<h3 id="textures, sounds, media, models, locale"><code>textures</code>, <code>sounds</code>, <code>media</code>, <code>models</code>, <code>locale</code></h3>
+		<p>
+Media files (textures, sounds, whatever) that will be transferred to the client and will be available for use by the mod and translation files for the clients (see <a href="Translations.html#Translations">Translations</a>).
+		</p>
+		<p>
+It is suggested to use the folders for the purpous they are thought for, eg. put textures into <code>textures</code>, translation files into <code>locale</code>, models for entities or meshnodes into <code>models</code> et cetera.
+		</p>
+		<p>
+These folders and subfolders can contain subfolders. Subfolders with names starting with <code>_</code> or <code>.</code> are ignored. If a subfolder contains a media file with the same name as a media file in one of its parents, the parent's file is used.
+		</p>
+		<h2 id="Naming conventions">Naming conventions</h2>
+		<p>
+Registered names should generally be in this format:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;modname:&lt;whatever&gt;
+		<p>
+<code>&lt;whatever&gt;</code> can have these characters:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;a-zA-Z0-9_
+		<p>
+This is to prevent conflicting names from corrupting maps and is enforced by the mod loader.
+		</p>
+		<p>
+Registered names can be overridden by prefixing the name with <code>:</code>. This can be used for overriding the registrations of some other mod.
+		</p>
+		<p>
+The <code>:</code> prefix can also be used for maintaining backwards compatibility.
+		</p>
+		<h3 id="Example">Example</h3>
+		<p>
+In the mod <code>experimental</code>, there is the ideal item/node/entity name <code>tnt</code>. So the name should be <code>experimental:tnt</code>.
+		</p>
+		<p>
+Any mod can redefine <code>experimental:tnt</code> by using the name
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;:experimental:tnt
+		<p>
+when registering it. That mod is required to have <code>experimental</code> as a dependency.
+		</p>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Mods">Index</a></p>
+	</body>
+</html>

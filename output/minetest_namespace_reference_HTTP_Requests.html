@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, HTTP Requests</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_HTTP_Requests">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="HTTP Requests">minetest namespace reference, HTTP Requests</h1>
+			<ul>
+				<li class="line1">
+<code>minetest.request_http_api()</code>:
+				<ul>
+					<li>
+returns <code>HTTPApiTable</code> containing http functions if the calling mod has       been granted access by being listed in the <code>secure.http_mods</code> or       <code>secure.trusted_mods</code> setting, otherwise returns <code>nil</code>.
+					</li>
+					<li>
+The returned table contains the functions <code>fetch</code>, <code>fetch_async</code> and       <code>fetch_async_get</code> described below.
+					</li>
+					<li>
+Only works at init time and must be called from the mod's main scope       (not from a function).
+					</li>
+					<li>
+Function only exists if minetest server was built with cURL support.
+					</li>
+					<li>
+<em>DO NOT ALLOW ANY OTHER MODS TO ACCESS THE RETURNED TABLE, STORE IT IN       A LOCAL VARIABLE!</em>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>HTTPApiTable.fetch(HTTPRequest req, callback)</code>
+				<ul>
+					<li>
+Performs given request asynchronously and calls callback upon completion
+					</li>
+					<li>
+callback: <code>function(HTTPRequestResult res)</code>
+					</li>
+					<li>
+Use this HTTP function if you are unsure, the others are for advanced use
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>HTTPApiTable.fetch_async(HTTPRequest req)</code>: returns handle
+				<ul>
+					<li>
+Performs given request asynchronously and returns handle for       <code>HTTPApiTable.fetch_async_get</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>HTTPApiTable.fetch_async_get(handle)</code>: returns HTTPRequestResult
+				<ul>
+					<li>
+Return response data for given asynchronous HTTP request
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_HTTP_Requests">Index</a></p>
+	</body>
+</html>

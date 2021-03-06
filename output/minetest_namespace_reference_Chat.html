@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, Chat</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Chat">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Chat">minetest namespace reference, Chat</h1>
+			<ul>
+				<li class="line1">
+<code>minetest.chat_send_all(text)</code>
+				</li>
+				<li class="line1">
+<code>minetest.chat_send_player(name, text)</code>
+				</li>
+				<li class="line1">
+<code>minetest.format_chat_message(name, message)</code>
+				<ul>
+					<li>
+Used by the server to format a chat message, based on the setting <code>chat_message_format</code>.       Refer to the documentation of the setting for a list of valid placeholders.
+					</li>
+					<li>
+Takes player name and message, and returns the formatted string to be sent to players.
+					</li>
+					<li>
+Can be redefined by mods if required, for things like colored names or messages.
+					</li>
+					<li>
+<em>Only</em> the first occurrence of each placeholder will be replaced.
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Chat">Index</a></p>
+	</body>
+</html>
