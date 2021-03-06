@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, Settings</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_Settings">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Settings">Class reference, Settings</h1>
+		<p>
+An interface to read config files in the format of <code>minetest.conf</code>.
+		</p>
+		<p>
+It can be created via <code>Settings(filename)</code>.
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>get(key)</code>: returns a value
+				</li>
+				<li class="line1">
+<code>get_bool(key, [default])</code>: returns a boolean
+				<ul>
+					<li>
+<code>default</code> is the value returned if <code>key</code> is not found.
+					</li>
+					<li>
+Returns <code>nil</code> if <code>key</code> is not found and <code>default</code> not specified.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_np_group(key)</code>: returns a NoiseParams table
+				</li>
+				<li class="line1">
+<code>get_flags(key)</code>:
+				<ul>
+					<li>
+Returns <code>{flag = true/false, ...}</code> according to the set flags.
+					</li>
+					<li>
+Is currently limited to mapgen flags <code>mg_flags</code> and mapgen-specific       flags like <code>mgv5_spflags</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set(key, value)</code>
+				<ul>
+					<li>
+Setting names can't contain whitespace or any of <code>="{}#</code>.
+					</li>
+					<li>
+Setting values can't contain the sequence <code>\n"""</code>.
+					</li>
+					<li>
+Setting names starting with "secure." can't be set on the main settings       object (<code>minetest.settings</code>).
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_bool(key, value)</code>
+				<ul>
+					<li>
+See documentation for set() above.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_np_group(key, value)</code>
+				<ul>
+					<li>
+<code>value</code> is a NoiseParams table.
+					</li>
+					<li>
+Also, see documentation for set() above.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>remove(key)</code>: returns a boolean (<code>true</code> for success)
+				</li>
+				<li class="line1">
+<code>get_names()</code>: returns <code>{key1,...}</code>
+				</li>
+				<li class="line1">
+<code>write()</code>: returns a boolean (<code>true</code> for success)
+				<ul>
+					<li>
+Writes changes to file.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>to_table()</code>: returns <code>{[key1]=value1,...}</code>
+				</li>
+			</ul>
+		<h2 id="Format">Format</h2>
+		<p>
+The settings have the format <code>key = value</code>. Example:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;foo = example text
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bar = """
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Multiline
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"""
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_Settings">Index</a></p>
+	</body>
+</html>

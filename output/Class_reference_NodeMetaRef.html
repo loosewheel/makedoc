@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, NodeMetaRef</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_NodeMetaRef">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="NodeMetaRef">Class reference, NodeMetaRef</h1>
+		<p>
+Node metadata: reference extra data and functionality stored in a node. Can be obtained via <code>minetest.get_meta(pos)</code>.
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+All methods in MetaDataRef
+				</li>
+				<li class="line1">
+<code>get_inventory()</code>: returns <code>InvRef</code>
+				</li>
+				<li class="line1">
+<code>mark_as_private(name or {name1, name2, ...})</code>: Mark specific vars as private   This will prevent them from being sent to the client. Note that the "private"   status will only be remembered if an associated key-value pair exists,   meaning it's best to call this when initializing all other meta (e.g.   <code>on_construct</code>).
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_NodeMetaRef">Index</a></p>
+	</body>
+</html>

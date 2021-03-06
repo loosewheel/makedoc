@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Minetest Lua Modding API Reference</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Minetest Lua Modding API Reference">Minetest Lua Modding API Reference</h1>
+			<ul>
+				<li class="line1">
+More information at &lt;http://www.minetest.net/&gt;
+				</li>
+				<li class="line1">
+Developer Wiki: &lt;http://dev.minetest.net/&gt;
+				</li>
+				<li class="line1">
+(Unofficial) Minetest Modding Book by rubenwardy: &lt;https://rubenwardy.com/minetest_modding_book/&gt;
+				</li>
+			</ul>
+		<h2 id="Introduction">Introduction</h2>
+		<p>
+Content and functionality can be added to Minetest using Lua scripting in run-time loaded mods.
+		</p>
+		<p>
+A mod is a self-contained bunch of scripts, textures and other related things, which is loaded by and interfaces with Minetest.
+		</p>
+		<p>
+Mods are contained and ran solely on the server side. Definitions and media files are automatically transferred to the client.
+		</p>
+		<p>
+If you see a deficiency in the API, feel free to attempt to add the functionality in the engine and API, and to document it here.
+		</p>
+		<h2 id="Programming in Lua">Programming in Lua</h2>
+		<p>
+If you have any difficulty in understanding this, please read <a href="http://www.lua.org/pil/">Programming in Lua</a>.
+		</p>
+		<h2 id="Startup">Startup</h2>
+		<p>
+Mods are loaded during server startup from the mod load paths by running the <code>init.lua</code> scripts in a shared environment.
+		</p>
+		<h2 id="Paths">Paths</h2>
+			<ul>
+				<li class="line1">
+<code>RUN_IN_PLACE=1</code> (Windows release, local build)
+				<ul>
+					<li>
+<code>$path_user</code>: <code>&lt;build directory&gt;</code>
+					</li>
+					<li>
+<code>$path_share</code>: <code>&lt;build directory&gt;</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>RUN_IN_PLACE=0</code>: (Linux release)
+				<ul>
+					<li>
+<code>$path_share</code>:
+					<ul>
+						<li>
+Linux: <code>/usr/share/minetest</code>
+						</li>
+						<li>
+Windows: <code>&lt;install directory&gt;/minetest-0.4.x</code>
+						</li>
+					</ul>
+					</li>
+					<li>
+<code>$path_user</code>:
+					<ul>
+						<li>
+Linux: <code>$HOME/.minetest</code>
+						</li>
+						<li>
+Windows: <code>C:/users/&lt;user&gt;/AppData/minetest</code> (maybe)
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<hr>
+		<h2 id="contents">Contents</h2>
+		<ul>
+			<li><a href="Mods.html">Mods</a>, [<a href="full_index.html#Mods">index</a>]</li>
+			<li><a href="Aliases.html">Aliases</a>, [<a href="full_index.html#Aliases">index</a>]</li>
+			<li><a href="Textures.html">Textures</a>, [<a href="full_index.html#Textures">index</a>]</li>
+			<li><a href="Sounds.html">Sounds</a>, [<a href="full_index.html#Sounds">index</a>]</li>
+			<li><a href="Registered_definitions.html">Registered definitions</a>, [<a href="full_index.html#Registered_definitions">index</a>]</li>
+			<li><a href="Nodes_Node_paramtypes.html">Nodes, Node paramtypes</a>, [<a href="full_index.html#Nodes_Node_paramtypes">index</a>]</li>
+			<li><a href="Nodes_Node_drawtypes.html">Nodes, Node drawtypes</a>, [<a href="full_index.html#Nodes_Node_drawtypes">index</a>]</li>
+			<li><a href="Nodes_Node_boxes.html">Nodes, Node boxes</a>, [<a href="full_index.html#Nodes_Node_boxes">index</a>]</li>
+			<li><a href="Map_terminology_and_coordinates.html">Map terminology and coordinates</a>, [<a href="full_index.html#Map_terminology_and_coordinates">index</a>]</li>
+			<li><a href="HUD.html">HUD</a>, [<a href="full_index.html#HUD">index</a>]</li>
+			<li><a href="Representations_of_simple_things.html">Representations of simple things</a>, [<a href="full_index.html#Representations_of_simple_things">index</a>]</li>
+			<li><a href="Flag_Specifier_Format.html">Flag Specifier Format</a>, [<a href="full_index.html#Flag_Specifier_Format">index</a>]</li>
+			<li><a href="Items.html">Items</a>, [<a href="full_index.html#Items">index</a>]</li>
+			<li><a href="Groups.html">Groups</a>, [<a href="full_index.html#Groups">index</a>]</li>
+			<li><a href="Tools.html">Tools</a>, [<a href="full_index.html#Tools">index</a>]</li>
+			<li><a href="Entity_damage_mechanism.html">Entity damage mechanism</a>, [<a href="full_index.html#Entity_damage_mechanism">index</a>]</li>
+			<li><a href="Metadata.html">Metadata</a>, [<a href="full_index.html#Metadata">index</a>]</li>
+			<li><a href="Formspec_Examples.html">Formspec, Examples</a>, [<a href="full_index.html#Formspec_Examples">index</a>]</li>
+			<li><a href="Formspec_Elements.html">Formspec, Elements</a>, [<a href="full_index.html#Formspec_Elements">index</a>]</li>
+			<li><a href="Formspec_Migrating_to_Real_Coordinates.html">Formspec, Migrating to Real Coordinates</a>, [<a href="full_index.html#Formspec_Migrating_to_Real_Coordinates">index</a>]</li>
+			<li><a href="Formspec_Styling_Formspecs.html">Formspec, Styling Formspecs</a>, [<a href="full_index.html#Formspec_Styling_Formspecs">index</a>]</li>
+			<li><a href="Formspec_Markup_Language.html">Formspec, Markup Language</a>, [<a href="full_index.html#Formspec_Markup_Language">index</a>]</li>
+			<li><a href="Inventory.html">Inventory</a>, [<a href="full_index.html#Inventory">index</a>]</li>
+			<li><a href="Colors.html">Colors</a>, [<a href="full_index.html#Colors">index</a>]</li>
+			<li><a href="Escape_sequences.html">Escape sequences</a>, [<a href="full_index.html#Escape_sequences">index</a>]</li>
+			<li><a href="Spatial_Vectors.html">Spatial Vectors</a>, [<a href="full_index.html#Spatial_Vectors">index</a>]</li>
+			<li><a href="Helper_functions.html">Helper functions</a>, [<a href="full_index.html#Helper_functions">index</a>]</li>
+			<li><a href="Translations.html">Translations</a>, [<a href="full_index.html#Translations">index</a>]</li>
+			<li><a href="Perlin_noise.html">Perlin noise</a>, [<a href="full_index.html#Perlin_noise">index</a>]</li>
+			<li><a href="Ores.html">Ores</a>, [<a href="full_index.html#Ores">index</a>]</li>
+			<li><a href="Decoration_types.html">Decoration types</a>, [<a href="full_index.html#Decoration_types">index</a>]</li>
+			<li><a href="Schematics.html">Schematics</a>, [<a href="full_index.html#Schematics">index</a>]</li>
+			<li><a href="Lua_Voxel_Manipulator.html">Lua Voxel Manipulator</a>, [<a href="full_index.html#Lua_Voxel_Manipulator">index</a>]</li>
+			<li><a href="Mapgen_objects.html">Mapgen objects</a>, [<a href="full_index.html#Mapgen_objects">index</a>]</li>
+			<li><a href="Registered_entities.html">Registered entities</a>, [<a href="full_index.html#Registered_entities">index</a>]</li>
+			<li><a href="L-system_trees.html">L-system trees</a>, [<a href="full_index.html#L-system_trees">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Utilities.html">minetest namespace reference, Utilities</a>, [<a href="full_index.html#minetest_namespace_reference_Utilities">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Logging.html">minetest namespace reference, Logging</a>, [<a href="full_index.html#minetest_namespace_reference_Logging">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Registration_functions.html">minetest namespace reference, Registration functions</a>, [<a href="full_index.html#minetest_namespace_reference_Registration_functions">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Global_callback_registration_functions.html">minetest namespace reference, Global callback registration functions</a>, [<a href="full_index.html#minetest_namespace_reference_Global_callback_registration_functions">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Setting-related.html">minetest namespace reference, Setting-related</a>, [<a href="full_index.html#minetest_namespace_reference_Setting-related">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Authentication.html">minetest namespace reference, Authentication</a>, [<a href="full_index.html#minetest_namespace_reference_Authentication">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Chat.html">minetest namespace reference, Chat</a>, [<a href="full_index.html#minetest_namespace_reference_Chat">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Environment_access.html">minetest namespace reference, Environment access</a>, [<a href="full_index.html#minetest_namespace_reference_Environment_access">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Mod_channels.html">minetest namespace reference, Mod channels</a>, [<a href="full_index.html#minetest_namespace_reference_Mod_channels">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Inventory.html">minetest namespace reference, Inventory</a>, [<a href="full_index.html#minetest_namespace_reference_Inventory">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Formspec.html">minetest namespace reference, Formspec</a>, [<a href="full_index.html#minetest_namespace_reference_Formspec">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Item_handling.html">minetest namespace reference, Item handling</a>, [<a href="full_index.html#minetest_namespace_reference_Item_handling">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Rollback.html">minetest namespace reference, Rollback</a>, [<a href="full_index.html#minetest_namespace_reference_Rollback">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Defaults_for_the_on_place_and_on_drop_item_definition_functions.html">minetest namespace reference, Defaults for the on_place and on_drop item definition functions</a>, [<a href="full_index.html#minetest_namespace_reference_Defaults_for_the_on_place_and_on_drop_item_definition_functions">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Defaults_for_the_on_punch_and_on_dig_node_definition_callbacks.html">minetest namespace reference, Defaults for the on_punch and on_dig node definition callbacks</a>, [<a href="full_index.html#minetest_namespace_reference_Defaults_for_the_on_punch_and_on_dig_node_definition_callbacks">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Sounds.html">minetest namespace reference, Sounds</a>, [<a href="full_index.html#minetest_namespace_reference_Sounds">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Timing.html">minetest namespace reference, Timing</a>, [<a href="full_index.html#minetest_namespace_reference_Timing">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Server.html">minetest namespace reference, Server</a>, [<a href="full_index.html#minetest_namespace_reference_Server">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Bans.html">minetest namespace reference, Bans</a>, [<a href="full_index.html#minetest_namespace_reference_Bans">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Particles.html">minetest namespace reference, Particles</a>, [<a href="full_index.html#minetest_namespace_reference_Particles">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Schematics.html">minetest namespace reference, Schematics</a>, [<a href="full_index.html#minetest_namespace_reference_Schematics">index</a>]</li>
+			<li><a href="minetest_namespace_reference_HTTP_Requests.html">minetest namespace reference, HTTP Requests</a>, [<a href="full_index.html#minetest_namespace_reference_HTTP_Requests">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Storage_API.html">minetest namespace reference, Storage API</a>, [<a href="full_index.html#minetest_namespace_reference_Storage_API">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Misc..html">minetest namespace reference, Misc.</a>, [<a href="full_index.html#minetest_namespace_reference_Misc.">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Global_objects.html">minetest namespace reference, Global objects</a>, [<a href="full_index.html#minetest_namespace_reference_Global_objects">index</a>]</li>
+			<li><a href="minetest_namespace_reference_Global_tables.html">minetest namespace reference, Global tables</a>, [<a href="full_index.html#minetest_namespace_reference_Global_tables">index</a>]</li>
+			<li><a href="Class_reference_AreaStore.html">Class reference, AreaStore</a>, [<a href="full_index.html#Class_reference_AreaStore">index</a>]</li>
+			<li><a href="Class_reference_InvRef.html">Class reference, InvRef</a>, [<a href="full_index.html#Class_reference_InvRef">index</a>]</li>
+			<li><a href="Class_reference_ItemStack.html">Class reference, ItemStack</a>, [<a href="full_index.html#Class_reference_ItemStack">index</a>]</li>
+			<li><a href="Class_reference_ItemStackMetaRef.html">Class reference, ItemStackMetaRef</a>, [<a href="full_index.html#Class_reference_ItemStackMetaRef">index</a>]</li>
+			<li><a href="Class_reference_MetaDataRef.html">Class reference, MetaDataRef</a>, [<a href="full_index.html#Class_reference_MetaDataRef">index</a>]</li>
+			<li><a href="Class_reference_ModChannel.html">Class reference, ModChannel</a>, [<a href="full_index.html#Class_reference_ModChannel">index</a>]</li>
+			<li><a href="Class_reference_NodeMetaRef.html">Class reference, NodeMetaRef</a>, [<a href="full_index.html#Class_reference_NodeMetaRef">index</a>]</li>
+			<li><a href="Class_reference_NodeTimerRef.html">Class reference, NodeTimerRef</a>, [<a href="full_index.html#Class_reference_NodeTimerRef">index</a>]</li>
+			<li><a href="Class_reference_ObjectRef.html">Class reference, ObjectRef</a>, [<a href="full_index.html#Class_reference_ObjectRef">index</a>]</li>
+			<li><a href="Class_reference_PcgRandom.html">Class reference, PcgRandom</a>, [<a href="full_index.html#Class_reference_PcgRandom">index</a>]</li>
+			<li><a href="Class_reference_PerlinNoise.html">Class reference, PerlinNoise</a>, [<a href="full_index.html#Class_reference_PerlinNoise">index</a>]</li>
+			<li><a href="Class_reference_PerlinNoiseMap.html">Class reference, PerlinNoiseMap</a>, [<a href="full_index.html#Class_reference_PerlinNoiseMap">index</a>]</li>
+			<li><a href="Class_reference_PlayerMetaRef.html">Class reference, PlayerMetaRef</a>, [<a href="full_index.html#Class_reference_PlayerMetaRef">index</a>]</li>
+			<li><a href="Class_reference_PseudoRandom.html">Class reference, PseudoRandom</a>, [<a href="full_index.html#Class_reference_PseudoRandom">index</a>]</li>
+			<li><a href="Class_reference_Raycast.html">Class reference, Raycast</a>, [<a href="full_index.html#Class_reference_Raycast">index</a>]</li>
+			<li><a href="Class_reference_SecureRandom.html">Class reference, SecureRandom</a>, [<a href="full_index.html#Class_reference_SecureRandom">index</a>]</li>
+			<li><a href="Class_reference_Settings.html">Class reference, Settings</a>, [<a href="full_index.html#Class_reference_Settings">index</a>]</li>
+			<li><a href="Class_reference_StorageRef.html">Class reference, StorageRef</a>, [<a href="full_index.html#Class_reference_StorageRef">index</a>]</li>
+			<li><a href="Definition_tables_Object_properties.html">Definition tables, Object properties</a>, [<a href="full_index.html#Definition_tables_Object_properties">index</a>]</li>
+			<li><a href="Definition_tables_Entity_definition.html">Definition tables, Entity definition</a>, [<a href="full_index.html#Definition_tables_Entity_definition">index</a>]</li>
+			<li><a href="Definition_tables_ABM_(ActiveBlockModifier)_definition.html">Definition tables, ABM (ActiveBlockModifier) definition</a>, [<a href="full_index.html#Definition_tables_ABM_(ActiveBlockModifier)_definition">index</a>]</li>
+			<li><a href="Definition_tables_LBM_(LoadingBlockModifier)_definition.html">Definition tables, LBM (LoadingBlockModifier) definition</a>, [<a href="full_index.html#Definition_tables_LBM_(LoadingBlockModifier)_definition">index</a>]</li>
+			<li><a href="Definition_tables_Tile_definition.html">Definition tables, Tile definition</a>, [<a href="full_index.html#Definition_tables_Tile_definition">index</a>]</li>
+			<li><a href="Definition_tables_Tile_animation_definition.html">Definition tables, Tile animation definition</a>, [<a href="full_index.html#Definition_tables_Tile_animation_definition">index</a>]</li>
+			<li><a href="Definition_tables_Item_definition.html">Definition tables, Item definition</a>, [<a href="full_index.html#Definition_tables_Item_definition">index</a>]</li>
+			<li><a href="Definition_tables_Node_definition.html">Definition tables, Node definition</a>, [<a href="full_index.html#Definition_tables_Node_definition">index</a>]</li>
+			<li><a href="Definition_tables_Crafting_recipes.html">Definition tables, Crafting recipes</a>, [<a href="full_index.html#Definition_tables_Crafting_recipes">index</a>]</li>
+			<li><a href="Definition_tables_Ore_definition.html">Definition tables, Ore definition</a>, [<a href="full_index.html#Definition_tables_Ore_definition">index</a>]</li>
+			<li><a href="Definition_tables_Biome_definition.html">Definition tables, Biome definition</a>, [<a href="full_index.html#Definition_tables_Biome_definition">index</a>]</li>
+			<li><a href="Definition_tables_Decoration_definition.html">Definition tables, Decoration definition</a>, [<a href="full_index.html#Definition_tables_Decoration_definition">index</a>]</li>
+			<li><a href="Definition_tables_Chat_command_definition.html">Definition tables, Chat command definition</a>, [<a href="full_index.html#Definition_tables_Chat_command_definition">index</a>]</li>
+			<li><a href="Definition_tables_Privilege_definition.html">Definition tables, Privilege definition</a>, [<a href="full_index.html#Definition_tables_Privilege_definition">index</a>]</li>
+			<li><a href="Definition_tables_Detached_inventory_callbacks.html">Definition tables, Detached inventory callbacks</a>, [<a href="full_index.html#Definition_tables_Detached_inventory_callbacks">index</a>]</li>
+			<li><a href="Definition_tables_HUD_Definition.html">Definition tables, HUD Definition</a>, [<a href="full_index.html#Definition_tables_HUD_Definition">index</a>]</li>
+			<li><a href="Definition_tables_Particle_definition.html">Definition tables, Particle definition</a>, [<a href="full_index.html#Definition_tables_Particle_definition">index</a>]</li>
+			<li><a href="Definition_tables_ParticleSpawner_definition.html">Definition tables, ParticleSpawner definition</a>, [<a href="full_index.html#Definition_tables_ParticleSpawner_definition">index</a>]</li>
+			<li><a href="Definition_tables_HTTPRequest_definition.html">Definition tables, HTTPRequest definition</a>, [<a href="full_index.html#Definition_tables_HTTPRequest_definition">index</a>]</li>
+			<li><a href="Definition_tables_HTTPRequestResult_definition.html">Definition tables, HTTPRequestResult definition</a>, [<a href="full_index.html#Definition_tables_HTTPRequestResult_definition">index</a>]</li>
+			<li><a href="Definition_tables_Authentication_handler_definition.html">Definition tables, Authentication handler definition</a>, [<a href="full_index.html#Definition_tables_Authentication_handler_definition">index</a>]</li>
+		</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html">Index</a></p>
+	</body>
+</html>

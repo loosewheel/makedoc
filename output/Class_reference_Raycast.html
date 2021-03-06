@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, Raycast</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_Raycast">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Raycast">Class reference, Raycast</h1>
+		<p>
+A raycast on the map. It works with selection boxes. Can be used as an iterator in a for loop as:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;local ray = Raycast(...)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for pointed_thing in ray do
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end
+		<p>
+The map is loaded as the ray advances. If the map is modified after the <code>Raycast</code> is created, the changes may or may not have an effect on the object.
+		</p>
+		<p>
+It can be created via <code>Raycast(pos1, pos2, objects, liquids)</code> or <code>minetest.raycast(pos1, pos2, objects, liquids)</code> where:
+		</p>
+			<ul>
+				<li class="line1">
+<code>pos1</code>: start of the ray
+				</li>
+				<li class="line1">
+<code>pos2</code>: end of the ray
+				</li>
+				<li class="line1">
+<code>objects</code>: if false, only nodes will be returned. Default is true.
+				</li>
+				<li class="line1">
+<code>liquids</code>: if false, liquid nodes won't be returned. Default is false.
+				</li>
+			</ul>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>next()</code>: returns a <code>pointed_thing</code> with exact pointing location
+				<ul>
+					<li>
+Returns the next thing pointed by the ray or nil.
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_Raycast">Index</a></p>
+	</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Formspec, Examples</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Examples">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Examples">Formspec, Examples</h1>
+		<h2 id="Chest">Chest</h2>
+&nbsp;&nbsp;&nbsp;&nbsp;size[8,9]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;main;0,0;8,4;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;main;0,5;8,4;]
+		<h2 id="Furnace">Furnace</h2>
+&nbsp;&nbsp;&nbsp;&nbsp;size[8,9]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;fuel;2,3;1,1;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;src;2,1;1,1;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[context;dst;5,1;2,2;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;main;0,5;8,4;]
+		<h2 id="Minecraft-like player inventory">Minecraft-like player inventory</h2>
+&nbsp;&nbsp;&nbsp;&nbsp;size[8,7.5]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;image[1,0.6;1,2;player.png]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;main;0,3.5;8,4;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;craft;3,0;3,3;]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list[current_player;craftpreview;7,1;1,1;]
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Examples">Index</a></p>
+	</body>
+</html>

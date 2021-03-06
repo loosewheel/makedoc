@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Formspec, Styling Formspecs</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Styling_Formspecs">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Styling Formspecs">Formspec, Styling Formspecs</h1>
+		<p>
+Formspec elements can be themed using the style elements:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;style[&lt;name 1&gt;,&lt;name 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style[&lt;name 1&gt;:&lt;state&gt;,&lt;name 2&gt;:&lt;state&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[&lt;type 1&gt;,&lt;type 2&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[&lt;type 1&gt;:&lt;state&gt;,&lt;type 2&gt;:&lt;state&gt;;&lt;prop1&gt;;&lt;prop2&gt;;...]
+		<p>
+Where a prop is:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;property_name=property_value
+		<p>
+For example:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[button;bgcolor=#006699]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style[world_delete;bgcolor=red;textcolor=yellow]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;button[4,3.95;2.6,1;world_delete;Delete]
+		<p>
+A name/type can optionally be a comma separated list of names/types, like so:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;world_delete,world_create,world_configure
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;button,image_button
+		<p>
+A <code>*</code> type can be used to select every element in the formspec.
+		</p>
+		<p>
+Any name/type in the list can also be accompanied by a <code>+</code>-separated list of states, like so:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;world_delete:hovered+pressed
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;button:pressed
+		<p>
+States allow you to apply styles in response to changes in the element, instead of applying at all times.
+		</p>
+		<p>
+Setting a property to nothing will reset it to the default value. For example:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;style_type[button;bgimg=button.png;bgimg_pressed=button_pressed.png;border=false]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;style[btn_exit;bgimg=;bgimg_pressed=;border=;bgcolor=red]
+		<h2 id="Supported Element Types">Supported Element Types</h2>
+		<p>
+Some types may inherit styles from parent types.
+		</p>
+			<ul>
+				<li class="line1">
+animated_image, inherits from image
+				</li>
+				<li class="line1">
+box
+				</li>
+				<li class="line1">
+button
+				</li>
+				<li class="line1">
+button_exit, inherits from button
+				</li>
+				<li class="line1">
+checkbox
+				</li>
+				<li class="line1">
+dropdown
+				</li>
+				<li class="line1">
+field
+				</li>
+				<li class="line1">
+image
+				</li>
+				<li class="line1">
+image_button
+				</li>
+				<li class="line1">
+item_image_button
+				</li>
+				<li class="line1">
+label
+				</li>
+				<li class="line1">
+model
+				</li>
+				<li class="line1">
+pwdfield, inherits from field
+				</li>
+				<li class="line1">
+scrollbar
+				</li>
+				<li class="line1">
+tabheader
+				</li>
+				<li class="line1">
+table
+				</li>
+				<li class="line1">
+textarea
+				</li>
+				<li class="line1">
+textlist
+				</li>
+				<li class="line1">
+vertlabel, inherits from label
+				</li>
+			</ul>
+		<h2 id="Valid Properties">Valid Properties</h2>
+			<ul>
+				<li class="line1">
+animated_image
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+box
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					<ul>
+						<li>
+Defaults to false in formspec_version version 3 or higher
+						</li>
+					</ul>
+					</li>
+					<li>
+<em>Note</em>: <code>colors</code>, <code>bordercolors</code>, and <code>borderwidths</code> accept multiple input types:
+					<ul>
+						<li>
+Single value (e.g. <code>#FF0</code>): All corners/borders.
+						</li>
+						<li>
+Two values (e.g. <code>red,#FFAAFF</code>): top-left and bottom-right,top-right and bottom-left/           top and bottom,left and right.
+						</li>
+						<li>
+Four values (e.g. <code>blue,#A0F,green,#FFFA</code>): top-left/top and rotates clockwise.
+						</li>
+						<li>
+These work similarly to CSS borders.
+						</li>
+					</ul>
+					</li>
+					<li>
+colors - <code>ColorString</code>. Sets the color(s) of the box corners. Default <code>black</code>.
+					</li>
+					<li>
+bordercolors - <code>ColorString</code>. Sets the color(s) of the borders. Default <code>black</code>.
+					</li>
+					<li>
+borderwidths - Integer. Sets the width(s) of the borders in pixels. If the width is       negative, the border will extend inside the box, whereas positive extends outside       the box. A width of zero results in no border; this is default.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+button, button_exit, image_button, item_image_button
+				<ul>
+					<li>
+alpha - boolean, whether to draw alpha in bgimg. Default true.
+					</li>
+					<li>
+bgcolor - color, sets button tint.
+					</li>
+					<li>
+bgcolor_hovered - color when hovered. Defaults to a lighter bgcolor when not provided.
+					<ul>
+						<li>
+This is deprecated, use states instead.
+						</li>
+					</ul>
+					</li>
+					<li>
+bgcolor_pressed - color when pressed. Defaults to a darker bgcolor when not provided.
+					<ul>
+						<li>
+This is deprecated, use states instead.
+						</li>
+					</ul>
+					</li>
+					<li>
+bgimg - standard background image. Defaults to none.
+					</li>
+					<li>
+bgimg_hovered - background image when hovered. Defaults to bgimg when not provided.
+					<ul>
+						<li>
+This is deprecated, use states instead.
+						</li>
+					</ul>
+					</li>
+					<li>
+bgimg_middle - Makes the bgimg textures render in 9-sliced mode and defines the middle rect.                      See background9[] documentation for more details. This property also pads the                      button's content when set.
+					</li>
+					<li>
+bgimg_pressed - background image when pressed. Defaults to bgimg when not provided.
+					<ul>
+						<li>
+This is deprecated, use states instead.
+						</li>
+					</ul>
+					</li>
+					<li>
+font - Sets font type. This is a comma separated list of options. Valid options:
+					</li>
+					<li>
+Main font type options. These cannot be combined with each other:
+					<ul>
+						<li>
+<code>normal</code>: Default font
+						</li>
+						<li>
+<code>mono</code>: Monospaced font
+						</li>
+					</ul>
+					</li>
+					<li>
+Font modification options. If used without a main font type, <code>normal</code> is used:
+					<ul>
+						<li>
+<code>bold</code>: Makes font bold.
+						</li>
+						<li>
+<code>italic</code>: Makes font italic.       Default <code>normal</code>.
+						</li>
+					</ul>
+					</li>
+					<li>
+font_size - Sets font size. Default is user-set. Can have multiple values:
+					</li>
+					<li>
+<code>&lt;number&gt;</code>: Sets absolute font size to <code>number</code>.
+					</li>
+					<li>
+<code>+&lt;number&gt;</code>/<code>-&lt;number&gt;</code>: Offsets default font size by <code>number</code> points.
+					</li>
+					<li>
+<code>*&lt;number&gt;</code>: Multiplies default font size by <code>number</code>, similar to CSS <code>em</code>.
+					</li>
+					<li>
+border - boolean, draw border. Set to false to hide the bevelled button pane. Default true.
+					</li>
+					<li>
+content_offset - 2d vector, shifts the position of the button's content without resizing it.
+					</li>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+					<li>
+padding - rect, adds space between the edges of the button and the content. This value is                 relative to bgimg_middle.
+					</li>
+					<li>
+sound - a sound to be played when clicked.
+					</li>
+					<li>
+textcolor - color, default white.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+checkbox
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+					<li>
+sound - a sound to be played when clicked.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+dropdown
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+					<li>
+sound - a sound to be played when clicked.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+field, pwdfield, textarea
+				<ul>
+					<li>
+border - set to false to hide the textbox background and border. Default true.
+					</li>
+					<li>
+font - Sets font type. See button <code>font</code> property for more information.
+					</li>
+					<li>
+font_size - Sets font size. See button <code>font_size</code> property for more information.
+					</li>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+					<li>
+textcolor - color. Default white.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+model
+				<ul>
+					<li>
+bgcolor - color, sets background color.
+					</li>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					<ul>
+						<li>
+Default to false in formspec_version version 3 or higher
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+image
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					<ul>
+						<li>
+Default to false in formspec_version version 3 or higher
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+item_image
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds. Default to false.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+label, vertlabel
+				<ul>
+					<li>
+font - Sets font type. See button <code>font</code> property for more information.
+					</li>
+					<li>
+font_size - Sets font size. See button <code>font_size</code> property for more information.
+					</li>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+image_button (additional properties)
+				<ul>
+					<li>
+fgimg - standard image. Defaults to none.
+					</li>
+					<li>
+fgimg_hovered - image when hovered. Defaults to fgimg when not provided.
+					<ul>
+						<li>
+This is deprecated, use states instead.
+						</li>
+					</ul>
+					</li>
+					<li>
+fgimg_pressed - image when pressed. Defaults to fgimg when not provided.
+					<ul>
+						<li>
+This is deprecated, use states instead.
+						</li>
+					</ul>
+					</li>
+					<li>
+NOTE: The parameters of any given image_button will take precedence over fgimg/fgimg_pressed
+					</li>
+					<li>
+sound - a sound to be played when clicked.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+scrollbar
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+tabheader
+				<ul>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+					<li>
+sound - a sound to be played when clicked.
+					</li>
+					<li>
+textcolor - color. Default white.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+table, textlist
+				<ul>
+					<li>
+font - Sets font type. See button <code>font</code> property for more information.
+					</li>
+					<li>
+font_size - Sets font size. See button <code>font_size</code> property for more information.
+					</li>
+					<li>
+noclip - boolean, set to true to allow the element to exceed formspec bounds.
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<h2 id="Valid States">Valid States</h2>
+			<ul>
+				<li class="line1">
+*all elements*
+				<ul>
+					<li>
+default - Equivalent to providing no states
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+button, button_exit, image_button, item_image_button
+				<ul>
+					<li>
+hovered - Active when the mouse is hovering over the element
+					</li>
+					<li>
+pressed - Active when the button is pressed
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Styling_Formspecs">Index</a></p>
+	</body>
+</html>

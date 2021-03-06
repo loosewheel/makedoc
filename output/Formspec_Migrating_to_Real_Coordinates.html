@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Formspec, Migrating to Real Coordinates</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Migrating_to_Real_Coordinates">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Migrating to Real Coordinates">Formspec, Migrating to Real Coordinates</h1>
+		<p>
+In the old system, positions included padding and spacing. Padding is a gap between the formspec window edges and content, and spacing is the gaps between items. For example, two <code>1x1</code> elements at <code>0,0</code> and <code>1,1</code> would have a spacing of <code>5/4</code> between them, and a padding of <code>3/8</code> from the formspec edge. It may be easiest to recreate old layouts in the new coordinate system from scratch.
+		</p>
+		<p>
+To recreate an old layout with padding, you'll need to pass the positions and sizes through the following formula to re-introduce padding:
+		</p>
+		<pre>
+pos = (oldpos + 1)*spacing + padding
+where
+    padding = 3/8
+    spacing = 5/4
+</pre>		<p>
+You'll need to change the <code>size[]</code> tag like this:
+		</p>
+		<pre>
+size = (oldsize-1)*spacing + padding*2 + 1
+</pre>		<p>
+A few elements had random offsets in the old system. Here is a table which shows these offsets when migrating:
+		</p>
+		<p>
+<table>
+ <tr>
+  <th style="text-align:left;"> Element </th>
+  <th style="text-align:left;">  Position  </th>
+  <th style="text-align:left;">  Size   </th>
+  <th style="text-align:left;"> Notes</th>
+ </tr>
+<tr>
+  <td style="text-align:left;"> box     </td>
+  <td style="text-align:left;"> +0.3, +0.1 </td>
+  <td style="text-align:left;"> 0, -0.4 </td>
+  <td style="text-align:left;">&nbsp;</td>
+ </tr>
+<tr>
+  <td style="text-align:left;"> button  </td>
+  <td style="text-align:left;">            </td>
+  <td style="text-align:left;">         </td>
+  <td style="text-align:left;"> Buttons now support height, so set h = 2 * 15/13 * 0.35, and reposition if h ~= 15/13 * 0.35 before</td>
+ </tr>
+<tr>
+  <td style="text-align:left;"> list    </td>
+  <td style="text-align:left;">            </td>
+  <td style="text-align:left;">         </td>
+  <td style="text-align:left;"> Spacing is now 0.25 for both directions, meaning lists will be taller in height</td>
+ </tr>
+<tr>
+  <td style="text-align:left;"> label   </td>
+  <td style="text-align:left;"> 0, +0.3    </td>
+  <td style="text-align:left;">         </td>
+  <td style="text-align:left;"> The first line of text is now positioned centered exactly at the position specified</td>
+ </tr>
+		</table>
+		</p>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Migrating_to_Real_Coordinates">Index</a></p>
+	</body>
+</html>
