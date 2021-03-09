@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, Timing</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Timing">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Timing">minetest namespace reference, Timing</h1>
+			<ul>
+				<li class="line1">
+<code>minetest.after(time, func, ...)</code> : returns job table to use as below.
+				<ul>
+					<li>
+Call the function <code>func</code> after <code>time</code> seconds, may be fractional
+					</li>
+					<li>
+Optional: Variable number of arguments that are passed to <code>func</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>job:cancel()</code>
+				<ul>
+					<li>
+Cancels the job function from being called
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Timing">Index</a></p>
+	</body>
+</html>

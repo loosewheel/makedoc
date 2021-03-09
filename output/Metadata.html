@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Metadata</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Metadata">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Metadata">Metadata</h1>
+		<h2 id="Node Metadata">Node Metadata</h2>
+		<p>
+The instance of a node in the world normally only contains the three values mentioned in <a href="Nodes.html#Nodes">Nodes</a>. However, it is possible to insert extra data into a node. It is called "node metadata"; See <code>NodeMetaRef</code>.
+		</p>
+		<p>
+Node metadata contains two things:
+		</p>
+			<ul>
+				<li class="line1">
+A key-value store
+				</li>
+				<li class="line1">
+An inventory
+<br>
+Some of the values in the key-value store are handled specially:
+				</li>
+				<li class="line1">
+<code>formspec</code>: Defines a right-click inventory menu. See <a href="Formspec.html#Formspec">Formspec</a>.
+				</li>
+				<li class="line1">
+<code>infotext</code>: Text shown on the screen when the node is pointed at
+<br>
+Example:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;local meta = minetest.get_meta(pos)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;meta:set_string("formspec",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"size[8,9]"..
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"list[context;main;0,0;8,4;]"..
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"list[current_player;main;0,5;8,4;]")
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;meta:set_string("infotext", "Chest");
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;local inv = meta:get_inventory()
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;inv:set_size("main", 8*4)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print(dump(meta:to_table()))
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;meta:from_table({
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inventory = {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main = {[1] = "default:dirt", [2] = "", [3] = "", [4] = "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[5] = "", [6] = "", [7] = "", [8] = "", [9] = "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[10] = "", [11] = "", [12] = "", [13] = "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[14] = "default:cobble", [15] = "", [16] = "", [17] = "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[18] = "", [19] = "", [20] = "default:cobble", [21] = "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[22] = "", [23] = "", [24] = "", [25] = "", [26] = "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[27] = "", [28] = "", [29] = "", [30] = "", [31] = "",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[32] = ""}
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fields = {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formspec = "size[8,9]list[context;main;0,0;8,4;]list[current_player;main;0,5;8,4;]",
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infotext = "Chest"
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})
+				</li>
+			</ul>
+		<h2 id="Item Metadata">Item Metadata</h2>
+		<p>
+Item stacks can store metadata too. See <a href="Class_reference_ItemStackMetaRef.html#ItemStackMetaRef"><code>ItemStackMetaRef</code></a>.
+		</p>
+		<p>
+Item metadata only contains a key-value store.
+		</p>
+		<p>
+Some of the values in the key-value store are handled specially:
+		</p>
+			<ul>
+				<li class="line1">
+<code>description</code>: Set the item stack's description.   See also: <code>get_description</code> in <a href="Items.html#ItemStack"><code>ItemStack</code></a>
+				</li>
+				<li class="line1">
+<code>short_description</code>: Set the item stack's short description.   See also: <code>get_short_description</code> in <a href="Items.html#ItemStack"><code>ItemStack</code></a>
+				</li>
+				<li class="line1">
+<code>color</code>: A <code>ColorString</code>, which sets the stack's color.
+				</li>
+				<li class="line1">
+<code>palette_index</code>: If the item has a palette, this is used to get the   current color from the palette.
+<br>
+Example:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;local meta = stack:get_meta()
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;meta:set_string("key", "value")
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print(dump(meta:to_table()))
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Metadata">Index</a></p>
+	</body>
+</html>

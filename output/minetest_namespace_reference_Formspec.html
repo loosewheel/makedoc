@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, Formspec</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Formspec">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Formspec">minetest namespace reference, Formspec</h1>
+			<ul>
+				<li class="line1">
+<code>minetest.show_formspec(playername, formname, formspec)</code>
+				<ul>
+					<li>
+<code>playername</code>: name of player to show formspec
+					</li>
+					<li>
+<code>formname</code>: name passed to <code>on_player_receive_fields</code> callbacks.       It should follow the <code>"modname:&lt;whatever&gt;"</code> naming convention
+					</li>
+					<li>
+<code>formspec</code>: formspec to display
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.close_formspec(playername, formname)</code>
+				<ul>
+					<li>
+<code>playername</code>: name of player to close formspec
+					</li>
+					<li>
+<code>formname</code>: has to exactly match the one given in <code>show_formspec</code>, or the       formspec will not close.
+					</li>
+					<li>
+calling <code>show_formspec(playername, formname, "")</code> is equal to this       expression.
+					</li>
+					<li>
+to close a formspec regardless of the formname, call       <code>minetest.close_formspec(playername, "")</code>.       <em>USE THIS ONLY WHEN ABSOLUTELY NECESSARY!</em>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.formspec_escape(string)</code>: returns a string
+				<ul>
+					<li>
+escapes the characters "[", "]", "\", "," and ";", which can not be used       in formspecs.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.explode_table_event(string)</code>: returns a table
+				<ul>
+					<li>
+returns e.g. <code>{type="CHG", row=1, column=2}</code>
+					</li>
+					<li>
+<code>type</code> is one of:
+					<ul>
+						<li>
+<code>"INV"</code>: no row selected
+						</li>
+						<li>
+<code>"CHG"</code>: selected
+						</li>
+						<li>
+<code>"DCL"</code>: double-click
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.explode_textlist_event(string)</code>: returns a table
+				<ul>
+					<li>
+returns e.g. <code>{type="CHG", index=1}</code>
+					</li>
+					<li>
+<code>type</code> is one of:
+					<ul>
+						<li>
+<code>"INV"</code>: no row selected
+						</li>
+						<li>
+<code>"CHG"</code>: selected
+						</li>
+						<li>
+<code>"DCL"</code>: double-click
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.explode_scrollbar_event(string)</code>: returns a table
+				<ul>
+					<li>
+returns e.g. <code>{type="CHG", value=500}</code>
+					</li>
+					<li>
+<code>type</code> is one of:
+					<ul>
+						<li>
+<code>"INV"</code>: something failed
+						</li>
+						<li>
+<code>"CHG"</code>: has been changed
+						</li>
+						<li>
+<code>"VAL"</code>: not changed
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Formspec">Index</a></p>
+	</body>
+</html>

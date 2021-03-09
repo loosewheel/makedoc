@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, Global tables</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Global_tables">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Global tables">minetest namespace reference, Global tables</h1>
+		<h2 id="Registered definition tables">Registered definition tables</h2>
+			<ul>
+				<li class="line1">
+<code>minetest.registered_items</code>
+				<ul>
+					<li>
+Map of registered items, indexed by name
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_nodes</code>
+				<ul>
+					<li>
+Map of registered node definitions, indexed by name
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_craftitems</code>
+				<ul>
+					<li>
+Map of registered craft item definitions, indexed by name
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_tools</code>
+				<ul>
+					<li>
+Map of registered tool definitions, indexed by name
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_entities</code>
+				<ul>
+					<li>
+Map of registered entity prototypes, indexed by name
+					</li>
+					<li>
+Values in this table may be modified directly.       Note: changes to initial properties will only affect entities spawned afterwards,       as they are only read when spawning.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.object_refs</code>
+				<ul>
+					<li>
+Map of object references, indexed by active object id
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.luaentities</code>
+				<ul>
+					<li>
+Map of Lua entities, indexed by active object id
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_abms</code>
+				<ul>
+					<li>
+List of ABM definitions
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_lbms</code>
+				<ul>
+					<li>
+List of LBM definitions
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_aliases</code>
+				<ul>
+					<li>
+Map of registered aliases, indexed by name
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_ores</code>
+				<ul>
+					<li>
+Map of registered ore definitions, indexed by the <code>name</code> field.
+					</li>
+					<li>
+If <code>name</code> is nil, the key is the object handle returned by       <code>minetest.register_ore</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_biomes</code>
+				<ul>
+					<li>
+Map of registered biome definitions, indexed by the <code>name</code> field.
+					</li>
+					<li>
+If <code>name</code> is nil, the key is the object handle returned by       <code>minetest.register_biome</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_decorations</code>
+				<ul>
+					<li>
+Map of registered decoration definitions, indexed by the <code>name</code> field.
+					</li>
+					<li>
+If <code>name</code> is nil, the key is the object handle returned by       <code>minetest.register_decoration</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_schematics</code>
+				<ul>
+					<li>
+Map of registered schematic definitions, indexed by the <code>name</code> field.
+					</li>
+					<li>
+If <code>name</code> is nil, the key is the object handle returned by       <code>minetest.register_schematic</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_chatcommands</code>
+				<ul>
+					<li>
+Map of registered chat command definitions, indexed by name
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>minetest.registered_privileges</code>
+				<ul>
+					<li>
+Map of registered privilege definitions, indexed by name
+					</li>
+					<li>
+Registered privileges can be modified directly in this table.
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<h2 id="Registered callback tables">Registered callback tables</h2>
+		<p>
+All callbacks registered with <a href="minetest_namespace_reference_Global_callback_registration_functions.html#Global callback registration functions">Global callback registration functions</a> are added to corresponding <code>minetest.registered_*</code> tables.
+		</p>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Global_tables">Index</a></p>
+	</body>
+</html>

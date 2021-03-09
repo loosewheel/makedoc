@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>minetest namespace reference, Setting-related</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Setting-related">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Setting-related">minetest namespace reference, Setting-related</h1>
+			<ul>
+				<li class="line1">
+<code>minetest.settings</code>: Settings object containing all of the settings from the   main config file (<code>minetest.conf</code>).
+				</li>
+				<li class="line1">
+<code>minetest.setting_get_pos(name)</code>: Loads a setting from the main settings and   parses it as a position (in the format <code>(1,2,3)</code>). Returns a position or nil.
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#minetest_namespace_reference_Setting-related">Index</a></p>
+	</body>
+</html>

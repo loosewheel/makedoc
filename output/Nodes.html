@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Nodes</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Nodes">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Nodes">Nodes</h1>
+		<p>
+Nodes are the bulk data of the world: cubes and other things that take the space of a cube. Huge amounts of them are handled efficiently, but they are quite static.
+		</p>
+		<p>
+The definition of a node is stored and can be accessed by using
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.registered_nodes[node.name]
+		<p>
+See <a href="Registered_definitions.html#Registered definitions">Registered definitions</a>.
+		</p>
+		<p>
+Nodes are passed by value between Lua and the engine. They are represented by a table:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;{name="name", param1=num, param2=num}
+		<p>
+<code>param1</code> and <code>param2</code> are 8-bit integers ranging from 0 to 255. The engine uses them for certain automated functions. If you don't use these functions, you can use them to store arbitrary values.
+		</p>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Nodes">Index</a></p>
+	</body>
+</html>

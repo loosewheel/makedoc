@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Nodes, Node drawtypes</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Nodes_Node_drawtypes">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Node drawtypes">Nodes, Node drawtypes</h1>
+		<p>
+There are a bunch of different looking node types.
+		</p>
+		<p>
+Look for examples in <code>games/devtest</code> or <code>games/minetest_game</code>.
+		</p>
+			<ul>
+				<li class="line1">
+<code>normal</code>
+				<ul>
+					<li>
+A node-sized cube.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>airlike</code>
+				<ul>
+					<li>
+Invisible, uses no texture.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>liquid</code>
+				<ul>
+					<li>
+The cubic source node for a liquid.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>flowingliquid</code>
+				<ul>
+					<li>
+The flowing version of a liquid, appears with various heights and slopes.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>glasslike</code>
+				<ul>
+					<li>
+Often used for partially-transparent nodes.
+					</li>
+					<li>
+Only external sides of textures are visible.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>glasslike_framed</code>
+				<ul>
+					<li>
+All face-connected nodes are drawn as one volume within a surrounding       frame.
+					</li>
+					<li>
+The frame appearance is generated from the edges of the first texture       specified in <code>tiles</code>. The width of the edges used are 1/16th of texture       size: 1 pixel for 16x16, 2 pixels for 32x32 etc.
+					</li>
+					<li>
+The glass 'shine' (or other desired detail) on each node face is supplied       by the second texture specified in <code>tiles</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>glasslike_framed_optional</code>
+				<ul>
+					<li>
+This switches between the above 2 drawtypes according to the menu setting       'Connected Glass'.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>allfaces</code>
+				<ul>
+					<li>
+Often used for partially-transparent nodes.
+					</li>
+					<li>
+External and internal sides of textures are visible.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>allfaces_optional</code>
+				<ul>
+					<li>
+Often used for leaves nodes.
+					</li>
+					<li>
+This switches between <code>normal</code>, <code>glasslike</code> and <code>allfaces</code> according to       the menu setting: Opaque Leaves / Simple Leaves / Fancy Leaves.
+					</li>
+					<li>
+With 'Simple Leaves' selected, the texture specified in <code>special_tiles</code>       is used instead, if present. This allows a visually thicker texture to be       used to compensate for how <code>glasslike</code> reduces visual thickness.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>torchlike</code>
+				<ul>
+					<li>
+A single vertical texture.
+					</li>
+					<li>
+If placed on top of a node, uses the first texture specified in <code>tiles</code>.
+					</li>
+					<li>
+If placed against the underside of a node, uses the second texture       specified in <code>tiles</code>.
+					</li>
+					<li>
+If placed on the side of a node, uses the third texture specified in       <code>tiles</code> and is perpendicular to that node.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>signlike</code>
+				<ul>
+					<li>
+A single texture parallel to, and mounted against, the top, underside or       side of a node.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>plantlike</code>
+				<ul>
+					<li>
+Two vertical and diagonal textures at right-angles to each other.
+					</li>
+					<li>
+See <code>paramtype2 = "meshoptions"</code> above for other options.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>firelike</code>
+				<ul>
+					<li>
+When above a flat surface, appears as 6 textures, the central 2 as       <code>plantlike</code> plus 4 more surrounding those.
+					</li>
+					<li>
+If not above a surface the central 2 do not appear, but the texture       appears against the faces of surrounding nodes if they are present.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>fencelike</code>
+				<ul>
+					<li>
+A 3D model suitable for a wooden fence.
+					</li>
+					<li>
+One placed node appears as a single vertical post.
+					</li>
+					<li>
+Adjacently-placed nodes cause horizontal bars to appear between them.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>raillike</code>
+				<ul>
+					<li>
+Often used for tracks for mining carts.
+					</li>
+					<li>
+Requires 4 textures to be specified in <code>tiles</code>, in order: Straight,       curved, t-junction, crossing.
+					</li>
+					<li>
+Each placed node automatically switches to a suitable rotated texture       determined by the adjacent <code>raillike</code> nodes, in order to create a       continuous track network.
+					</li>
+					<li>
+Becomes a sloping node if placed against stepped nodes.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>nodebox</code>
+				<ul>
+					<li>
+Often used for stairs and slabs.
+					</li>
+					<li>
+Allows defining nodes consisting of an arbitrary number of boxes.
+					</li>
+					<li>
+See <a href="Nodes_Node_boxes.html#Node boxes">Node boxes</a> below for more information.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>mesh</code>
+				<ul>
+					<li>
+Uses models for nodes.
+					</li>
+					<li>
+Tiles should hold model materials textures.
+					</li>
+					<li>
+Only static meshes are implemented.
+					</li>
+					<li>
+For supported model formats see Irrlicht engine documentation.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>plantlike_rooted</code>
+				<ul>
+					<li>
+Enables underwater <code>plantlike</code> without air bubbles around the nodes.
+					</li>
+					<li>
+Consists of a base cube at the co-ordinates of the node plus a       <code>plantlike</code> extension above with a height of <code>param2 / 16</code> nodes.
+					</li>
+					<li>
+The <code>plantlike</code> extension visually passes through any nodes above the       base cube without affecting them.
+					</li>
+					<li>
+The base cube texture tiles are defined as normal, the <code>plantlike</code>       extension uses the defined special tile, for example:       <code>special_tiles = {{name = "default_papyrus.png"}},</code>
+<br>
+<code>*_optional</code> drawtypes need less rendering time if deactivated
+<br>
+(always client-side).
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Nodes_Node_drawtypes">Index</a></p>
+	</body>
+</html>
