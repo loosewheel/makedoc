@@ -931,6 +931,27 @@ function app:expand_output ()
 				if doc[l].type == HEADING_1 then
 					-- ignore it, promoting following
 
+					if l < #doc and doc[l + 1].type ~= HEADING_2 then
+						docs[#docs + 1] =
+						{
+							title = title,
+							name = name,
+							file_name = name..".html",
+							contents = "",
+							doc = { }
+						}
+
+						curdoc = docs[#docs].doc
+
+						curdoc[#curdoc + 1] =
+						{
+							type = HEADING_1,
+							text = doc[l].text,
+							anchor = doc[l].anchor
+						}
+
+					end
+
 				elseif doc[l].type == HEADING_2 then
 					docs[#docs + 1] =
 					{
