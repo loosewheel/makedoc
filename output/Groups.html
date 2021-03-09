@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Groups</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Groups">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Groups">Groups</h1>
+		<p>
+In a number of places, there is a group table. Groups define the properties of a thing (item, node, armor of entity, capabilities of tool) in such a way that the engine and other mods can can interact with the thing without actually knowing what the thing is.
+		</p>
+		<h2 id="Usage">Usage</h2>
+		<p>
+Groups are stored in a table, having the group names with keys and the group ratings as values. Group ratings are integer values within the range [-32767, 32767]. For example:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;-- Default dirt
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;groups = {crumbly=3, soil=1}
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-- A more special dirt-kind of thing
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;groups = {crumbly=2, soil=1, level=2, outerspace=1}
+		<p>
+Groups always have a rating associated with them. If there is no useful meaning for a rating for an enabled group, it shall be <code>1</code>.
+		</p>
+		<p>
+When not defined, the rating of a group defaults to <code>0</code>. Thus when you read groups, you must interpret <code>nil</code> and <code>0</code> as the same value, <code>0</code>.
+		</p>
+		<p>
+You can read the rating of a group for an item or a node by using
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.get_item_group(itemname, groupname)
+		<h2 id="Groups of items">Groups of items</h2>
+		<p>
+Groups of items can define what kind of an item it is (e.g. wool).
+		</p>
+		<h2 id="Groups of nodes">Groups of nodes</h2>
+		<p>
+In addition to the general item things, groups are used to define whether a node is destroyable and how long it takes to destroy by a tool.
+		</p>
+		<h2 id="Groups of entities">Groups of entities</h2>
+		<p>
+For entities, groups are, as of now, used only for calculating damage. The rating is the percentage of damage caused by tools with this damage group. See <a href="Entity_damage_mechanism.html#Entity damage mechanism">Entity damage mechanism</a>.
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;object.get_armor_groups() --&gt; a group-rating table (e.g. {fleshy=100})
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;object.set_armor_groups({fleshy=30, cracky=80})
+		<h2 id="Groups of tools">Groups of tools</h2>
+		<p>
+Groups in tools define which groups of nodes and entities they are effective towards.
+		</p>
+		<h2 id="Groups in crafting recipes">Groups in crafting recipes</h2>
+		<p>
+An example: Make meat soup from any meat, any water and any bowl:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output = 'food:meat_soup_raw',
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recipe = {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'group:meat'},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'group:water'},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'group:bowl'},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- preserve = {'group:bowl'}, -- Not implemented yet (TODO)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+		<p>
+Another example: Make red wool from white wool and red dye:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type = 'shapeless',
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output = 'wool:red',
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recipe = {'wool:white', 'group:dye,basecolor_red'},
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+		<h2 id="Special groups">Special groups</h2>
+		<p>
+The asterisk <code>(*)</code> after a group name describes that there is no engine functionality bound to it, and implementation is left up as a suggestion to games.
+		</p>
+		<h3 id="Node, item and tool groups">Node, item and tool groups</h3>
+			<ul>
+				<li class="line1">
+<code>not_in_creative_inventory</code>: (*) Special group for inventory mods to indicate   that the item should be hidden in item lists.
+				</li>
+			</ul>
+		<h3 id="Node-only groups">Node-only groups</h3>
+			<ul>
+				<li class="line1">
+<code>attached_node</code>: if the node under it is not a walkable block the node will be   dropped as an item. If the node is wallmounted the wallmounted direction is   checked.
+				</li>
+				<li class="line1">
+<code>bouncy</code>: value is bounce speed in percent
+				</li>
+				<li class="line1">
+<code>connect_to_raillike</code>: makes nodes of raillike drawtype with same group value   connect to each other
+				</li>
+				<li class="line1">
+<code>dig_immediate</code>: Player can always pick up node without reducing tool wear
+				<ul>
+					<li>
+<code>2</code>: the node always gets the digging time 0.5 seconds (rail, sign)
+					</li>
+					<li>
+<code>3</code>: the node always gets the digging time 0 seconds (torch)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>disable_jump</code>: Player (and possibly other things) cannot jump from node   or if their feet are in the node. Note: not supported for <code>new_move = false</code>
+				</li>
+				<li class="line1">
+<code>fall_damage_add_percent</code>: damage speed = <code>speed * (1 + value/100)</code>
+				</li>
+				<li class="line1">
+<code>falling_node</code>: if there is no walkable block under the node it will fall
+				</li>
+				<li class="line1">
+<code>float</code>: the node will not fall through liquids
+				</li>
+				<li class="line1">
+<code>level</code>: Can be used to give an additional sense of progression in the game.
+				<ul>
+					<li>
+A larger level will cause e.g. a weapon of a lower level make much less        damage, and get worn out much faster, or not be able to get drops        from destroyed nodes.
+					</li>
+					<li>
+<code>0</code> is something that is directly accessible at the start of gameplay
+					</li>
+					<li>
+There is no upper limit
+					</li>
+					<li>
+See also: <code>leveldiff</code> in <a href="Tools.html#Tools">Tools</a>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>slippery</code>: Players and items will slide on the node.   Slipperiness rises steadily with <code>slippery</code> value, starting at 1.
+				</li>
+			</ul>
+		<h3 id="Tool-only groups">Tool-only groups</h3>
+			<ul>
+				<li class="line1">
+<code>disable_repair</code>: If set to 1 for a tool, it cannot be repaired using the   <code>"toolrepair"</code> crafting recipe
+				</li>
+			</ul>
+		<h3 id="ObjectRef groups"><code>ObjectRef</code> groups</h3>
+			<ul>
+				<li class="line1">
+<code>immortal</code>: Skips all damage and breath handling for an object. This group   will also hide the integrated HUD status bars for players, and is   automatically set to all players when damage is disabled on the server.
+				</li>
+				<li class="line1">
+<code>punch_operable</code>: For entities; disables the regular damage mechanism for   players punching it by hand or a non-tool item, so that it can do something   else than take damage.
+				</li>
+			</ul>
+		<h2 id="Known damage and digging time defining groups">Known damage and digging time defining groups</h2>
+			<ul>
+				<li class="line1">
+<code>crumbly</code>: dirt, sand
+				</li>
+				<li class="line1">
+<code>cracky</code>: tough but crackable stuff like stone.
+				</li>
+				<li class="line1">
+<code>snappy</code>: something that can be cut using fine tools; e.g. leaves, small   plants, wire, sheets of metal
+				</li>
+				<li class="line1">
+<code>choppy</code>: something that can be cut using force; e.g. trees, wooden planks
+				</li>
+				<li class="line1">
+<code>fleshy</code>: Living things like animals and the player. This could imply   some blood effects when hitting.
+				</li>
+				<li class="line1">
+<code>explody</code>: Especially prone to explosions
+				</li>
+				<li class="line1">
+<code>oddly_breakable_by_hand</code>:    Can be added to nodes that shouldn't logically be breakable by the    hand but are. Somewhat similar to <code>dig_immediate</code>, but times are more    like <code>{[1]=3.50,[2]=2.00,[3]=0.70}</code> and this does not override the    speed of a tool if the tool can dig at a faster speed than this    suggests for the hand.
+				</li>
+			</ul>
+		<h2 id="Examples of custom groups">Examples of custom groups</h2>
+		<p>
+Item groups are often used for defining, well, _groups of items_.
+		</p>
+			<ul>
+				<li class="line1">
+<code>meat</code>: any meat-kind of a thing (rating might define the size or healing   ability or be irrelevant -- it is not defined as of yet)
+				</li>
+				<li class="line1">
+<code>eatable</code>: anything that can be eaten. Rating might define HP gain in half   hearts.
+				</li>
+				<li class="line1">
+<code>flammable</code>: can be set on fire. Rating might define the intensity of the   fire, affecting e.g. the speed of the spreading of an open fire.
+				</li>
+				<li class="line1">
+<code>wool</code>: any wool (any origin, any color)
+				</li>
+				<li class="line1">
+<code>metal</code>: any metal
+				</li>
+				<li class="line1">
+<code>weapon</code>: any weapon
+				</li>
+				<li class="line1">
+<code>heavy</code>: anything considerably heavy
+				</li>
+			</ul>
+		<h2 id="Digging time calculation specifics">Digging time calculation specifics</h2>
+		<p>
+Groups such as <code>crumbly</code>, <code>cracky</code> and <code>snappy</code> are used for this purpose. Rating is <code>1</code>, <code>2</code> or <code>3</code>. A higher rating for such a group implies faster digging time.
+		</p>
+		<p>
+The <code>level</code> group is used to limit the toughness of nodes a tool can dig and to scale the digging times / damage to a greater extent.
+		</p>
+		<p>
+<em>Please do understand this</em>, otherwise you cannot use the system to it's full potential.
+		</p>
+		<p>
+Tools define their properties by a list of parameters for groups. They cannot dig other groups; thus it is important to use a standard bunch of groups to enable interaction with tools.
+		</p>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Groups">Index</a></p>
+	</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Definition tables, Chat command definition</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Definition_tables_Chat_command_definition">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Chat command definition">Definition tables, Chat command definition</h1>
+		<p>
+Used by <code>minetest.register_chatcommand</code>.
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;params = "&lt;name&gt; &lt;privilege&gt;",  -- Short parameter description
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description = "Remove privilege from player",  -- Full description
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;privs = {privs=true},  -- Require the "privs" privilege to run
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;func = function(name, param),
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Called when command is run. Returns boolean success and text output.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Special case: The help message is shown to the player if <code>func</code>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- returns false without a text output.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+		<p>
+Note that in params, use of symbols is as follows:
+		</p>
+			<ul>
+				<li class="line1">
+<code>&lt;&gt;</code> signifies a placeholder to be replaced when the command is used. For   example, when a player name is needed: <code>&lt;name&gt;</code>
+				</li>
+				<li class="line1">
+<code>[]</code> signifies param is optional and not required when the command is used.   For example, if you require param1 but param2 is optional:   <code>&lt;param1&gt; [&lt;param2&gt;]</code>
+				</li>
+				<li class="line1">
+<code>|</code> signifies exclusive or. The command requires one param from the options   provided. For example: <code>&lt;param1&gt; | &lt;param2&gt;</code>
+				</li>
+				<li class="line1">
+<code>()</code> signifies grouping. For example, when param1 and param2 are both   required, or only param3 is required: <code>(&lt;param1&gt; &lt;param2&gt;) | &lt;param3&gt;</code>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Definition_tables_Chat_command_definition">Index</a></p>
+	</body>
+</html>

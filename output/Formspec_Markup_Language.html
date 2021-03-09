@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Formspec, Markup Language</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Markup_Language">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Markup Language">Formspec, Markup Language</h1>
+		<p>
+Markup language used in <code>hypertext[]</code> elements uses tags that look like HTML tags. The markup language is currently unstable and subject to change. Use with caution. Some tags can enclose text, they open with <code>&lt;tagname&gt;</code> and close with <code>&lt;/tagname&gt;</code>. Tags can have attributes, in that case, attributes are in the opening tag in form of a key/value separated with equal signs. Attribute values should not be quoted.
+		</p>
+		<p>
+These are the technically basic tags but see below for usual tags. Base tags are:
+		</p>
+		<p>
+<code>&lt;style color=... font=... size=...&gt;...&lt;/style&gt;</code>
+		</p>
+		<p>
+Changes the style of the text.
+		</p>
+			<ul>
+				<li class="line1">
+<code>color</code>: Text color. Given color is a <code>colorspec</code>.
+				</li>
+				<li class="line1">
+<code>size</code>: Text size.
+				</li>
+				<li class="line1">
+<code>font</code>: Text font (<code>mono</code> or <code>normal</code>).
+<br>
+<code>&lt;global background=... margin=... valign=... color=... hovercolor=... size=... font=... halign=... &gt;</code>
+<br>
+Sets global style.
+<br>
+Global only styles:
+				</li>
+				<li class="line1">
+<code>background</code>: Text background, a <code>colorspec</code> or <code>none</code>.
+				</li>
+				<li class="line1">
+<code>margin</code>: Page margins in pixel.
+				</li>
+				<li class="line1">
+<code>valign</code>: Text vertical alignment (<code>top</code>, <code>middle</code>, <code>bottom</code>).
+<br>
+Inheriting styles (affects child elements):
+				</li>
+				<li class="line1">
+<code>color</code>: Default text color. Given color is a <code>colorspec</code>.
+				</li>
+				<li class="line1">
+<code>hovercolor</code>: Color of &lt;action&gt; tags when mouse is over.
+				</li>
+				<li class="line1">
+<code>size</code>: Default text size.
+				</li>
+				<li class="line1">
+<code>font</code>: Default text font (<code>mono</code> or <code>normal</code>).
+				</li>
+				<li class="line1">
+<code>halign</code>: Default text horizontal alignment (<code>left</code>, <code>right</code>, <code>center</code>, <code>justify</code>).
+<br>
+This tag needs to be placed only once as it changes the global settings of the
+<br>
+text. Anyway, if several tags are placed, each changed will be made in the order
+<br>
+tags appear.
+<br>
+<code>&lt;tag name=... color=... hovercolor=... font=... size=...&gt;</code>
+<br>
+Defines or redefines tag style. This can be used to define new tags.
+				</li>
+				<li class="line1">
+<code>name</code>: Name of the tag to define or change.
+				</li>
+				<li class="line1">
+<code>color</code>: Text color. Given color is a <code>colorspec</code>.
+				</li>
+				<li class="line1">
+<code>hovercolor</code>: Text color when element hovered (only for <code>action</code> tags). Given color is a <code>colorspec</code>.
+				</li>
+				<li class="line1">
+<code>size</code>: Text size.
+				</li>
+				<li class="line1">
+<code>font</code>: Text font (<code>mono</code> or <code>normal</code>).
+<br>
+Following tags are the usual tags for text layout. They are defined by default.
+<br>
+Other tags can be added using <code>&lt;tag ...&gt;</code> tag.
+<br>
+<code>&lt;normal&gt;...&lt;/normal&gt;</code>: Normal size text
+<br>
+<code>&lt;big&gt;...&lt;/big&gt;</code>: Big text
+<br>
+<code>&lt;bigger&gt;...&lt;/bigger&gt;</code>: Bigger text
+<br>
+<code>&lt;center&gt;...&lt;/center&gt;</code>: Centered text
+<br>
+<code>&lt;left&gt;...&lt;/left&gt;</code>: Left-aligned text
+<br>
+<code>&lt;right&gt;...&lt;/right&gt;</code>: Right-aligned text
+<br>
+<code>&lt;justify&gt;...&lt;/justify&gt;</code>: Justified text
+<br>
+<code>&lt;mono&gt;...&lt;/mono&gt;</code>: Monospaced font
+<br>
+<code>&lt;b&gt;...&lt;/b&gt;</code>, <code>&lt;i&gt;...&lt;/i&gt;</code>, <code>&lt;u&gt;...&lt;/u&gt;</code>: Bold, italic, underline styles.
+<br>
+<code>&lt;action name=...&gt;...&lt;/action&gt;</code>
+<br>
+Make that text a clickable text triggering an action.
+				</li>
+				<li class="line1">
+<code>name</code>: Name of the action (mandatory).
+<br>
+When clicked, the formspec is send to the server. The value of the text field
+<br>
+sent to <code>on_player_receive_fields</code> will be "action:" concatenated to the action
+<br>
+name.
+<br>
+<code>&lt;img name=... float=... width=... height=...&gt;</code>
+<br>
+Draws an image which is present in the client media cache.
+				</li>
+				<li class="line1">
+<code>name</code>: Name of the texture (mandatory).
+				</li>
+				<li class="line1">
+<code>float</code>: If present, makes the image floating (<code>left</code> or <code>right</code>).
+				</li>
+				<li class="line1">
+<code>width</code>: Force image width instead of taking texture width.
+				</li>
+				<li class="line1">
+<code>height</code>: Force image height instead of taking texture height.
+<br>
+If only width or height given, texture aspect is kept.
+<br>
+<code>&lt;item name=... float=... width=... height=... rotate=...&gt;</code>
+<br>
+Draws an item image.
+				</li>
+				<li class="line1">
+<code>name</code>: Item string of the item to draw (mandatory).
+				</li>
+				<li class="line1">
+<code>float</code>: If present, makes the image floating (<code>left</code> or <code>right</code>).
+				</li>
+				<li class="line1">
+<code>width</code>: Item image width.
+				</li>
+				<li class="line1">
+<code>height</code>: Item image height.
+				</li>
+				<li class="line1">
+<code>rotate</code>: Rotate item image if set to <code>yes</code> or <code>X,Y,Z</code>. X, Y and Z being rotation speeds in percent of standard speed (-1000 to 1000). Works only if <code>inventory_items_animations</code> is set to true.
+				</li>
+				<li class="line1">
+<code>angle</code>: Angle in which the item image is shown. Value has <code>X,Y,Z</code> form. X, Y and Z being angles around each three axes. Works only if <code>inventory_items_animations</code> is set to true.
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Formspec_Markup_Language">Index</a></p>
+	</body>
+</html>

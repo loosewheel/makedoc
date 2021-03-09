@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Aliases</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Aliases">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="Aliases">Aliases</h1>
+		<p>
+Aliases of itemnames can be added by using <code>minetest.register_alias(alias, original_name)</code> or <code>minetest.register_alias_force(alias, original_name)</code>.
+		</p>
+		<p>
+This adds an alias <code>alias</code> for the item called <code>original_name</code>. From now on, you can use <code>alias</code> to refer to the item <code>original_name</code>.
+		</p>
+		<p>
+The only difference between <code>minetest.register_alias</code> and <code>minetest.register_alias_force</code> is that if an item named <code>alias</code> already exists, <code>minetest.register_alias</code> will do nothing while <code>minetest.register_alias_force</code> will unregister it.
+		</p>
+		<p>
+This can be used for maintaining backwards compatibility.
+		</p>
+		<p>
+This can also set quick access names for things, e.g. if you have an item called <code>epiclylongmodname:stuff</code>, you could do
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.register_alias("stuff", "epiclylongmodname:stuff")
+		<p>
+and be able to use <code>/giveme stuff</code>.
+		</p>
+		<h2 id="Mapgen aliases">Mapgen aliases</h2>
+		<p>
+In a game, a certain number of these must be set to tell core mapgens which of the game's nodes are to be used for core mapgen generation. For example:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.register_alias("mapgen_stone", "default:stone")
+		<h3 id="Aliases for non-V6 mapgens">Aliases for non-V6 mapgens</h3>
+		<h4 id="Essential aliases">Essential aliases</h4>
+			<ul>
+				<li class="line1">
+mapgen_stone
+				</li>
+				<li class="line1">
+mapgen_water_source
+				</li>
+				<li class="line1">
+mapgen_river_water_source
+<br>
+<code>mapgen_river_water_source</code> is required for mapgens with sloping rivers where
+<br>
+it is necessary to have a river liquid node with a short <code>liquid_range</code> and
+<br>
+<code>liquid_renewable = false</code> to avoid flooding.
+				</li>
+			</ul>
+		<h4 id="Optional aliases">Optional aliases</h4>
+			<ul>
+				<li class="line1">
+mapgen_lava_source
+<br>
+Fallback lava node used if cave liquids are not defined in biome definitions.
+<br>
+Deprecated for non-V6 mapgens, define cave liquids in biome definitions instead.
+				</li>
+				<li class="line1">
+mapgen_cobble
+<br>
+Fallback node used if dungeon nodes are not defined in biome definitions.
+<br>
+Deprecated for non-V6 mapgens, define dungeon nodes in biome definitions instead.
+				</li>
+			</ul>
+		<h3 id="Aliases needed for Mapgen V6">Aliases needed for Mapgen V6</h3>
+			<ul>
+				<li class="line1">
+mapgen_stone
+				</li>
+				<li class="line1">
+mapgen_water_source
+				</li>
+				<li class="line1">
+mapgen_lava_source
+				</li>
+				<li class="line1">
+mapgen_dirt
+				</li>
+				<li class="line1">
+mapgen_dirt_with_grass
+				</li>
+				<li class="line1">
+mapgen_sand
+				</li>
+				<li class="line1">
+mapgen_gravel
+				</li>
+				<li class="line1">
+mapgen_desert_stone
+				</li>
+				<li class="line1">
+mapgen_desert_sand
+				</li>
+				<li class="line1">
+mapgen_dirt_with_snow
+				</li>
+				<li class="line1">
+mapgen_snowblock
+				</li>
+				<li class="line1">
+mapgen_snow
+				</li>
+				<li class="line1">
+mapgen_ice
+				</li>
+				<li class="line1">
+mapgen_tree
+				</li>
+				<li class="line1">
+mapgen_leaves
+				</li>
+				<li class="line1">
+mapgen_apple
+				</li>
+				<li class="line1">
+mapgen_jungletree
+				</li>
+				<li class="line1">
+mapgen_jungleleaves
+				</li>
+				<li class="line1">
+mapgen_junglegrass
+				</li>
+				<li class="line1">
+mapgen_pine_tree
+				</li>
+				<li class="line1">
+mapgen_pine_needles
+				</li>
+				<li class="line1">
+mapgen_cobble
+				</li>
+				<li class="line1">
+mapgen_stair_cobble
+				</li>
+				<li class="line1">
+mapgen_mossycobble
+				</li>
+				<li class="line1">
+mapgen_stair_desert_stone
+				</li>
+			</ul>
+		<h3 id="Setting the node used in Mapgen Singlenode">Setting the node used in Mapgen Singlenode</h3>
+		<p>
+By default the world is filled with air nodes. To set a different node use, for example:
+		</p>
+&nbsp;&nbsp;&nbsp;&nbsp;minetest.register_alias("mapgen_singlenode", "default:stone")
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Aliases">Index</a></p>
+	</body>
+</html>

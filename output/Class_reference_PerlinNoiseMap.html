@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, PerlinNoiseMap</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PerlinNoiseMap">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="PerlinNoiseMap">Class reference, PerlinNoiseMap</h1>
+		<p>
+A fast, bulk perlin noise generator.
+		</p>
+		<p>
+It can be created via <code>PerlinNoiseMap(noiseparams, size)</code> or <code>minetest.get_perlin_map(noiseparams, size)</code>. For <code>minetest.get_perlin_map()</code>, the actual seed used is the noiseparams seed plus the world seed, to create world-specific noise.
+		</p>
+		<p>
+Format of <code>size</code> is <code>{x=dimx, y=dimy, z=dimz}</code>. The <code>z</code> component is omitted for 2D noise, and it must be must be larger than 1 for 3D noise (otherwise <code>nil</code> is returned).
+		</p>
+		<p>
+For each of the functions with an optional <code>buffer</code> parameter: If <code>buffer</code> is not nil, this table will be used to store the result instead of creating a new table.
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>get_2d_map(pos)</code>: returns a <code>&lt;size.x&gt;</code> times <code>&lt;size.y&gt;</code> 2D array of 2D noise   with values starting at <code>pos={x=,y=}</code>
+				</li>
+				<li class="line1">
+<code>get_3d_map(pos)</code>: returns a <code>&lt;size.x&gt;</code> times <code>&lt;size.y&gt;</code> times <code>&lt;size.z&gt;</code>   3D array of 3D noise with values starting at <code>pos={x=,y=,z=}</code>.
+				</li>
+				<li class="line1">
+<code>get_2d_map_flat(pos, buffer)</code>: returns a flat <code>&lt;size.x * size.y&gt;</code> element   array of 2D noise with values starting at <code>pos={x=,y=}</code>
+				</li>
+				<li class="line1">
+<code>get_3d_map_flat(pos, buffer)</code>: Same as <code>get2dMap_flat</code>, but 3D noise
+				</li>
+				<li class="line1">
+<code>calc_2d_map(pos)</code>: Calculates the 2d noise map starting at <code>pos</code>. The result   is stored internally.
+				</li>
+				<li class="line1">
+<code>calc_3d_map(pos)</code>: Calculates the 3d noise map starting at <code>pos</code>. The result   is stored internally.
+				</li>
+				<li class="line1">
+<code>get_map_slice(slice_offset, slice_size, buffer)</code>: In the form of an array,   returns a slice of the most recently computed noise results. The result slice   begins at coordinates <code>slice_offset</code> and takes a chunk of <code>slice_size</code>.   E.g. to grab a 2-slice high horizontal 2d plane of noise starting at buffer   offset y = 20:   <code>noisevals = noise:get_map_slice({y=20}, {y=2})</code>   It is important to note that <code>slice_offset</code> offset coordinates begin at 1,   and are relative to the starting position of the most recently calculated   noise.   To grab a single vertical column of noise starting at map coordinates   x = 1023, y=1000, z = 1000:   <code>noise:calc_3d_map({x=1000, y=1000, z=1000})</code>   <code>noisevals = noise:get_map_slice({x=24, z=1}, {x=1, z=1})</code>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PerlinNoiseMap">Index</a></p>
+	</body>
+</html>

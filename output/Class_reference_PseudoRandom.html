@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, PseudoRandom</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PseudoRandom">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="PseudoRandom">Class reference, PseudoRandom</h1>
+		<p>
+A 16-bit pseudorandom number generator. Uses a well-known LCG algorithm introduced by K&amp;R.
+		</p>
+		<p>
+It can be created via <code>PseudoRandom(seed)</code>.
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>next()</code>: return next integer random number [<code>0</code>...<code>32767</code>]
+				</li>
+				<li class="line1">
+<code>next(min, max)</code>: return next integer random number [<code>min</code>...<code>max</code>]
+				<ul>
+					<li>
+<code>((max - min) == 32767) or ((max-min) &lt;= 6553))</code> must be true       due to the simple implementation making bad distribution otherwise.
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PseudoRandom">Index</a></p>
+	</body>
+</html>

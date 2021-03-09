@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, PcgRandom</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PcgRandom">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="PcgRandom">Class reference, PcgRandom</h1>
+		<p>
+A 32-bit pseudorandom number generator. Uses PCG32, an algorithm of the permuted congruential generator family, offering very strong randomness.
+		</p>
+		<p>
+It can be created via <code>PcgRandom(seed)</code> or <code>PcgRandom(seed, sequence)</code>.
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>next()</code>: return next integer random number [<code>-2147483648</code>...<code>2147483647</code>]
+				</li>
+				<li class="line1">
+<code>next(min, max)</code>: return next integer random number [<code>min</code>...<code>max</code>]
+				</li>
+				<li class="line1">
+<code>rand_normal_dist(min, max, num_trials=6)</code>: return normally distributed   random number [<code>min</code>...<code>max</code>].
+				<ul>
+					<li>
+This is only a rough approximation of a normal distribution with:
+					</li>
+					<li>
+<code>mean = (max - min) / 2</code>, and
+					</li>
+					<li>
+<code>variance = (((max - min + 1) ^ 2) - 1) / (12 * num_trials)</code>
+					</li>
+					<li>
+Increasing <code>num_trials</code> improves accuracy of the approximation
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PcgRandom">Index</a></p>
+	</body>
+</html>

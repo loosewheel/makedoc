@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, ObjectRef</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_ObjectRef">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="ObjectRef">Class reference, ObjectRef</h1>
+		<p>
+Moving things in the game are generally these. This is basically a reference to a C++ <code>ServerActiveObject</code>.
+		</p>
+		<h2 id="Advice on handling ObjectRefs">Advice on handling <code>ObjectRefs</code></h2>
+		<p>
+When you receive an <code>ObjectRef</code> as a callback argument or from another API function, it is possible to store the reference somewhere and keep it around. It will keep functioning until the object is unloaded or removed.
+		</p>
+		<p>
+However, doing this is <em>NOT</em> recommended as there is (intentionally) no method to test if a previously acquired <code>ObjectRef</code> is still valid. Instead, <code>ObjectRefs</code> should be "let go" of as soon as control is returned from Lua back to the engine. Doing so is much less error-prone and you will never need to wonder if the object you are working with still exists.
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>get_pos()</code>: returns <code>{x=num, y=num, z=num}</code>
+				</li>
+				<li class="line1">
+<code>set_pos(pos)</code>: <code>pos</code>=<code>{x=num, y=num, z=num}</code>
+				</li>
+				<li class="line1">
+<code>get_velocity()</code>: returns the velocity, a vector.
+				</li>
+				<li class="line1">
+<code>add_velocity(vel)</code>
+				<ul>
+					<li>
+<code>vel</code> is a vector, e.g. <code>{x=0.0, y=2.3, z=1.0}</code>
+					</li>
+					<li>
+In comparison to using get_velocity, adding the velocity and then using       set_velocity, add_velocity is supposed to avoid synchronization problems.       Additionally, players also do not support set_velocity.
+					</li>
+					<li>
+If a player:
+					<ul>
+						<li>
+Does not apply during free_move.
+						</li>
+						<li>
+Note that since the player speed is normalized at each move step,           increasing e.g. Y velocity beyond what would usually be achieved           (see: physics overrides) will cause existing X/Z velocity to be reduced.
+						</li>
+						<li>
+Example: <code>add_velocity({x=0, y=6.5, z=0})</code> is equivalent to           pressing the jump key (assuming default settings)
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>move_to(pos, continuous=false)</code>
+				<ul>
+					<li>
+Does an interpolated move for Lua entities for visually smooth transitions.
+					</li>
+					<li>
+If <code>continuous</code> is true, the Lua entity will not be moved to the current       position before starting the interpolated move.
+					</li>
+					<li>
+For players this does the same as <code>set_pos</code>,<code>continuous</code> is ignored.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>punch(puncher, time_from_last_punch, tool_capabilities, direction)</code>
+				<ul>
+					<li>
+<code>puncher</code> = another <code>ObjectRef</code>,
+					</li>
+					<li>
+<code>time_from_last_punch</code> = time since last punch action of the puncher
+					</li>
+					<li>
+<code>direction</code>: can be <code>nil</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>right_click(clicker)</code>; <code>clicker</code> is another <code>ObjectRef</code>
+				</li>
+				<li class="line1">
+<code>get_hp()</code>: returns number of hitpoints (2 * number of hearts)
+				</li>
+				<li class="line1">
+<code>set_hp(hp, reason)</code>: set number of hitpoints (2 * number of hearts).
+				<ul>
+					<li>
+See reason in register_on_player_hpchange
+					</li>
+					<li>
+Is limited to the range of 0 ... 65535 (2^16 - 1)
+					</li>
+					<li>
+For players: HP are also limited by <code>hp_max</code> specified in the player's       object properties
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_inventory()</code>: returns an <code>InvRef</code> for players, otherwise returns <code>nil</code>
+				</li>
+				<li class="line1">
+<code>get_wield_list()</code>: returns the name of the inventory list the wielded item    is in.
+				</li>
+				<li class="line1">
+<code>get_wield_index()</code>: returns the index of the wielded item
+				</li>
+				<li class="line1">
+<code>get_wielded_item()</code>: returns an <code>ItemStack</code>
+				</li>
+				<li class="line1">
+<code>set_wielded_item(item)</code>: replaces the wielded item, returns <code>true</code> if   successful.
+				</li>
+				<li class="line1">
+<code>set_armor_groups({group1=rating, group2=rating, ...})</code>
+				</li>
+				<li class="line1">
+<code>get_armor_groups()</code>: returns a table with the armor group ratings
+				</li>
+				<li class="line1">
+<code>set_animation(frame_range, frame_speed, frame_blend, frame_loop)</code>
+				<ul>
+					<li>
+<code>frame_range</code>: table {x=num, y=num}, default: <code>{x=1, y=1}</code>
+					</li>
+					<li>
+<code>frame_speed</code>: number, default: <code>15.0</code>
+					</li>
+					<li>
+<code>frame_blend</code>: number, default: <code>0.0</code>
+					</li>
+					<li>
+<code>frame_loop</code>: boolean, default: <code>true</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_animation()</code>: returns <code>range</code>, <code>frame_speed</code>, <code>frame_blend</code> and   <code>frame_loop</code>.
+				</li>
+				<li class="line1">
+<code>set_animation_frame_speed(frame_speed)</code>
+				<ul>
+					<li>
+<code>frame_speed</code>: number, default: <code>15.0</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_attach(parent, bone, position, rotation, forced_visible)</code>
+				<ul>
+					<li>
+<code>bone</code>: string
+					</li>
+					<li>
+<code>position</code>: <code>{x=num, y=num, z=num}</code> (relative)
+					</li>
+					<li>
+<code>rotation</code>: <code>{x=num, y=num, z=num}</code> = Rotation on each axis, in degrees
+					</li>
+					<li>
+<code>forced_visible</code>: Boolean to control whether the attached entity        should appear in first person.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_attach()</code>: returns parent, bone, position, rotation, forced_visible,     or nil if it isn't attached.
+				</li>
+				<li class="line1">
+<code>get_children()</code>: returns a list of ObjectRefs that are attached to the     object.
+				</li>
+				<li class="line1">
+<code>set_detach()</code>
+				</li>
+				<li class="line1">
+<code>set_bone_position(bone, position, rotation)</code>
+				<ul>
+					<li>
+<code>bone</code>: string
+					</li>
+					<li>
+<code>position</code>: <code>{x=num, y=num, z=num}</code> (relative)
+					</li>
+					<li>
+<code>rotation</code>: <code>{x=num, y=num, z=num}</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_bone_position(bone)</code>: returns position and rotation of the bone
+				</li>
+				<li class="line1">
+<code>set_properties(object property table)</code>
+				</li>
+				<li class="line1">
+<code>get_properties()</code>: returns object property table
+				</li>
+				<li class="line1">
+<code>is_player()</code>: returns true for players, false otherwise
+				</li>
+				<li class="line1">
+<code>get_nametag_attributes()</code>
+				<ul>
+					<li>
+returns a table with the attributes of the nametag of an object
+					</li>
+					<li>
+{         color = {a=0..255, r=0..255, g=0..255, b=0..255},         text = "",       }
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_nametag_attributes(attributes)</code>
+				<ul>
+					<li>
+sets the attributes of the nametag of an object
+					</li>
+					<li>
+<code>attributes</code>:       {         color = ColorSpec,         text = "My Nametag",       }
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<h3 id="Lua entity only (no-op for other objects)">Lua entity only (no-op for other objects)</h3>
+			<ul>
+				<li class="line1">
+<code>remove()</code>: remove object
+				<ul>
+					<li>
+The object is removed after returning from Lua. However the <code>ObjectRef</code>       itself instantly becomes unusable with all further method calls having       no effect and returning <code>nil</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_velocity(vel)</code>
+				<ul>
+					<li>
+<code>vel</code> is a vector, e.g. <code>{x=0.0, y=2.3, z=1.0}</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_acceleration(acc)</code>
+				<ul>
+					<li>
+<code>acc</code> is a vector
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_acceleration()</code>: returns the acceleration, a vector
+				</li>
+				<li class="line1">
+<code>set_rotation(rot)</code>
+				<ul>
+					<li>
+<code>rot</code> is a vector (radians). X is pitch (elevation), Y is yaw (heading)       and Z is roll (bank).
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_rotation()</code>: returns the rotation, a vector (radians)
+				</li>
+				<li class="line1">
+<code>set_yaw(yaw)</code>: sets the yaw in radians (heading).
+				</li>
+				<li class="line1">
+<code>get_yaw()</code>: returns number in radians
+				</li>
+				<li class="line1">
+<code>set_texture_mod(mod)</code>
+				<ul>
+					<li>
+Set a texture modifier to the base texture, for sprites and meshes.
+					</li>
+					<li>
+When calling <code>set_texture_mod</code> again, the previous one is discarded.
+					</li>
+					<li>
+<code>mod</code> the texture modifier. See <a href="Textures.html#Texture modifiers">Texture modifiers</a>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_texture_mod()</code> returns current texture modifier
+				</li>
+				<li class="line1">
+<code>set_sprite(start_frame, num_frames, framelength, select_x_by_camera)</code>
+				<ul>
+					<li>
+Specifies and starts a sprite animation
+					</li>
+					<li>
+Animations iterate along the frame <code>y</code> position.
+					</li>
+					<li>
+<code>start_frame</code>: {x=column number, y=row number}, the coordinate of the       first frame, default: <code>{x=0, y=0}</code>
+					</li>
+					<li>
+<code>num_frames</code>: Total frames in the texture, default: <code>1</code>
+					</li>
+					<li>
+<code>framelength</code>: Time per animated frame in seconds, default: <code>0.2</code>
+					</li>
+					<li>
+<code>select_x_by_camera</code>: Only for visual = <code>sprite</code>. Changes the frame <code>x</code>       position according to the view direction. default: <code>false</code>.
+					<ul>
+						<li>
+First column:  subject facing the camera
+						</li>
+						<li>
+Second column: subject looking to the left
+						</li>
+						<li>
+Third column:  subject backing the camera
+						</li>
+						<li>
+Fourth column: subject looking to the right
+						</li>
+						<li>
+Fifth column:  subject viewed from above
+						</li>
+						<li>
+Sixth column:  subject viewed from below
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_entity_name()</code> (<em>Deprecated</em>: Will be removed in a future version)
+				</li>
+				<li class="line1">
+<code>get_luaentity()</code>
+				</li>
+			</ul>
+		<h3 id="Player only (no-op for other objects)">Player only (no-op for other objects)</h3>
+			<ul>
+				<li class="line1">
+<code>get_player_name()</code>: returns <code>""</code> if is not a player
+				</li>
+				<li class="line1">
+<code>get_player_velocity()</code>: <em>DEPRECATED</em>, use get_velocity() instead.   table {x, y, z} representing the player's instantaneous velocity in nodes/s
+				</li>
+				<li class="line1">
+<code>add_player_velocity(vel)</code>: <em>DEPRECATED</em>, use add_velocity(vel) instead.
+				</li>
+				<li class="line1">
+<code>get_look_dir()</code>: get camera direction as a unit vector
+				</li>
+				<li class="line1">
+<code>get_look_vertical()</code>: pitch in radians
+				<ul>
+					<li>
+Angle ranges between -pi/2 and pi/2, which are straight up and down       respectively.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_look_horizontal()</code>: yaw in radians
+				<ul>
+					<li>
+Angle is counter-clockwise from the +z direction.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_look_vertical(radians)</code>: sets look pitch
+				<ul>
+					<li>
+radians: Angle from looking forward, where positive is downwards.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_look_horizontal(radians)</code>: sets look yaw
+				<ul>
+					<li>
+radians: Angle from the +z direction, where positive is counter-clockwise.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_look_pitch()</code>: pitch in radians - Deprecated as broken. Use   <code>get_look_vertical</code>.
+				<ul>
+					<li>
+Angle ranges between -pi/2 and pi/2, which are straight down and up       respectively.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_look_yaw()</code>: yaw in radians - Deprecated as broken. Use   <code>get_look_horizontal</code>.
+				<ul>
+					<li>
+Angle is counter-clockwise from the +x direction.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_look_pitch(radians)</code>: sets look pitch - Deprecated. Use   <code>set_look_vertical</code>.
+				</li>
+				<li class="line1">
+<code>set_look_yaw(radians)</code>: sets look yaw - Deprecated. Use   <code>set_look_horizontal</code>.
+				</li>
+				<li class="line1">
+<code>get_breath()</code>: returns player's breath
+				</li>
+				<li class="line1">
+<code>set_breath(value)</code>: sets player's breath
+				<ul>
+					<li>
+values:
+					<ul>
+						<li>
+<code>0</code>: player is drowning
+						</li>
+						<li>
+max: bubbles bar is not shown
+						</li>
+						<li>
+See <a href="Definition_tables_Object_properties.html#Object properties">Object properties</a> for more information
+						</li>
+					</ul>
+					</li>
+					<li>
+Is limited to range 0 ... 65535 (2^16 - 1)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_fov(fov, is_multiplier, transition_time)</code>: Sets player's FOV
+				<ul>
+					<li>
+<code>fov</code>: FOV value.
+					</li>
+					<li>
+<code>is_multiplier</code>: Set to <code>true</code> if the FOV value is a multiplier.       Defaults to <code>false</code>.
+					</li>
+					<li>
+<code>transition_time</code>: If defined, enables smooth FOV transition.       Interpreted as the time (in seconds) to reach target FOV.       If set to 0, FOV change is instantaneous. Defaults to 0.
+					</li>
+					<li>
+Set <code>fov</code> to 0 to clear FOV override.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_fov()</code>: Returns the following:
+				<ul>
+					<li>
+Server-sent FOV value. Returns 0 if an FOV override doesn't exist.
+					</li>
+					<li>
+Boolean indicating whether the FOV value is a multiplier.
+					</li>
+					<li>
+Time (in seconds) taken for the FOV transition. Set by <code>set_fov</code>.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_attribute(attribute, value)</code>:  DEPRECATED, use get_meta() instead
+				<ul>
+					<li>
+Sets an extra attribute with value on player.
+					</li>
+					<li>
+<code>value</code> must be a string, or a number which will be converted to a       string.
+					</li>
+					<li>
+If <code>value</code> is <code>nil</code>, remove attribute from player.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_attribute(attribute)</code>:  DEPRECATED, use get_meta() instead
+				<ul>
+					<li>
+Returns value (a string) for extra attribute.
+					</li>
+					<li>
+Returns <code>nil</code> if no attribute found.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_meta()</code>: Returns a PlayerMetaRef.
+				</li>
+				<li class="line1">
+<code>set_inventory_formspec(formspec)</code>
+				<ul>
+					<li>
+Redefine player's inventory form
+					</li>
+					<li>
+Should usually be called in <code>on_joinplayer</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_inventory_formspec()</code>: returns a formspec string
+				</li>
+				<li class="line1">
+<code>set_formspec_prepend(formspec)</code>:
+				<ul>
+					<li>
+the formspec string will be added to every formspec shown to the user,       except for those with a no_prepend[] tag.
+					</li>
+					<li>
+This should be used to set style elements such as background[] and       bgcolor[], any non-style elements (eg: label) may result in weird behaviour.
+					</li>
+					<li>
+Only affects formspecs shown after this is called.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_formspec_prepend(formspec)</code>: returns a formspec string.
+				</li>
+				<li class="line1">
+<code>get_player_control()</code>: returns table with player pressed keys
+				<ul>
+					<li>
+The table consists of fields with the following boolean values       representing the pressed keys: <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>, <code>jump</code>,       <code>aux1</code>, <code>sneak</code>, <code>dig</code>, <code>place</code>, <code>LMB</code>, <code>RMB</code>, and <code>zoom</code>.
+					</li>
+					<li>
+The fields <code>LMB</code> and <code>RMB</code> are equal to <code>dig</code> and <code>place</code> respectively,       and exist only to preserve backwards compatibility.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_player_control_bits()</code>: returns integer with bit packed player pressed   keys. Bits:
+				<ul>
+					<li>
+0 - up
+					</li>
+					<li>
+1 - down
+					</li>
+					<li>
+2 - left
+					</li>
+					<li>
+3 - right
+					</li>
+					<li>
+4 - jump
+					</li>
+					<li>
+5 - aux1
+					</li>
+					<li>
+6 - sneak
+					</li>
+					<li>
+7 - dig
+					</li>
+					<li>
+8 - place
+					</li>
+					<li>
+9 - zoom
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_physics_override(override_table)</code>
+				<ul>
+					<li>
+<code>override_table</code> is a table with the following fields:
+					<ul>
+						<li>
+<code>speed</code>: multiplier to default walking speed value (default: <code>1</code>)
+						</li>
+						<li>
+<code>jump</code>: multiplier to default jump value (default: <code>1</code>)
+						</li>
+						<li>
+<code>gravity</code>: multiplier to default gravity value (default: <code>1</code>)
+						</li>
+						<li>
+<code>sneak</code>: whether player can sneak (default: <code>true</code>)
+						</li>
+						<li>
+<code>sneak_glitch</code>: whether player can use the new move code replications           of the old sneak side-effects: sneak ladders and 2 node sneak jump           (default: <code>false</code>)
+						</li>
+						<li>
+<code>new_move</code>: use new move/sneak code. When <code>false</code> the exact old code           is used for the specific old sneak behaviour (default: <code>true</code>)
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_physics_override()</code>: returns the table given to <code>set_physics_override</code>
+				</li>
+				<li class="line1">
+<code>hud_add(hud definition)</code>: add a HUD element described by HUD def, returns ID    number on success
+				</li>
+				<li class="line1">
+<code>hud_remove(id)</code>: remove the HUD element of the specified id
+				</li>
+				<li class="line1">
+<code>hud_change(id, stat, value)</code>: change a value of a previously added HUD   element.
+				<ul>
+					<li>
+element <code>stat</code> values:       <code>position</code>, <code>name</code>, <code>scale</code>, <code>text</code>, <code>number</code>, <code>item</code>, <code>dir</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>hud_get(id)</code>: gets the HUD element definition structure of the specified ID
+				</li>
+				<li class="line1">
+<code>hud_set_flags(flags)</code>: sets specified HUD flags of player.
+				<ul>
+					<li>
+<code>flags</code>: A table with the following fields set to boolean values
+					<ul>
+						<li>
+hotbar
+						</li>
+						<li>
+healthbar
+						</li>
+						<li>
+crosshair
+						</li>
+						<li>
+wielditem
+						</li>
+						<li>
+breathbar
+						</li>
+						<li>
+minimap
+						</li>
+						<li>
+minimap_radar
+						</li>
+					</ul>
+					</li>
+					<li>
+If a flag equals <code>nil</code>, the flag is not modified
+					</li>
+					<li>
+<code>minimap</code>: Modifies the client's permission to view the minimap.       The client may locally elect to not view the minimap.
+					</li>
+					<li>
+<code>minimap_radar</code> is only usable when <code>minimap</code> is true
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>hud_get_flags()</code>: returns a table of player HUD flags with boolean values.
+				<ul>
+					<li>
+See <code>hud_set_flags</code> for a list of flags that can be toggled.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>hud_set_hotbar_itemcount(count)</code>: sets number of items in builtin hotbar
+				<ul>
+					<li>
+<code>count</code>: number of items, must be between <code>1</code> and <code>32</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>hud_get_hotbar_itemcount</code>: returns number of visible items
+				</li>
+				<li class="line1">
+<code>hud_set_hotbar_image(texturename)</code>
+				<ul>
+					<li>
+sets background image for hotbar
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>hud_get_hotbar_image</code>: returns texturename
+				</li>
+				<li class="line1">
+<code>hud_set_hotbar_selected_image(texturename)</code>
+				<ul>
+					<li>
+sets image for selected item of hotbar
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>hud_get_hotbar_selected_image</code>: returns texturename
+				</li>
+				<li class="line1">
+<code>set_minimap_modes({mode, mode, ...}, selected_mode)</code>
+				<ul>
+					<li>
+Overrides the available minimap modes (and toggle order), and changes the     selected mode.
+					</li>
+					<li>
+<code>mode</code> is a table consisting of up to four fields:
+					<ul>
+						<li>
+<code>type</code>: Available type:
+						<ul>
+							<li>
+<code>off</code>: Minimap off
+							</li>
+							<li>
+<code>surface</code>: Minimap in surface mode
+							</li>
+							<li>
+<code>radar</code>: Minimap in radar mode
+							</li>
+							<li>
+<code>texture</code>: Texture to be displayed instead of terrain map               (texture is centered around 0,0 and can be scaled).               Texture size is limited to 512 x 512 pixel.
+							</li>
+						</ul>
+						</li>
+						<li>
+<code>label</code>: Optional label to display on minimap mode toggle           The translation must be handled within the mod.
+						</li>
+						<li>
+<code>size</code>: Sidelength or diameter, in number of nodes, of the terrain           displayed in minimap
+						</li>
+						<li>
+<code>texture</code>: Only for texture type, name of the texture to display
+						</li>
+						<li>
+<code>scale</code>: Only for texture type, scale of the texture map in nodes per           pixel (for example a <code>scale</code> of 2 means each pixel represents a 2x2           nodes square)
+						</li>
+					</ul>
+					</li>
+					<li>
+<code>selected_mode</code> is the mode index to be selected after modes have been changed     (0 is the first mode).
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_sky(sky_parameters)</code>
+				<ul>
+					<li>
+The presence of the function <code>set_sun</code>, <code>set_moon</code> or <code>set_stars</code> indicates       whether <code>set_sky</code> accepts this format. Check the legacy format otherwise.
+					</li>
+					<li>
+<code>sky_parameters</code> is a table with the following optional fields:
+					<ul>
+						<li>
+<code>base_color</code>: ColorSpec, changes fog in "skybox" and "plain".
+						</li>
+						<li>
+<code>type</code>: Available types:
+						<ul>
+							<li>
+<code>"regular"</code>: Uses 0 textures, <code>base_color</code> ignored
+							</li>
+							<li>
+<code>"skybox"</code>: Uses 6 textures, <code>base_color</code> used as fog.
+							</li>
+							<li>
+<code>"plain"</code>: Uses 0 textures, <code>base_color</code> used as both fog and sky.
+							</li>
+						</ul>
+						</li>
+						<li>
+<code>textures</code>: A table containing up to six textures in the following             order: Y+ (top), Y- (bottom), X- (west), X+ (east), Z+ (north), Z- (south).
+						</li>
+						<li>
+<code>clouds</code>: Boolean for whether clouds appear. (default: <code>true</code>)
+						</li>
+						<li>
+<code>sky_color</code>: A table containing the following values, alpha is ignored:
+						<ul>
+							<li>
+<code>day_sky</code>: ColorSpec, for the top half of the <code>"regular"</code>               sky during the day. (default: <code>#8cbafa</code>)
+							</li>
+							<li>
+<code>day_horizon</code>: ColorSpec, for the bottom half of the               <code>"regular"</code> sky during the day. (default: <code>#9bc1f0</code>)
+							</li>
+							<li>
+<code>dawn_sky</code>: ColorSpec, for the top half of the <code>"regular"</code>               sky during dawn/sunset. (default: <code>#b4bafa</code>)               The resulting sky color will be a darkened version of the ColorSpec.               Warning: The darkening of the ColorSpec is subject to change.
+							</li>
+							<li>
+<code>dawn_horizon</code>: ColorSpec, for the bottom half of the <code>"regular"</code>               sky during dawn/sunset. (default: <code>#bac1f0</code>)               The resulting sky color will be a darkened version of the ColorSpec.               Warning: The darkening of the ColorSpec is subject to change.
+							</li>
+							<li>
+<code>night_sky</code>: ColorSpec, for the top half of the <code>"regular"</code>               sky during the night. (default: <code>#006aff</code>)               The resulting sky color will be a dark version of the ColorSpec.               Warning: The darkening of the ColorSpec is subject to change.
+							</li>
+							<li>
+<code>night_horizon</code>: ColorSpec, for the bottom half of the <code>"regular"</code>               sky during the night. (default: <code>#4090ff</code>)               The resulting sky color will be a dark version of the ColorSpec.               Warning: The darkening of the ColorSpec is subject to change.
+							</li>
+							<li>
+<code>indoors</code>: ColorSpec, for when you're either indoors or               underground. Only applies to the <code>"regular"</code> sky.               (default: <code>#646464</code>)
+							</li>
+							<li>
+<code>fog_sun_tint</code>: ColorSpec, changes the fog tinting for the sun               at sunrise and sunset.
+							</li>
+							<li>
+<code>fog_moon_tint</code>: ColorSpec, changes the fog tinting for the moon               at sunrise and sunset.
+							</li>
+							<li>
+<code>fog_tint_type</code>: string, changes which mode the directional fog                 abides by, <code>"custom"</code> uses <code>sun_tint</code> and <code>moon_tint</code>, while                 <code>"default"</code> uses the classic Minetest sun and moon tinting.                 Will use tonemaps, if set to <code>"default"</code>. (default: <code>"default"</code>)
+							</li>
+						</ul>
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>set_sky(base_color, type, {texture names}, clouds)</code>
+				<ul>
+					<li>
+Deprecated. Use <code>set_sky(sky_parameters)</code>
+					</li>
+					<li>
+<code>base_color</code>: ColorSpec, defaults to white
+					</li>
+					<li>
+<code>type</code>: Available types:
+					<ul>
+						<li>
+<code>"regular"</code>: Uses 0 textures, <code>bgcolor</code> ignored
+						</li>
+						<li>
+<code>"skybox"</code>: Uses 6 textures, <code>bgcolor</code> used
+						</li>
+						<li>
+<code>"plain"</code>: Uses 0 textures, <code>bgcolor</code> used
+						</li>
+					</ul>
+					</li>
+					<li>
+<code>clouds</code>: Boolean for whether clouds appear in front of <code>"skybox"</code> or       <code>"plain"</code> custom skyboxes (default: <code>true</code>)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_sky()</code>: returns base_color, type, table of textures, clouds.
+				</li>
+				<li class="line1">
+<code>get_sky_color()</code>: returns a table with the <code>sky_color</code> parameters as in     <code>set_sky</code>.
+				</li>
+				<li class="line1">
+<code>set_sun(sun_parameters)</code>:
+				<ul>
+					<li>
+<code>sun_parameters</code> is a table with the following optional fields:
+					<ul>
+						<li>
+<code>visible</code>: Boolean for whether the sun is visible.             (default: <code>true</code>)
+						</li>
+						<li>
+<code>texture</code>: A regular texture for the sun. Setting to <code>""</code>             will re-enable the mesh sun. (default: <code>"sun.png"</code>)
+						</li>
+						<li>
+<code>tonemap</code>: A 512x1 texture containing the tonemap for the sun             (default: <code>"sun_tonemap.png"</code>)
+						</li>
+						<li>
+<code>sunrise</code>: A regular texture for the sunrise texture.             (default: <code>"sunrisebg.png"</code>)
+						</li>
+						<li>
+<code>sunrise_visible</code>: Boolean for whether the sunrise texture is visible.             (default: <code>true</code>)
+						</li>
+						<li>
+<code>scale</code>: Float controlling the overall size of the sun. (default: <code>1</code>)
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_sun()</code>: returns a table with the current sun parameters as in     <code>set_sun</code>.
+				</li>
+				<li class="line1">
+<code>set_moon(moon_parameters)</code>:
+				<ul>
+					<li>
+<code>moon_parameters</code> is a table with the following optional fields:
+					<ul>
+						<li>
+<code>visible</code>: Boolean for whether the moon is visible.             (default: <code>true</code>)
+						</li>
+						<li>
+<code>texture</code>: A regular texture for the moon. Setting to <code>""</code>             will re-enable the mesh moon. (default: <code>"moon.png"</code>)
+						</li>
+						<li>
+<code>tonemap</code>: A 512x1 texture containing the tonemap for the moon             (default: <code>"moon_tonemap.png"</code>)
+						</li>
+						<li>
+<code>scale</code>: Float controlling the overall size of the moon (default: <code>1</code>)
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_moon()</code>: returns a table with the current moon parameters as in     <code>set_moon</code>.
+				</li>
+				<li class="line1">
+<code>set_stars(star_parameters)</code>:
+				<ul>
+					<li>
+<code>star_parameters</code> is a table with the following optional fields:
+					<ul>
+						<li>
+<code>visible</code>: Boolean for whether the stars are visible.             (default: <code>true</code>)
+						</li>
+						<li>
+<code>count</code>: Integer number to set the number of stars in             the skybox. Only applies to <code>"skybox"</code> and <code>"regular"</code> sky types.             (default: <code>1000</code>)
+						</li>
+						<li>
+<code>star_color</code>: ColorSpec, sets the colors of the stars,             alpha channel is used to set overall star brightness.             (default: <code>#ebebff69</code>)
+						</li>
+						<li>
+<code>scale</code>: Float controlling the overall size of the stars (default: <code>1</code>)
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_stars()</code>: returns a table with the current stars parameters as in     <code>set_stars</code>.
+				</li>
+				<li class="line1">
+<code>set_clouds(cloud_parameters)</code>: set cloud parameters
+				<ul>
+					<li>
+<code>cloud_parameters</code> is a table with the following optional fields:
+					<ul>
+						<li>
+<code>density</code>: from <code>0</code> (no clouds) to <code>1</code> (full clouds) (default <code>0.4</code>)
+						</li>
+						<li>
+<code>color</code>: basic cloud color with alpha channel, ColorSpec           (default <code>#fff0f0e5</code>).
+						</li>
+						<li>
+<code>ambient</code>: cloud color lower bound, use for a "glow at night" effect.           ColorSpec (alpha ignored, default <code>#000000</code>)
+						</li>
+						<li>
+<code>height</code>: cloud height, i.e. y of cloud base (default per conf,           usually <code>120</code>)
+						</li>
+						<li>
+<code>thickness</code>: cloud thickness in nodes (default <code>16</code>)
+						</li>
+						<li>
+<code>speed</code>: 2D cloud speed + direction in nodes per second           (default <code>{x=0, z=-2}</code>).
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_clouds()</code>: returns a table with the current cloud parameters as in   <code>set_clouds</code>.
+				</li>
+				<li class="line1">
+<code>override_day_night_ratio(ratio or nil)</code>
+				<ul>
+					<li>
+<code>0</code>...<code>1</code>: Overrides day-night ratio, controlling sunlight to a specific       amount.
+					</li>
+					<li>
+<code>nil</code>: Disables override, defaulting to sunlight based on day-night cycle
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_day_night_ratio()</code>: returns the ratio or nil if it isn't overridden
+				</li>
+				<li class="line1">
+<code>set_local_animation(idle, walk, dig, walk_while_dig, frame_speed)</code>:   set animation for player model in third person view.
+				<ul>
+					<li>
+Every animation equals to a <code>{x=starting frame, y=ending frame}</code> table.
+					</li>
+					<li>
+<code>frame_speed</code> sets the animations frame speed. Default is 30.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_local_animation()</code>: returns idle, walk, dig, walk_while_dig tables and   <code>frame_speed</code>.
+				</li>
+				<li class="line1">
+<code>set_eye_offset(firstperson, thirdperson)</code>: defines offset vectors for camera   per player.
+				<ul>
+					<li>
+in first person view
+					</li>
+					<li>
+in third person view (max. values <code>{x=-10/10,y=-10,15,z=-5/5}</code>)
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_eye_offset()</code>: returns first and third person offsets.
+				</li>
+				<li class="line1">
+<code>send_mapblock(blockpos)</code>:
+				<ul>
+					<li>
+Sends a server-side loaded mapblock to the player.
+					</li>
+					<li>
+Returns <code>false</code> if failed.
+					</li>
+					<li>
+Resource intensive - use sparsely
+					</li>
+					<li>
+To get blockpos, integer divide pos by 16
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_ObjectRef">Index</a></p>
+	</body>
+</html>

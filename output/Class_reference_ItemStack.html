@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, ItemStack</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_ItemStack">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="ItemStack">Class reference, ItemStack</h1>
+		<p>
+An <code>ItemStack</code> is a stack of items.
+		</p>
+		<p>
+It can be created via <code>ItemStack(x)</code>, where x is an <code>ItemStack</code>, an itemstring, a table or <code>nil</code>.
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>is_empty()</code>: returns <code>true</code> if stack is empty.
+				</li>
+				<li class="line1">
+<code>get_name()</code>: returns item name (e.g. <code>"default:stone"</code>).
+				</li>
+				<li class="line1">
+<code>set_name(item_name)</code>: returns a boolean indicating whether the item was   cleared.
+				</li>
+				<li class="line1">
+<code>get_count()</code>: Returns number of items on the stack.
+				</li>
+				<li class="line1">
+<code>set_count(count)</code>: returns a boolean indicating whether the item was cleared
+				<ul>
+					<li>
+<code>count</code>: number, unsigned 16 bit integer
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_wear()</code>: returns tool wear (<code>0</code>-<code>65535</code>), <code>0</code> for non-tools.
+				</li>
+				<li class="line1">
+<code>set_wear(wear)</code>: returns boolean indicating whether item was cleared
+				<ul>
+					<li>
+<code>wear</code>: number, unsigned 16 bit integer
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_meta()</code>: returns ItemStackMetaRef. See section for more details
+				</li>
+				<li class="line1">
+<code>get_metadata()</code>: (DEPRECATED) Returns metadata (a string attached to an item   stack).
+				</li>
+				<li class="line1">
+<code>set_metadata(metadata)</code>: (DEPRECATED) Returns true.
+				</li>
+				<li class="line1">
+<code>get_description()</code>: returns the description shown in inventory list tooltips.
+				<ul>
+					<li>
+The engine uses the same as this function for item descriptions.
+					</li>
+					<li>
+Fields for finding the description, in order:
+					<ul>
+						<li>
+<code>description</code> in item metadata (See <a href="Metadata.html#Item Metadata">Item Metadata</a>.)
+						</li>
+						<li>
+<code>description</code> in item definition
+						</li>
+						<li>
+item name
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>get_short_description()</code>: returns the short description.
+				<ul>
+					<li>
+Unlike the description, this does not include new lines.
+					</li>
+					<li>
+The engine uses the same as this function for short item descriptions.
+					</li>
+					<li>
+Fields for finding the short description, in order:
+					<ul>
+						<li>
+<code>short_description</code> in item metadata (See <a href="Metadata.html#Item Metadata">Item Metadata</a>.)
+						</li>
+						<li>
+<code>short_description</code> in item definition
+						</li>
+						<li>
+first line of the description (See <code>get_description()</code>.)
+						</li>
+					</ul>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>clear()</code>: removes all items from the stack, making it empty.
+				</li>
+				<li class="line1">
+<code>replace(item)</code>: replace the contents of this stack.
+				<ul>
+					<li>
+<code>item</code> can also be an itemstring or table.
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>to_string()</code>: returns the stack in itemstring form.
+				</li>
+				<li class="line1">
+<code>to_table()</code>: returns the stack in Lua table form.
+				</li>
+				<li class="line1">
+<code>get_stack_max()</code>: returns the maximum size of the stack (depends on the   item).
+				</li>
+				<li class="line1">
+<code>get_free_space()</code>: returns <code>get_stack_max() - get_count()</code>.
+				</li>
+				<li class="line1">
+<code>is_known()</code>: returns <code>true</code> if the item name refers to a defined item type.
+				</li>
+				<li class="line1">
+<code>get_definition()</code>: returns the item definition table.
+				</li>
+				<li class="line1">
+<code>get_tool_capabilities()</code>: returns the digging properties of the item,   or those of the hand if none are defined for this item type
+				</li>
+				<li class="line1">
+<code>add_wear(amount)</code>
+				<ul>
+					<li>
+Increases wear by <code>amount</code> if the item is a tool
+					</li>
+					<li>
+<code>amount</code>: number, integer
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>add_item(item)</code>: returns leftover <code>ItemStack</code>
+				<ul>
+					<li>
+Put some item or stack onto this stack
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>item_fits(item)</code>: returns <code>true</code> if item or stack can be fully added to   this one.
+				</li>
+				<li class="line1">
+<code>take_item(n)</code>: returns taken <code>ItemStack</code>
+				<ul>
+					<li>
+Take (and remove) up to <code>n</code> items from this stack
+					</li>
+					<li>
+<code>n</code>: number, default: <code>1</code>
+					</li>
+				</ul>
+				</li>
+				<li class="line1">
+<code>peek_item(n)</code>: returns taken <code>ItemStack</code>
+				<ul>
+					<li>
+Copy (don't remove) up to <code>n</code> items from this stack
+					</li>
+					<li>
+<code>n</code>: number, default: <code>1</code>
+					</li>
+				</ul>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_ItemStack">Index</a></p>
+	</body>
+</html>

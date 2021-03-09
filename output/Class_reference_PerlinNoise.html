@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Class reference, PerlinNoise</title>
+		<link rel="stylesheet" href="minetest.css">
+		<script type="text/javascript" src="search.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<table class="nav" style="width: 100%">
+				<tr class="nav">
+					<td style="text-align: left;" class="nav">
+						<a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PerlinNoise">Index</a>
+					</td>
+					<td style="text-align: right;" class="nav">
+						<input type="text" id="search_term" name="search_term" onkeydown="term_key ();">
+					</td>
+					<td style="text-align: right;" class="nav">
+						<button type="button" onclick="search ();" id="searchbtn" name="searchbtn">Search</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="search_results" style="display: none;" class="searchbg">
+			<button type="button" onclick="hide_search_results ();" id="hide_results" name="hide_results">Hide</button>
+			<div id="search_results_contents" class="search">
+			</div>
+		</div>
+
+		<h1 id="PerlinNoise">Class reference, PerlinNoise</h1>
+		<p>
+A perlin noise generator. It can be created via <code>PerlinNoise()</code> or <code>minetest.get_perlin()</code>. For <code>minetest.get_perlin()</code>, the actual seed used is the noiseparams seed plus the world seed, to create world-specific noise.
+		</p>
+		<p>
+<code>PerlinNoise(noiseparams)</code> <code>PerlinNoise(seed, octaves, persistence, spread)</code> (Deprecated).
+		</p>
+		<p>
+<code>minetest.get_perlin(noiseparams)</code> <code>minetest.get_perlin(seeddiff, octaves, persistence, spread)</code> (Deprecated).
+		</p>
+		<h2 id="Methods">Methods</h2>
+			<ul>
+				<li class="line1">
+<code>get_2d(pos)</code>: returns 2D noise value at <code>pos={x=,y=}</code>
+				</li>
+				<li class="line1">
+<code>get_3d(pos)</code>: returns 3D noise value at <code>pos={x=,y=,z=}</code>
+				</li>
+			</ul>
+		<p class="nav"><a href="index.html#contents">Contents</a>, <a href="full_index.html#Class_reference_PerlinNoise">Index</a></p>
+	</body>
+</html>
